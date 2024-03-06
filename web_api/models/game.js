@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Genre = require('./genre');
 const { Schema, model } = mongoose;
 
 const gameSchema = new Schema({
@@ -24,10 +25,17 @@ const gameSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
-	genreId: {
-		type: String,
+	images: [{
+		URL: {
+			type: String,
+			required: true
+		}
+	}],
+	genre: {
+		type: Schema.Types.ObjectId,
+		ref: 'Genre',
 		required: true
 	},
 });
 
-module.exports  = model('Games', gameSchema);
+module.exports = model('Games', gameSchema);

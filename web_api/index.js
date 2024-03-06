@@ -30,4 +30,7 @@ app.get("/", async (req, res) => {
 app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/users", require("./routes/usersRoute"));
 app.use("/api/games", require("./routes/gamesRoute"));
+app.use("/api/genres", require("./routes/genresRoute"));
+app.use("/api/reviews", require("./routes/reviewsRoute"));
+
 

@@ -1,21 +1,24 @@
 const express = require('express');
-const router = express.Router();
 const Game = require('../models/game');
+const { requireToken, requireAdmin } = require('../middleware/authMiddleware');
+
+const router = express.Router();
+
 
 // Getting all
 router.get("/", async (req, res) => {
     try {
-        const games = await Game.find();
+        const games = await Game.find().populate('genre');
         res.json(games);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-})
+});
 
 // Getting a game by ID
 router.get("/:id", async (req, res) => {
     try {
-        const game = await Game.findById(req.params.id);
+        const game = await Game.findById(req.params.id).populate('genre');
         if (!game) {
             return res.status(404).json({ message: "Game not found" });
         }
@@ -25,16 +28,15 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-
 // Adding a game
-router.post("/", async (req, res) => {
+router.post("/", requireToken, requireAdmin, async (req, res) => {
     const game = new Game({
         name: req.body.name,
         description: req.body.description,
         developer: req.body.developer,
         publisher: req.body.publisher,
-        DateReleased: req.body.dateReleased,
-        GenreId: req.body.genreId
+        dateReleased: req.body.dateReleased,
+        genre: req.body.genre
     });
 
     try {
@@ -46,7 +48,7 @@ router.post("/", async (req, res) => {
 });
 
 // Updating a game
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
     try {
         const game = await Game.findById(req.params.id);
         if (req.body.name) {
@@ -61,11 +63,11 @@ router.patch("/:id", async (req, res) => {
         if (req.body.publisher) {
             game.publisher = req.body.publisher;
         }
-        if (req.body.DateReleased) {
+        if (req.body.dateReleased) {
             game.dateReleased = req.body.dateReleased;
         }
-        if (req.body.GenreId) {
-            game.genreId = req.body.genreId;
+        if (req.body.genre) {
+            game.genre = req.body.genre;
         }
         const updatedGame = await game.save();
         res.json(updatedGame);
@@ -73,6 +75,5 @@ router.patch("/:id", async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
 
 module.exports = router;
