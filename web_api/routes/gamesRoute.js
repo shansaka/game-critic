@@ -76,4 +76,18 @@ router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
     }
 });
 
+// Deleting a game
+router.delete("/:id", requireToken, async (req, res) => {
+    try {
+        const game = await Game.findById(req.params.id);
+        if (!game) {
+            return res.status(404).json({ message: "Game not found" });
+        }
+        await game.deleteOne();
+        res.json({ message: "Game deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

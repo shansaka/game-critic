@@ -44,4 +44,22 @@ router.patch("/:id", requireToken,  async (req, res) => {
     }
 });
 
+// Changing user password
+router.put("/:id/password", requireToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        if (!req.body.password) {
+            return res.status(400).json({ message: "New password is required" });
+        }
+        user.password = crypto.createHash('sha512').update(req.body.password).digest('hex');
+        const updatedUser = await user.save();
+        res.json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;

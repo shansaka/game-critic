@@ -7,12 +7,12 @@ const { Schema, model } = mongoose;
 const reviewSchema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Users',
         required: true
     },
     game: {
         type: Schema.Types.ObjectId,
-        ref: 'Game',
+        ref: 'Games',
         required: true
     },
     rating: {
@@ -32,6 +32,12 @@ const reviewSchema = new Schema({
         enum: ['Pending', 'Approved', 'Rejected'],
         default: 'Pending'
     },
+    images: [{
+		URL: {
+			type: String,
+			required: true
+		}
+	}],
     dateCreated: {
         type: Date,
         default: Date.now

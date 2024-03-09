@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Genre = require('./genre');
 const { Schema, model } = mongoose;
 
 const gameSchema = new Schema({
@@ -33,7 +32,7 @@ const gameSchema = new Schema({
 	}],
 	genre: {
 		type: Schema.Types.ObjectId,
-		ref: 'Genre',
+		ref: 'Genres',
 		required: true
 	},
 });
