@@ -9,9 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    defaults:
+          run:
+            working-directory: ./web_api
     steps:
-      - working-directory: web_api
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
