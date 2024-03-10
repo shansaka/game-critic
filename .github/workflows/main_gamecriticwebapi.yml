@@ -2,8 +2,8 @@ name: Build and deploy Node.js app to Azure Web App - gamecriticwebapi
 
 on:
   push:
-    branches:
-      - main
+     paths:
+      - web_api/**
   workflow_dispatch:
 
 jobs:
