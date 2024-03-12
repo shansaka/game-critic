@@ -66,7 +66,7 @@ router.get("/:id", async (req, res) => {
             { $group: { _id: null, avgRating: { $avg: "$rating" } } }
         ]);
 
-        const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(2)) : 0;
+        const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
 
         res.json({ ...game._doc, avgRating });
     } catch (error) {
