@@ -60,7 +60,15 @@ router.get("/:id", async (req, res) => {
         if (!game) {
             return res.status(404).json({ message: "Game not found" });
         }
-        res.json(game);
+
+        const reviews = await Review.aggregate([
+            { $match: { game: game._id } },
+            { $group: { _id: null, avgRating: { $avg: "$rating" } } }
+        ]);
+
+        const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(2)) : 0;
+
+        res.json({ ...game._doc, avgRating });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

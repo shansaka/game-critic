@@ -23,7 +23,7 @@ const NewGameCard = ({item, selected, handleCardPress }) => {
       </View>
 
       <View style={styles.gameTitleBox}>
-            <Text style={styles.rating(item.rating)}>{item.rating}</Text>
+            <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
             <Text style={styles.gameTitle(selected, item)} numberOfLines={1}>{item.name}</Text> 
         </View>
     </TouchableOpacity>
