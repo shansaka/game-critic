@@ -10,9 +10,9 @@ const ReviewCard = ({ item }) => {
     <View style={styles.container}>
       
       <View style={styles.reviewTitleBox}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.rating(item.rating)}>{item.rating ? item.rating : 5}</Text>
-          <Text style={styles.reviewTitle} numberOfLines={1}>{item.user.displayName}</Text> 
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+          <Text style={styles.rating(item.rating)}>{item.rating}</Text>
+          <Text style={styles.reviewTitle} numberOfLines={2}>{item.title}</Text> 
         </View>
         <Text style={styles.reviewDate}>{formattedDate.toUpperCase()}</Text> 
       </View>
@@ -22,6 +22,9 @@ const ReviewCard = ({ item }) => {
       <View style={styles.reviewInfoBox}>
         <Text>
           {item.comments}
+        </Text>
+        <Text style={styles.reviewedBy}>
+          {item.user.displayName}
         </Text>
       </View>
      

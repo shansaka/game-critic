@@ -22,7 +22,7 @@ const Game = ({ data }) => {
 
       <View style={styles.gameTitleBox}>
             <Text style={styles.rating(data.rating)}>{data.rating ? data.rating : 5}</Text>
-            <Text style={styles.gameTitle} numberOfLines={1}>{data.name}</Text> 
+            <Text style={styles.gameTitle} numberOfLines={2}>{data.name}</Text> 
       </View>
 
       <View style={styles.infoContainer}>

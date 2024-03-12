@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    backgroundColor: item > 4.5 ? COLORS.yellow : COLORS.green,
+    backgroundColor: item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
     borderRadius: 10,
     width: 40,
     height: 40,
@@ -31,10 +31,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   reviewTitle: {
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
     color: COLORS.primary,
     fontFamily: FONT.bold,
     padding: 10,
+    flex: 1, 
   },
   reviewDate: {
     fontSize: SIZES.small,
@@ -49,6 +50,12 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ebebeb",
     borderBottomWidth: 1,
     marginVertical: SIZES.small,
+  },
+  reviewedBy: {
+    fontSize: SIZES.small,
+    color: COLORS.primary,
+    padding: 10,
+    textAlign: "right",
   },
 });
 

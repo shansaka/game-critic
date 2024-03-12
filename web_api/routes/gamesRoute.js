@@ -1,5 +1,6 @@
 const express = require('express');
 const Game = require('../models/game');
+const Review = require('../models/review'); 
 const { requireToken, requireAdmin } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -13,7 +14,18 @@ router.get("/", async (req, res) => {
             query.genre = req.query.genre;
         }
         const games = await Game.find(query).populate('genre');
-        res.json(games);
+        
+        const gamesWithRatings = await Promise.all(games.map(async (game) => {
+            const reviews = await Review.aggregate([
+                { $match: { game: game._id } },
+                { $group: { _id: null, avgRating: { $avg: "$rating" } } }
+            ]);
+
+            const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
+            return { ...game._doc, avgRating };
+        }));
+
+        res.json(gamesWithRatings);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -23,7 +35,18 @@ router.get("/", async (req, res) => {
 router.get("/new", async (req, res) => {
     try {
         const games = await Game.find().sort({ dateReleased: -1 }).limit(5).populate('genre');
-        res.json(games);
+        
+        const gamesWithRatings = await Promise.all(games.map(async (game) => {
+            const reviews = await Review.aggregate([
+                { $match: { game: game._id } },
+                { $group: { _id: null, avgRating: { $avg: "$rating" } } }
+            ]);
+
+            const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
+            return { ...game._doc, avgRating };
+        }));
+
+        res.json(gamesWithRatings);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

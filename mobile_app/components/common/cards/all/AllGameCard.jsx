@@ -17,7 +17,7 @@ const AllGameCard = ({ item, handleNavigate }) => {
       </TouchableOpacity>
 
       <View style={styles.textContainer}>
-        <Text style={styles.itemName} numberOfLines={1}>
+        <Text style={styles.itemName} numberOfLines={2}>
           {item?.name}
         </Text>
 
