@@ -24,6 +24,10 @@ const gameSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	mainImage: {
+		type: String,
+		required: true
+	},
 	images: [{
 		URL: {
 			type: String,

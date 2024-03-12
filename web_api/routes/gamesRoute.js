@@ -8,12 +8,27 @@ const router = express.Router();
 // Getting all
 router.get("/", async (req, res) => {
     try {
-        const games = await Game.find().populate('genre');
+        let query = {};
+        if (req.query.genre) {
+            query.genre = req.query.genre;
+        }
+        const games = await Game.find(query).populate('genre');
         res.json(games);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
+
+// Getting new games
+router.get("/new", async (req, res) => {
+    try {
+        const games = await Game.find().sort({ dateReleased: -1 }).limit(5).populate('genre');
+        res.json(games);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 
 // Getting a game by ID
 router.get("/:id", async (req, res) => {
@@ -36,7 +51,8 @@ router.post("/", requireToken, requireAdmin, async (req, res) => {
         developer: req.body.developer,
         publisher: req.body.publisher,
         dateReleased: req.body.dateReleased,
-        genre: req.body.genre
+        genre: req.body.genre,
+        mainImage: req.body.mainImage 
     });
 
     try {
@@ -68,6 +84,9 @@ router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
         }
         if (req.body.genre) {
             game.genre = req.body.genre;
+        }
+        if (req.body.mainImage) {
+            game.mainImage = req.body.mainImage;
         }
         const updatedGame = await game.save();
         res.json(updatedGame);

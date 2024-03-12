@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2f1bc68e-d4a8-486c-a272-62de7412d645/resourceGroups/gamecriticwebapi_group/providers/Microsoft.Web/sites/gamecriticwebapi",
+    "appService.deploySubpath": "web_api"
+}

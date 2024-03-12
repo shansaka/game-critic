@@ -55,4 +55,18 @@ router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
     }
 });
 
+// Deleting a genre
+router.delete("/:id", requireToken, requireAdmin, async (req, res) => {
+    try {
+        const genre = await Genre.findById(req.params.id);
+        if (!genre) {
+            return res.status(404).json({ message: "Genre not found" });
+        }
+        await genre.deleteOne();
+        res.json({ message: "Genre deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 module.exports = router;
