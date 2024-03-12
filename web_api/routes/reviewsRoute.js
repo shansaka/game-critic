@@ -50,7 +50,7 @@ router.get("/user/:id", requireToken, async (req, res) => {
 // Adding a review
 router.post("/", requireToken, async (req, res) => {
     const review = new Review({
-        user: req.userId,
+        user: req.body.userId,
         game: req.body.gameId,
         title: req.body.title,
         rating: req.body.rating,
@@ -58,6 +58,7 @@ router.post("/", requireToken, async (req, res) => {
         location: req.body.location
     });
 
+    console.log(review);
     try {
         const newReview = await review.save();
         res.status(201).json(newReview);

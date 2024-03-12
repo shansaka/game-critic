@@ -3,7 +3,7 @@ import axios from 'axios'
 //import { API_KEY, API_URL } from '@env'
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
-const apiUrl = "https://gamecriticwebapi.azurewebsites.net/api";
+const apiUrl = "https://muddy-pear-sunbonnet.cyclic.app/api";
 
 const useFetch = (endpoint, query) => {
     const [data, setData] = useState([]);
