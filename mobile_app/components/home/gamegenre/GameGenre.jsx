@@ -10,7 +10,6 @@ import useFetch from "../../../hook/useFetch";
 const GameGenre = () => {
   const router = useRouter();
   const { data, isLoading, error } = useFetch("genres", {});
-  console.log(data);
   const firstItem = data && data.length > 0 ? data[0] : null;
   const [activeGameGenre, setGameGenre] = useState(firstItem);
 

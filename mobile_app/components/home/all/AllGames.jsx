@@ -54,7 +54,7 @@ const AllGames = () => {
           data?.map((item) => (
             <AllGameCard
             item={item}
-              key={`all-job-${item._id}`}
+              key={`all-games-${item._id}`}
               handleNavigate={() => router.push(`/job-details/${item._id}`)}
             />
           ))

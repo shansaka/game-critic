@@ -7,7 +7,17 @@ const router = express.Router();
 // Getting all
 router.get("/", requireToken, async (req, res) => {
     try {
-        const reviews = await Review.find().populate('game');
+        const reviews = await Review.find().populate('game').populate('user', 'displayName');
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+// Getting reviews by game ID1
+router.get("/game/:id", async (req, res) => {
+    try {
+        const reviews = await Review.find({ game: req.params.id }).sort({ dateCreated: -1 }).populate('user', 'displayName');
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -17,7 +27,7 @@ router.get("/", requireToken, async (req, res) => {
 // Getting a review by ID
 router.get("/:id", requireToken, async (req, res) => {
     try {
-        const review = await Review.findById(req.params.id).populate('game');
+        const review = await Review.findById(req.params.id).populate('game').populate('user', 'displayName');
         if (!review) {
             return res.status(404).json({ message: "Review not found" });
         }
@@ -40,8 +50,9 @@ router.get("/user/:id", requireToken, async (req, res) => {
 // Adding a review
 router.post("/", requireToken, async (req, res) => {
     const review = new Review({
-        user: req.id,
+        user: req.userId,
         game: req.body.gameId,
+        title: req.body.title,
         rating: req.body.rating,
         comments: req.body.comments,
         location: req.body.location
@@ -68,6 +79,9 @@ router.patch("/:id", requireToken, async (req, res) => {
         }
         if (req.body.rating) {
             review.rating = req.body.rating;
+        }
+        if (req.body.title) {
+            review.title = req.body.title;
         }
         console.log(review);
         const updatedReview = await review.save();

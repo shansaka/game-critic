@@ -26,13 +26,6 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: SIZES.small,
   },
-  gameName: (selectedJob, item) => ({
-    fontSize: SIZES.large,
-    fontFamily: FONT.medium,
-    color: selectedJob === item._id ? COLORS.white : COLORS.primary,
-    paddingLeft: 10,
-    paddingTop: 5
-  }),
   location: {
     fontSize: SIZES.medium - 2,
     fontFamily: FONT.regular,
@@ -42,18 +35,25 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    padding: 10,
-    marginTop: 10,
-    backgroundColor: item > 4 ? COLORS.yellow : COLORS.green,
-    borderRadius: 10,
+    backgroundColor: item > 4.5 ? COLORS.yellow : COLORS.green,
+    borderRadius: SIZES.small,
     width: 40,
     height: 40,
     textAlign: "center",
+    alignContent: "center",
+    lineHeight: 40,
   }),
-  infoContainer: {
+  gameTitleBox: {
+    marginTop: SIZES.small,
     flexDirection: "row",
     alignItems: "center",
   },
+  gameTitle: (selected, item) => ({
+    color: selected === item._id ? COLORS.white : COLORS.primary,
+    fontSize: SIZES.large,
+    fontFamily: FONT.bold,
+    padding: 10,
+  }),
 });
 
 export default styles;

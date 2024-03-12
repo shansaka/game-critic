@@ -4,17 +4,16 @@ import { Stack, useRouter, useSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { useRoute } from '@react-navigation/native';
 
-import { Company, JobAbout, JobFooter, JobTabs, ScreenHeaderBtn, Specifics} from '../../components';
+import { Game, GameAbout, JobFooter, JobTabs, ScreenHeaderBtn, GameReview} from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
 import useFetch from '../../hook/useFetch';
 
-const tabs = ["About", "Qualifications", "Responsibilities"];
+const tabs = ["About", "Reviews"];
 
 export const JobDetails = () => {
     const router = useRouter();
     const route = useRoute();
     const params = route.params;
-    console.log(params);
     const { data, isLoading, error, refetch } = useFetch(`games/${params.id}`);
 
 
@@ -30,28 +29,23 @@ export const JobDetails = () => {
 
   const displayTabContent = () => {
     switch (activeTab) {
-      case "Qualifications":
+      case "Reviews":
         return (
-          <Specifics/>
+          <GameReview data={data}/>
         );
 
       case "About":
         return (
-          <JobAbout  />
+          <GameAbout data={data}/>
         );
-
-      case "Responsibilities":
-        return (
-          <Specifics/>
-        );
-
+        
       default:
         return null;
     }
   };
     
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -84,9 +78,7 @@ export const JobDetails = () => {
             <Text>No data available</Text>
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-              <Company
-        
-              />
+              <Game data={data}/>
 
               <JobTabs
                 tabs={tabs}

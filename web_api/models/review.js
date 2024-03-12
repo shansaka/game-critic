@@ -15,6 +15,10 @@ const reviewSchema = new Schema({
         ref: 'Games',
         required: true
     },
+    title: { 
+        type: String,
+        required: true
+    },
     rating: {
         type: Number,
         required: true

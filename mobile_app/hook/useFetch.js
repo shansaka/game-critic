@@ -10,6 +10,7 @@ const useFetch = (endpoint, query) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    
     const options = {
         method: 'GET',
         url: `${apiUrl}/${endpoint}`,
@@ -39,7 +40,8 @@ const useFetch = (endpoint, query) => {
 
     useEffect(() => {
         fetchData();
-    }, [])
+        console.log("useFetch", endpoint);
+    }, [endpoint, JSON.stringify(query)]);
 
     const refetch = () => {
         setIsLoading(true);
