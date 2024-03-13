@@ -36,6 +36,7 @@ const useFetch = (endpoint, query, isScroll = false) => {
                 setData(response.data);
             }
             setTotalPages(response.data.totalPages);
+            console.log(response.data.totalPages);
         } catch (error) {
             setError(error);
             console.log(error);

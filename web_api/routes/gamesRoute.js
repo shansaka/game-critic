@@ -43,7 +43,8 @@ router.get("/", async (req, res) => {
             ]);
 
             const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
-            return { ...game._doc, avgRating, totalPages };
+            const gamesWithRatings = { ...game._doc, avgRating };
+            return {gamesWithRatings, totalPages };
         }));
 
         res.json(gamesWithRatings);
