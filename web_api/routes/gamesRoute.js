@@ -46,7 +46,7 @@ router.get("/", async (req, res) => {
             return { ...game._doc, avgRating };
         }));
 
-        res.json(gamesWithRatings, totalPages);
+        res.json({games: gamesWithRatings, totalPages});
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
