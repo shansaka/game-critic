@@ -12,7 +12,10 @@ import styles from './searchstyle'
 export const GameDetails = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
-    const { data, isLoading, error, refetch } = useFetch(`games`, params);
+    const [currentPage, setCurrentPage] = useState(1);
+    const paramsWithPageNo = { ...params, pageNo: currentPage };
+
+    const { data, isLoading, error, refetch } = useFetch(`games`, paramsWithPageNo);
     const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -21,7 +24,20 @@ export const GameDetails = () => {
     setRefreshing(false)
   }, []);
 
-    
+  const renderLoader = () => {
+    return (
+      isLoading ?
+        <View style={styles.loaderStyle}>
+          <ActivityIndicator size="large" color="#aaa" />
+        </View> : null
+    );
+  };
+
+  const loadMoreItem = () => {
+    if(data.length < 10) return;
+    setCurrentPage(currentPage + 1);
+  };
+
     return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
         <Stack.Screen
@@ -64,6 +80,11 @@ export const GameDetails = () => {
                     </View>
                 </>
             )}
+            ListFooterComponent={renderLoader}
+            onEndReached={loadMoreItem}
+            onEndReachedThreshold={0}                
+
+
             // ListFooterComponent={() => (
             //     <View style={styles.footerContainer}>
             //         <TouchableOpacity

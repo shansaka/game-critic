@@ -5,8 +5,9 @@ import axios from 'axios'
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
 const apiUrl = "https://muddy-pear-sunbonnet.cyclic.app/api";
 
-const useFetch = (endpoint, query) => {
+const useFetch = (endpoint, query, currentData = null) => {
     const [data, setData] = useState([]);
+    console.log(currentData);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,13 +23,16 @@ const useFetch = (endpoint, query) => {
         //     'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
         // }
     };
-    
 
     const fetchData = async () => {
         setIsLoading(true);
         try {
             const response = await axios.request(options);
             setData(response.data);
+            if(currentData != null){
+                setData([...currentData, ...response.data]);
+            }
+            //setData([...data, ...response.data]);
         } catch (error) {
             setError(error);
             console.log(error);

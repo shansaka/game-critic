@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             query.name = new RegExp(req.query.searchTerm, 'i'); // 'i' makes it case insensitive
         }
         
-        const pageSize = parseInt(req.query.pageSize) || 5;
+        const pageSize = parseInt(req.query.pageSize) || 10;
         const pageNo = parseInt(req.query.pageNo) || 1;
 
         const games = await Game.find(query)

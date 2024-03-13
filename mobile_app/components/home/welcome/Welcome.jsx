@@ -23,7 +23,7 @@ const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
             style={styles.searchInput}
             value={searchTerm}
             onChangeText={(text) => setSearchTerm(text)}
-            placeholder='What are u looking for?'
+            placeholder='Search by name of the game'
             onChange={() => {}}
           >
           </TextInput>
