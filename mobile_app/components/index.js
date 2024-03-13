@@ -16,6 +16,9 @@ import { default as GameFooter } from "./gameDetails/footer/Footer";
 import AllGameCard from "./common/cards/all/AllGameCard";
 import ReviewCard from "./common/cards/review/ReviewCard";
 
+// rewiew screen
+import { default as ReviewFooter } from "./review/footer/Footer";
+
 export {
   ScreenHeaderBtn,
   Welcome,
@@ -28,5 +31,7 @@ export {
   GameTabs,
   GameAbout,
   GameReview, 
-  GameFooter
+  GameFooter,
+
+  ReviewFooter
 };

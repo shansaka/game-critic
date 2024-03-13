@@ -14,10 +14,10 @@ const Footer = ({ item }) => {
       <TouchableOpacity
         style={styles.applyBtn}
         onPress={
-          () =>  router.push({ pathname: `/review/addReview`, params: { ...item }})
+          () =>  router.push({ pathname: `/`, params: { item }})
         }
       >
-        <Text style={styles.applyBtnText}>Add a review</Text>
+        <Text style={styles.applyBtnText}>Submit</Text>
       </TouchableOpacity>
     </View>
   );

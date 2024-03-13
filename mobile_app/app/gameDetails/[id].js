@@ -88,7 +88,7 @@ export const GameDetails = () => {
           )}
         </ScrollView>
 
-        <GameFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results/'} />
+        <GameFooter item={data} />
       </>
     </SafeAreaView>
     )

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
   applyBtn: {
     flex: 1,
-    backgroundColor: "#FE7654",
+    backgroundColor: COLORS.green,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
