@@ -8,7 +8,7 @@ import { Game, GameAbout, JobFooter, JobTabs, ScreenHeaderBtn, GameReview} from 
 import { COLORS, icons, SIZES } from '../../constants';
 import useFetch from '../../hook/useFetch';
 
-const tabs = ["About", "Reviews"];
+const tabs = ["Reviews", "About"];
 
 export const JobDetails = () => {
     const router = useRouter();

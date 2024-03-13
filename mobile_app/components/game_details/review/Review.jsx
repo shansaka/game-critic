@@ -8,8 +8,6 @@ import ReviewCard from "../../common/cards/review/ReviewCard";
 
 const GameReview = ({ data }) => {
   const { data: reviews, isLoading, error } = useFetch(`reviews/game/${data._id}`);
-  console.log(reviews);
-
   return (
     <View style={styles.container}>
       <View >

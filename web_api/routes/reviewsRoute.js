@@ -58,7 +58,6 @@ router.post("/", requireToken, async (req, res) => {
         location: req.body.location
     });
 
-    console.log(review);
     try {
         const newReview = await review.save();
         res.status(201).json(newReview);
@@ -69,7 +68,6 @@ router.post("/", requireToken, async (req, res) => {
 
 // Updating a review
 router.patch("/:id", requireToken, async (req, res) => {
-    console.log(req.body);
     try {
         const review = await Review.findById(req.params.id); 
         if (!review) {
@@ -84,7 +82,6 @@ router.patch("/:id", requireToken, async (req, res) => {
         if (req.body.title) {
             review.title = req.body.title;
         }
-        console.log(review);
         const updatedReview = await review.save();
         res.json(updatedReview);
     } catch (error) {

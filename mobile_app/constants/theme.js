@@ -11,7 +11,7 @@ const COLORS = {
 
   green: "#3BB273",
   red: "#F77474",
-  yellow: "#FFD152",
+  yellow: "#d4b253",
 };
 
 const FONT = {

@@ -5,7 +5,6 @@ import styles from './welcome.style'
 
 import { icons, SIZES } from '../../../constants'
 
-// const jobTypes = ["Full-time", "Part-time", "Remote", "Freelance", "Temporary"]
 
 const Welcome = () => {
   const router = useRouter();

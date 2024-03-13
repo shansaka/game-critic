@@ -40,7 +40,7 @@ const useFetch = (endpoint, query) => {
 
     useEffect(() => {
         fetchData();
-        console.log("useFetch", endpoint);
+        //console.log("useFetch", endpoint);
     }, [endpoint, JSON.stringify(query)]);
 
     const refetch = () => {
