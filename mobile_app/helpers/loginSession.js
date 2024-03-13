@@ -13,7 +13,7 @@ export async function isLoggedIn() {
       }
 }
 
-export async function logIn(token) {
+export async function logIn(data) {
     try {
         await AsyncStorage.setItem('userToken', token);
         return true;
