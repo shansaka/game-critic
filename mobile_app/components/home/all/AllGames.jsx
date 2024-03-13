@@ -19,7 +19,11 @@ const AllGames = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Games</Text>
-        <TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => {
+            router.push({ pathname: `/search/search`, params: { search: 'all', searchTitle: "All" }})
+          }}
+        >
           <Text style={styles.headerBtn}>Show all</Text>
         </TouchableOpacity>
       </View>
@@ -54,8 +58,8 @@ const AllGames = () => {
           data?.map((item) => (
             <AllGameCard
             item={item}
-              key={`all-games-${item._id}`}
-              handleNavigate={() => router.push(`/job-details/${item._id}`)}
+              key={`allGames_${item._id}`}
+              handleNavigate={() => router.push(`/gameDetails/${item._id}`)}
             />
           ))
         )}

@@ -1,21 +1,18 @@
 import React from 'react'
 import { Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
-import { Stack, useRouter, useSearchParams } from 'expo-router'
+import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { useRoute } from '@react-navigation/native';
 
-import { Game, GameAbout, JobFooter, JobTabs, ScreenHeaderBtn, GameReview} from '../../components';
+import { Game, GameAbout, GameFooter, GameTabs, ScreenHeaderBtn, GameReview} from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
 import useFetch from '../../hook/useFetch';
 
 const tabs = ["Reviews", "About"];
 
-export const JobDetails = () => {
+export const GameDetails = () => {
     const router = useRouter();
-    const route = useRoute();
-    const params = route.params;
+    const params = useLocalSearchParams();
     const { data, isLoading, error, refetch } = useFetch(`games/${params.id}`);
-
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [refreshing, setRefreshing] = useState(false);
@@ -80,7 +77,7 @@ export const JobDetails = () => {
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <Game data={data}/>
 
-              <JobTabs
+              <GameTabs
                 tabs={tabs}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
@@ -91,10 +88,10 @@ export const JobDetails = () => {
           )}
         </ScrollView>
 
-        <JobFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results/'} />
+        <GameFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results/'} />
       </>
     </SafeAreaView>
     )
 }
 
-export default JobDetails
+export default GameDetails

@@ -6,11 +6,11 @@ import AllGames from "./home/all/AllGames";
 import NewGames from "./home/new/NewGames";
 
 // game details screen
-import Game from "./game_details/game/Game";
-import { default as JobTabs } from "./jobdetails/tabs/Tabs";
-import { default as GameAbout } from "./game_details/about/About";
-import { default as GameReview } from "./game_details/review/Review";
-import { default as JobFooter } from "./jobdetails/footer/Footer";
+import Game from "./gameDetails/game/Game";
+import { default as GameTabs } from "./gameDetails/tabs/Tabs";
+import { default as GameAbout } from "./gameDetails/about/About";
+import { default as GameReview } from "./gameDetails/review/Review";
+import { default as GameFooter } from "./gameDetails/footer/Footer";
 
 // common
 import AllGameCard from "./common/cards/all/AllGameCard";
@@ -25,8 +25,8 @@ export {
   ReviewCard,
 
   Game,
-  JobTabs,
+  GameTabs,
   GameAbout,
   GameReview, 
-  JobFooter
+  GameFooter
 };

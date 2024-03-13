@@ -18,7 +18,7 @@ const NewGames = () => {
   const [selectedGame, setSelectedGame] = useState();
   
   const handleCardPress = (item) => {
-    router.push(`/game-details/${item._id}`);
+    router.push(`/gameDetails/${item._id}`);
     setSelectedGame(item._id);
   };
 
@@ -26,7 +26,11 @@ const NewGames = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>New Releases</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            router.push({ pathname: `/search/search`, params: { search: 'new', searchTitle: "Newly Released" }})
+          }}
+        >
           <Text style={styles.headerBtn}>Show All</Text>
         </TouchableOpacity>
       </View>

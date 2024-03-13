@@ -6,22 +6,22 @@ import { checkImageURL } from "../../../../utils";
 const AllGameCard = ({ item, handleNavigate }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={handleNavigate}>
-      <TouchableOpacity style={styles.logoContainer}>
-        <Image
-          source={{
-            uri: item.mainImage
-          }}
-          resizeMode='contain'
-          style={styles.logImage}
-        />
-      </TouchableOpacity>
 
-      <View style={styles.textContainer}>
-        <Text style={styles.itemName} numberOfLines={2}>
-          {item?.name}
-        </Text>
-
-        <Text style={styles.itemType}>{item?.item_employment_type}</Text>
+      <View style={styles.reviewTitleBox}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+        <TouchableOpacity style={styles.logoContainer}>
+          <Image
+            source={{
+              uri: item.mainImage
+            }}
+            resizeMode='contain'
+            style={styles.logImage}
+          />
+        </TouchableOpacity>
+          <Text style={styles.reviewTitle} numberOfLines={2}>{item.name}</Text> 
+          
+        </View>
+        <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
       </View>
     </TouchableOpacity>
   );
