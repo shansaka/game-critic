@@ -25,6 +25,7 @@ const useFetch = (endpoint, query, isScroll = false, body = null) => {
         try {
             console.log(options);
             const response = await axios.request(options); 
+            console.log(response);
             if ('data' in response.data) {
                 if(isScroll){
                     setData(prevData => [...prevData, ...response.data.data]);
