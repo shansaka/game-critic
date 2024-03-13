@@ -13,29 +13,21 @@ router.get("/", async (req, res) => {
         if (req.query.genre) {
             query.genre = req.query.genre;
         }
-        const games = await Game.find(query).populate('genre');
+
+        let sort = {};
+        if (req.query.search === 'new') {
+            sort.dateReleased = -1;
+        }
         
-        const gamesWithRatings = await Promise.all(games.map(async (game) => {
-            const reviews = await Review.aggregate([
-                { $match: { game: game._id } },
-                { $group: { _id: null, avgRating: { $avg: "$rating" } } }
-            ]);
+        const pageSize = parseInt(req.query.pageSize) || 5;
+        const pageNo = parseInt(req.query.pageNo) || 1;
 
-            const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
-            return { ...game._doc, avgRating };
-        }));
+        const games = await Game.find(query)
+            .sort(sort)
+            .skip((pageNo - 1) * pageSize)
+            .limit(pageSize)
+            .populate('genre');
 
-        res.json(gamesWithRatings);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-// Getting new games
-router.get("/new", async (req, res) => {
-    try {
-        const games = await Game.find().sort({ dateReleased: -1 }).limit(5).populate('genre');
-        
         const gamesWithRatings = await Promise.all(games.map(async (game) => {
             const reviews = await Review.aggregate([
                 { $match: { game: game._id } },
