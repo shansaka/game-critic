@@ -14,11 +14,22 @@ router.get("/", requireToken, async (req, res) => {
     }
 });
 
-// Getting reviews by game ID1
+// Getting reviews by game ID
 router.get("/game/:id", async (req, res) => {
     try {
-        const reviews = await Review.find({ game: req.params.id }).sort({ dateCreated: -1 }).populate('user', 'displayName');
-        res.json(reviews);
+        const pageSize = parseInt(req.query.pageSize) || 10;
+        const pageNo = parseInt(req.query.pageNo) || 1;
+
+        const totalReviews = await Review.countDocuments({ game: req.params.id });
+        const totalPages = Math.ceil(totalReviews / pageSize);
+
+        const reviews = await Review.find({ game: req.params.id })
+            .sort({ dateCreated: -1 })
+            .skip((pageNo - 1) * pageSize)
+            .limit(pageSize)
+            .populate('user', 'displayName');
+
+        res.json({ data: reviews, totalPages });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
