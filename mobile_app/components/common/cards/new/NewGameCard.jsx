@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Image, ImageBackground } from 'react-native'
-import { checkImageURL } from '../../../../utils'
 
 import styles from './newgamecard.style'
 

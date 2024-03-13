@@ -3,7 +3,6 @@ import { View, Text, Image } from "react-native";
 
 import styles from "./game.style";
 import { icons } from "../../../constants";
-import { checkImageURL } from "../../../utils";
 
 const Game = ({ data }) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };

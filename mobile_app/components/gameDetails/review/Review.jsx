@@ -3,7 +3,6 @@ import { View, Text, ActivityIndicator, Touchable, TouchableOpacity} from "react
 import useFetch from "../../../hook/useFetch";
 import styles from "./review.style";
 import { COLORS } from "../../../constants";
-import { checkImageURL } from "../../../utils";
 import ReviewCard from "../../common/cards/review/ReviewCard";
 
 const GameReview = ({ data }) => {
@@ -18,23 +17,31 @@ const GameReview = ({ data }) => {
 
   return (
     <View style={styles.container}>
-      <View >
-        {isLoading ? (
-          <ActivityIndicator size='large' color={COLORS.primary} />
-        ) : error ? (
-          <Text>Something went wrong</Text>
-        ) : (
+      <View>
+        {
           reviews?.map((item) => (
             <ReviewCard 
               item={item}
               key={`review-${item._id}`}
              />
           ))
-        )}
+        }
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => loadMoreItem()}>
-        <Text> Load More </Text>
-      </TouchableOpacity>
+      <View >
+        {isLoading ? (
+          <ActivityIndicator size='large' color={COLORS.primary} />
+        ) : error ? (
+          <Text>Something went wrong</Text>
+        ) : null}
+      </View>
+      {
+        (currentPage >= totalPages) ? null : (
+          <TouchableOpacity style={styles.loadMoreBtn} onPress={() => loadMoreItem()}>
+            <Text style={styles.loadMoreText}> Load More Reviews </Text>
+          </TouchableOpacity>
+        ) 
+      }
+     
     </View>
   );
 };
