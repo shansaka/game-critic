@@ -5,11 +5,11 @@ import axios from 'axios'
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
 const apiUrl = "https://muddy-pear-sunbonnet.cyclic.app/api";
 
-const useFetch = (endpoint, query, currentData = null) => {
+const useFetch = (endpoint, query, isScroll = false) => {
     const [data, setData] = useState([]);
-    console.log(currentData);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);
 
     
     const options = {
@@ -27,12 +27,15 @@ const useFetch = (endpoint, query, currentData = null) => {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.request(options);
-            setData(response.data);
-            if(currentData != null){
-                setData([...currentData, ...response.data]);
+            const response = await axios.request(options); 
+            console.log(query);
+            if(isScroll){
+                setData([...data, ...response.data]);
             }
-            //setData([...data, ...response.data]);
+            else{
+                setData(response.data);
+            }
+            setTotalPages(response.data.totalPages);
         } catch (error) {
             setError(error);
             console.log(error);
@@ -45,14 +48,14 @@ const useFetch = (endpoint, query, currentData = null) => {
     useEffect(() => {
         fetchData();
         //console.log("useFetch", endpoint, JSON.stringify(query));
-    }, [endpoint, JSON.stringify(query)]);
+    }, [endpoint, JSON.stringify(query), isScroll]);
 
     const refetch = () => {
         setIsLoading(true);
         fetchData();
     }
    
-    return {data, isLoading, error, refetch};
+    return {data, isLoading, error, refetch, totalPages};
 }
 
 export default useFetch;

@@ -26,6 +26,10 @@ router.get("/", async (req, res) => {
         const pageSize = parseInt(req.query.pageSize) || 10;
         const pageNo = parseInt(req.query.pageNo) || 1;
 
+        const totalGames = await Game.countDocuments(query);
+        const totalPages = Math.ceil(totalGames / pageSize);
+
+
         const games = await Game.find(query)
             .sort(sort)
             .skip((pageNo - 1) * pageSize)
@@ -39,7 +43,7 @@ router.get("/", async (req, res) => {
             ]);
 
             const avgRating = reviews.length > 0 ? parseFloat(reviews[0].avgRating.toFixed(1)) : 0;
-            return { ...game._doc, avgRating };
+            return { ...game._doc, avgRating, totalPages };
         }));
 
         res.json(gamesWithRatings);
