@@ -13,7 +13,7 @@ import  NewGameCard  from '../../common/cards/new/NewGameCard'
 
 const NewGames = () => {
   const router = useRouter();
-  const {data, isLoading, error, refetch} = useFetch('games/new');
+  const {data, isLoading, error, refetch} = useFetch('games', {search: 'new'});
 
   const [selectedGame, setSelectedGame] = useState();
   

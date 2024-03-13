@@ -47,7 +47,7 @@ export const GameDetails = () => {
                     handleNavigate={() => router.push({pathname: `gameDetails/${item._id}`})}
                 />
             )}
-            keyExtractor={(item) => item.job_id}
+            keyExtractor={(item) => item._id}
             contentContainerStyle={{ padding: SIZES.medium, rowGap: SIZES.medium }}
             ListHeaderComponent={() => (
                 <>

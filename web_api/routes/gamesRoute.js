@@ -19,6 +19,10 @@ router.get("/", async (req, res) => {
             sort.dateReleased = -1;
         }
         
+        if (req.query.searchTerm) {
+            query.name = new RegExp(req.query.searchTerm, 'i'); // 'i' makes it case insensitive
+        }
+        
         const pageSize = parseInt(req.query.pageSize) || 5;
         const pageNo = parseInt(req.query.pageNo) || 1;
 
