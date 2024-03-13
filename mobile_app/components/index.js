@@ -19,6 +19,15 @@ import ReviewCard from "./common/cards/review/ReviewCard";
 // rewiew screen
 import { default as ReviewFooter } from "./review/footer/Footer";
 
+// auth screens
+import Background from "./common/auth/Background";
+import Logo from "./common/auth/Logo";
+import Header from "./common/auth/Header";
+import Button from "./common/auth/Button";
+import TextInput from "./common/auth/TextInput";
+
+
+
 export {
   ScreenHeaderBtn,
   Welcome,
@@ -33,5 +42,11 @@ export {
   GameReview, 
   GameFooter,
 
-  ReviewFooter
+  ReviewFooter,
+
+  Background,
+  Logo,
+  Header,
+  Button,
+  TextInput
 };

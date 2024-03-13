@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { router, useRouter } from 'expo-router'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
 
@@ -13,7 +13,11 @@ const AllGames = () => {
   
   const [activeJobType, setActiveJobType] = useState("Full-time")
   const router = useRouter();
-  const { data, isLoading, error } = useFetch("games");
+  const { data, isLoading, error, fetchData } = useFetch("games");
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <View style={styles.container}>

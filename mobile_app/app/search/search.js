@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl, FlatList, TouchableOpacity, Image } from 'react-native'
 import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 
 import { ScreenHeaderBtn, AllGameCard} from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
@@ -15,7 +15,12 @@ export const GameDetails = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const paramsWithPageNo = { ...params, pageNo: currentPage };
 
-    const { data, isLoading, error, refetch, totalPages } = useFetch(`games`, paramsWithPageNo, true);
+    const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(`games`, paramsWithPageNo, true);
+
+    useEffect(() => {
+        fetchData();
+      }, [fetchData]);
+
     const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {

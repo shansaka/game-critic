@@ -1,28 +1,29 @@
-import {useState, useEffect} from 'react'
+// useFetch.js
+import {useState, useCallback} from 'react'
 import axios from 'axios'
-//import { API_KEY, API_URL } from '@env'
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
-const apiUrl = "https://muddy-pear-sunbonnet.cyclic.app/api";
+const apiUrl = "https://game-critic.onrender.com/api";
 
-const useFetch = (endpoint, query, isScroll = false) => {
+const useFetch = (endpoint, query, isScroll = false, body = null) => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [totalPages, setTotalPages] = useState(0);
 
-    
     const options = {
-        method: 'GET',
+        method: body ? 'POST' : 'GET',
         url: `${apiUrl}/${endpoint}`,
         params: {
             ...query
         },
+        data: body,
     };
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
+            console.log(options);
             const response = await axios.request(options); 
             if ('data' in response.data) {
                 if(isScroll){
@@ -42,19 +43,14 @@ const useFetch = (endpoint, query, isScroll = false) => {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    useEffect(() => {
-        fetchData();
-        //console.log("useFetch", endpoint, JSON.stringify(query));
-    }, [endpoint, JSON.stringify(query), isScroll]);
+    }, [endpoint, JSON.stringify(query), isScroll, JSON.stringify(body)]);
 
     const refetch = () => {
         setIsLoading(true);
         fetchData();
     }
    
-    return {data, isLoading, error, refetch, totalPages};
+    return {data, isLoading, error, refetch, totalPages, fetchData};
 }
 
 export default useFetch;

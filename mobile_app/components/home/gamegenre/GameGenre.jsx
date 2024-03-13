@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { router, useRouter } from 'expo-router'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
 
@@ -9,7 +9,13 @@ import useFetch from "../../../hook/useFetch";
 
 const GameGenre = () => {
   const router = useRouter();
-  const { data, isLoading, error } = useFetch("genres", {});
+  const { data, isLoading, error, fetchData } = useFetch("genres", {});
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+
   const firstItem = data && data.length > 0 ? data[0] : null;
   const [activeGameGenre, setGameGenre] = useState(firstItem);
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
 import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 
 import { Game, GameAbout, GameFooter, GameTabs, ScreenHeaderBtn, GameReview} from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
@@ -12,7 +12,11 @@ const tabs = ["Reviews", "About"];
 export const GameDetails = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
-    const { data, isLoading, error, refetch } = useFetch(`games/${params.id}`);
+    const { data, isLoading, error, refetch, fetchData } = useFetch(`games/${params.id}`);
+
+    useEffect(() => {
+      fetchData();
+    }, [fetchData]);
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [refreshing, setRefreshing] = useState(false);

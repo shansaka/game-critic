@@ -2,7 +2,7 @@ import React from 'react'
 import { 
   View, Text, TouchableOpacity, FlatList, ActivityIndicator 
 } from 'react-native'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'expo-router'
 import useFetch from '../../../hook/useFetch'
 
@@ -13,7 +13,11 @@ import  NewGameCard  from '../../common/cards/new/NewGameCard'
 
 const NewGames = () => {
   const router = useRouter();
-  const {data, isLoading, error, refetch} = useFetch('games', {search: 'new'});
+  const {data, isLoading, error, refetch, fetchData} = useFetch('games', {search: 'new'});
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const [selectedGame, setSelectedGame] = useState();
   

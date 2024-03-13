@@ -20,9 +20,9 @@ router.post("/signup", async (req, res) => {
 
     try {
         const newUser = await user.save();
-        res.status(201).json(newUser);
+        res.status(200).json(newUser);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 });
 
@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
     try {
         const user = await User.findOne({ email, password: hashedPassword });
         if (!user) {
-            return res.status(401).json({ message: "Invalid email or password", isSuccess: false });
+            return res.status(200).json({ message: "Invalid email or password", isSuccess: false });
         }
         const token = createToken(user._id);
         res.status(200).json({ message: "User login successful", isSuccess: true, token: token });
@@ -50,7 +50,7 @@ router.post("/login/admin", async (req, res) => {
     try {
         const admin = await Admin.findOne({ email, password: hashedPassword });
         if (!admin) {
-            return res.status(401).json({ message: "Invalid email or password", isSuccess: false });
+            return res.status(200).json({ message: "Invalid email or password", isSuccess: false });
         }
         const token = createToken(admin._id);
         res.status(200).json({ message: "Admin login successful", isSuccess: true, token: token });

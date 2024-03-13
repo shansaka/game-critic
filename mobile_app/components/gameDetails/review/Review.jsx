@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { View, Text, ActivityIndicator, Touchable, TouchableOpacity} from "react-native";
 import useFetch from "../../../hook/useFetch";
 import styles from "./review.style";
@@ -8,7 +8,11 @@ import ReviewCard from "../../common/cards/review/ReviewCard";
 const GameReview = ({ data }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const paramsWithPageNo = { pageNo: currentPage };
-  const { data: reviews, isLoading, error, refetch, totalPages } = useFetch(`reviews/game/${data._id}`, paramsWithPageNo, true);
+  const { data: reviews, isLoading, error, refetch, totalPages, fetchData } = useFetch(`reviews/game/${data._id}`, paramsWithPageNo, true);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const loadMoreItem = () => {
     if (currentPage >= totalPages) return;
