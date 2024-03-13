@@ -14,7 +14,6 @@ export const GameDetails = () => {
     const params = useLocalSearchParams();
     const [currentPage, setCurrentPage] = useState(1);
     const paramsWithPageNo = { ...params, pageNo: currentPage };
-    const [allDataLoaded, setAllDataLoaded] = useState(false);
 
     const { data, isLoading, error, refetch, totalPages } = useFetch(`games`, paramsWithPageNo, true);
     const [refreshing, setRefreshing] = useState(false);

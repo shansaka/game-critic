@@ -18,25 +18,23 @@ const useFetch = (endpoint, query, isScroll = false) => {
         params: {
             ...query
         },
-        // headers: {
-        //     'X-RapidAPI-Key': apiKey,
-        //     'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
-        // }
     };
 
     const fetchData = async () => {
         setIsLoading(true);
         try {
             const response = await axios.request(options); 
-            console.log(query);
-            if(isScroll){
-                setData([...data, ...response.data]);
-            }
-            else{
+            if ('data' in response.data) {
+                if(isScroll){
+                    setData(prevData => [...prevData, ...response.data.data]);
+                }
+                else{
+                    setData(response.data.data);
+                }
+                setTotalPages(response.data.totalPages);
+            } else {
                 setData(response.data);
             }
-            setTotalPages(response.data.totalPages);
-            console.log(response.data.totalPages);
         } catch (error) {
             setError(error);
             console.log(error);
