@@ -1,19 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
 import { router, useRouter } from 'expo-router'
 import styles from './welcome.style'
 
 import { icons, SIZES } from '../../../constants'
+import {getSessionItem, isLoggedIn} from "../../../helpers/loginSession";
 
 
 const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
   const router = useRouter();
-  const [activeJobType, setActiveJobType] = useState("Full-time")
+  const [displayName, setDisplayName] = useState('');
+
+  useEffect(() => {
+    const fetchDisplayName = async () => {
+        const loggedIn = await isLoggedIn();
+        if (loggedIn) {
+            const name = await getSessionItem('userDisplayName');
+            setDisplayName(name);
+        }
+    };
+
+        fetchDisplayName();
+    }, []);
 
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}> Hello </Text>
+        <Text style={styles.userName}> Hello {displayName ? displayName : ""}</Text>
         <Text style={styles.welcomeMessage}> Welcome to the Game Critic </Text>
       </View>
 

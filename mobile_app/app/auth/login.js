@@ -17,7 +17,7 @@ export const Login = () => {
 
     const { data , isLoading, error, refetch, totalPages, fetchData } = useFetch(`auth/login`, null, false, {email: email.value, password: password.value});
 
-    const onLoginPressed = () => {
+    const onLoginPressed = async () => {
       const emailError = inputValidator(email.value, 'email')
       const passwordError = inputValidator(password.value, 'password')
       if (emailError || passwordError) {
@@ -26,15 +26,15 @@ export const Login = () => {
         return
       }
 
-      fetchData();
-      
-      if(data && data.isSuccess){
-        if(logIn(data.token)){
-          router.replace('/');
-        }
+      const responseData = await fetchData();
+
+      if(responseData && responseData.isSuccess){
+          if(await logIn(responseData)){
+              router.replace('/');
+          }
       }
       else{
-        alert('There is an error');
+          alert('Please check your email and password.');
       }
     }
 

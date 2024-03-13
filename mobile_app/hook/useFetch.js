@@ -23,9 +23,7 @@ const useFetch = (endpoint, query, isScroll = false, body = null) => {
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
-            console.log(options);
             const response = await axios.request(options); 
-            console.log(response);
             if ('data' in response.data) {
                 if(isScroll){
                     setData(prevData => [...prevData, ...response.data.data]);
@@ -37,6 +35,7 @@ const useFetch = (endpoint, query, isScroll = false, body = null) => {
             } else {
                 setData(response.data);
             }
+            return response.data;
         } catch (error) {
             setError(error);
             console.log(error);
