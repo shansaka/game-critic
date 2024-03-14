@@ -1,13 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 
 import { COLORS, icons, images, SIZES, FONTS } from '../constants';
 import { AllGames, NewGames, ScreenHeaderBtn, Welcome } from '../components'
+import { isLoggedIn } from '../helpers/loginSession'; 
+
 
 const Home = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const loggedIn = await isLoggedIn();
+      setLoggedIn(loggedIn);
+    };
+
+    checkLogin();
+  }, []);
+
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.lightWhite}}>
@@ -15,13 +29,13 @@ const Home = () => {
         headerStyle: {backgroundColor: COLORS.lightWhite},
         headerShadowVisible: false,
         headerLeft: () => (
-          <ScreenHeaderBtn iconUrl={icons.menu} dimension="60%"/>
+          <View dimension="60%"/>
         ),
         headerRight: () => (
           <ScreenHeaderBtn 
-            iconUrl={images.profile} 
+            iconUrl={images.account} 
             dimension="100%" 
-            handlePress={() => router.push({pathname: `auth/login`})}
+            handlePress={() => router.push({pathname: loggedIn ? 'auth/logout' : 'auth/login'})}
           />
         ),
         headerTitle: ""

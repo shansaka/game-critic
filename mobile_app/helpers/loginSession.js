@@ -38,3 +38,15 @@ export async function logIn(data) {
         return false;
       }
 }
+
+export async function logOut() {
+  try {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('userId');
+    await AsyncStorage.removeItem('userDisplayName');
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}

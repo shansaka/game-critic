@@ -4,7 +4,7 @@ import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
 
 import { Game, ReviewFooter, ScreenHeaderBtn} from '../../components';
-import { COLORS, icons, SIZES } from '../../constants';
+import { COLORS, icons, SIZES, images } from '../../constants';
 import useFetch from '../../hook/useFetch';
 
 
@@ -28,9 +28,13 @@ export const AddReview = () => {
               handlePress={() => router.back()}
             />
           ),
-          headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
-          ),
+          // headerRight: () => (
+          //   <ScreenHeaderBtn 
+          //     iconUrl={images.account} 
+          //     dimension="100%" 
+          //     handlePress={() => router.push({pathname: `auth/login`})}
+          //   />
+          // ),
           headerTitle: "",
         }}
       />

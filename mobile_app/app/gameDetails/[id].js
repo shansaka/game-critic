@@ -4,7 +4,7 @@ import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
 import { useCallback, useState, useEffect } from 'react'
 
 import { Game, GameAbout, GameFooter, GameTabs, ScreenHeaderBtn, GameReview} from '../../components';
-import { COLORS, icons, SIZES } from '../../constants';
+import { COLORS, icons, SIZES, images } from '../../constants';
 import useFetch from '../../hook/useFetch';
 
 const tabs = ["Reviews", "About"];
@@ -59,9 +59,13 @@ export const GameDetails = () => {
               handlePress={() => router.back()}
             />
           ),
-          headerRight: () => (
-            <ScreenHeaderBtn iconUrl={icons.share} dimension='60%' />
-          ),
+          // headerRight: () => (
+          //   <ScreenHeaderBtn 
+          //     iconUrl={images.account} 
+          //     dimension="100%" 
+          //     handlePress={() => router.push({pathname: `auth/login`})}
+          //   />
+          // ),
           headerTitle: "",
         }}
       />
