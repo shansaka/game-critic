@@ -4,7 +4,7 @@ import { getSessionItem } from '../helpers/loginSession'
 import axios from 'axios'
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
-const apiUrl = "https://game-critic.onrender.com/api";
+const apiUrl = "https://game-critic-web-api.onrender.com/api";
 
 const useFetch = (endpoint, query, isScroll = false, body = null, requiresAuth = false) => {
     const [data, setData] = useState([]);
