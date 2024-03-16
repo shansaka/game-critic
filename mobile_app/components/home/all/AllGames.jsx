@@ -1,38 +1,46 @@
-import { useState, useCallback } from 'react'
-import { router, useRouter, useFocusEffect } from 'expo-router'
-import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
+import { useState, useCallback } from "react";
+import { router, useRouter, useFocusEffect } from "expo-router";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
 
 import styles from "./allgames.style";
 import { COLORS, SIZES } from "../../../constants";
 import AllGameCard from "../../common/cards/all/AllGameCard";
 import useFetch from "../../../hook/useFetch";
 
-const gameGenres = ["Full-time", "Part-time", "Remote", "Freelance", "Temporary"]
-
 const AllGames = () => {
-  
-  const [activeJobType, setActiveJobType] = useState("Full-time")
+  const [activeJobType, setActiveJobType] = useState("Full-time");
   const router = useRouter();
   const { data, isLoading, error, fetchData } = useFetch("games");
 
-  useFocusEffect(useCallback(() => {
-    fetchData();
-  }, []));
+  useFocusEffect(
+    useCallback(() => {
+      fetchData();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Games</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
-            router.push({ pathname: `/search/search`, params: { search: 'all', searchTitle: "All" }})
+            router.push({
+              pathname: `/search/search`,
+              params: { search: "all", searchTitle: "All" },
+            });
           }}
         >
           <Text style={styles.headerBtn}>Show all</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.tabsContainer}>
+      {/* <View style={styles.tabsContainer}>
           <FlatList
             data={gameGenres}
             renderItem={({item}) => (
@@ -51,17 +59,17 @@ const AllGames = () => {
             horizontal
           >
           </FlatList>
-      </View>
+      </View> */}
 
       <View style={styles.cardsContainer}>
         {isLoading ? (
-          <ActivityIndicator size='large' color={COLORS.primary} />
+          <ActivityIndicator size="large" color={COLORS.primary} />
         ) : error ? (
           <Text>Something went wrong</Text>
         ) : (
           data?.map((item) => (
             <AllGameCard
-            item={item}
+              item={item}
               key={`allGames_${item._id}`}
               handleNavigate={() => router.push(`/gameDetails/${item._id}`)}
               //keyExtractor={item => item}

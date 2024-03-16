@@ -65,8 +65,6 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
 
     if (responseData) {
       router.replace(`/gameDetails/${gameId}`);
-    } else {
-      alert("Please check your email and password.");
     }
   };
 
