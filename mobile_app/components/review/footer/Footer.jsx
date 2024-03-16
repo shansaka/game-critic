@@ -32,7 +32,7 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
       const fetchLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          alert("Permission to access location was denied");
+          //alert("Permission to access location was denied");
           return;
         }
 

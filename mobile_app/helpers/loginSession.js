@@ -39,7 +39,7 @@ export async function logIn(data) {
   }
 }
 
-export async function refreshToken(newToken, newRefreshToken) {
+export async function updateToken(newToken, newRefreshToken) {
   try {
     await AsyncStorage.setItem("token", newToken);
     await AsyncStorage.setItem("refreshToken", newRefreshToken);

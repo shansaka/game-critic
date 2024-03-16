@@ -1,6 +1,6 @@
 // useFetch.js
 import { useState, useCallback } from "react";
-import { getSessionItem, refreshToken } from "../helpers/loginSession";
+import { getSessionItem, updateToken } from "../helpers/loginSession";
 import axios from "axios";
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
@@ -76,7 +76,7 @@ const useFetch = (
           const refreshResponse = await axios.request(refreshOptions);
 
           console.log("saving new token");
-          await refreshToken(
+          await updateToken(
             refreshResponse.data.token,
             refreshResponse.data.refreshToken
           );
@@ -90,7 +90,7 @@ const useFetch = (
           return handleResponseData(response, isScroll);
         } catch (refreshError) {
           setError(refreshError);
-          console.log("refresh error");
+          console.log("refresh error", refreshError);
         }
       } else {
         setError(error);
