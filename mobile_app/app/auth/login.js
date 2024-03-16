@@ -11,24 +11,11 @@ import {isLoggedIn, logIn} from "../../helpers/loginSession";
 export const Login = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
-
-    useEffect(() => {
-      const checkLogin = async () => {
-          if(await isLoggedIn()){
-              router.replace('auth/logout');
-          }
-      }
-
-        checkLogin();
-    }, []);
     
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
 
     const { data , isLoading, error, refetch, totalPages, fetchData } = useFetch(`auth/login`, null, false, {email: email.value, password: password.value});
-
-  
-    
 
     const onLoginPressed = async () => {
       const emailError = inputValidator(email.value, 'email')

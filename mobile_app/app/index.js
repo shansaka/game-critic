@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useRouter, useFocusEffect } from 'expo-router';
 
 import { COLORS, icons, images, SIZES, FONTS } from '../constants';
 import { AllGames, NewGames, ScreenHeaderBtn, Welcome } from '../components'
@@ -13,15 +13,14 @@ const Home = () => {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     const checkLogin = async () => {
       const loggedIn = await isLoggedIn();
       setLoggedIn(loggedIn);
     };
 
     checkLogin();
-  }, []);
-
+  }, []));
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.lightWhite}}>

@@ -1,11 +1,12 @@
 // useFetch.js
 import {useState, useCallback} from 'react'
+import { getSessionItem } from '../helpers/loginSession'
 import axios from 'axios'
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
 const apiUrl = "https://game-critic.onrender.com/api";
 
-const useFetch = (endpoint, query, isScroll = false, body = null) => {
+const useFetch = (endpoint, query, isScroll = false, body = null, requiresAuth = false) => {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -23,6 +24,11 @@ const useFetch = (endpoint, query, isScroll = false, body = null) => {
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
+            if (requiresAuth) { 
+                const token = await getSessionItem('token'); 
+                options.headers = { 'Authorization': `Bearer ${token}` };    
+                console.log(options);
+            }
             const response = await axios.request(options); 
             if ('data' in response.data) {
                 if(isScroll){

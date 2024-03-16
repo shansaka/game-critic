@@ -1,27 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, {  } from 'react'
 import { StyleSheet, TouchableOpacity, Text, View, SafeAreaView, ScrollView } from 'react-native'
-import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
+import { Stack, useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router'
 
 import { ReviewFooter, ScreenHeaderBtn, Logo, Header, TextInput, Button} from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
-import inputValidator from "../../helpers/inputValidator";
-import {isLoggedIn, logOut} from "../../helpers/loginSession";
+import {logOut} from "../../helpers/loginSession";
 
 
 export const Login = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
-    
-    useEffect(() => {
-        const checkLogin = async () => {
-            if(await !isLoggedIn()){
-                router.replace('auth/login');
-            }
-        }
   
-          checkLogin();
-      }, []);
-    
     const onLoginPressed = async () => {
         if(await logOut()){
             router.replace('/');
