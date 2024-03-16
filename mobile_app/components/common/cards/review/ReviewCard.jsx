@@ -24,7 +24,7 @@ const ReviewCard = ({ item }) => {
           {item.comments}
         </Text>
         <Text style={styles.reviewedBy}>
-          {item.user.displayName}
+          {item.user.name}
         </Text>
       </View>
      

@@ -16,9 +16,7 @@ export const AddReview = () => {
     const [title, setTitle] = useState({ value: '', error: '' })
     const [comments, setComments] = useState({ value: '', error: '' })
     const [rating, setRating] = useState(5); // default rating is 3
-    
-    console.log(params);
-   
+       
     const ratingCompleted = (rating) => {
       setRating(rating);
     };

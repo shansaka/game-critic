@@ -13,14 +13,15 @@ const createToken = (id) => {
 // Adding a user
 router.post("/signup", async (req, res) => {
     const user = new User({
-        displayName: req.body.displayName,
+        name: req.body.name,
         email: req.body.email,
         password: crypto.createHash('sha512').update(req.body.password).digest('hex')
     });
 
     try {
         const newUser = await user.save();
-        res.status(200).json(newUser);
+        const token = createToken(newUser._id);
+        res.status(200).json({ message: "User register successful", isSuccess: true, token: token, username: newUser.name, userId: newUser._id });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -36,7 +37,7 @@ router.post("/login", async (req, res) => {
             return res.status(200).json({ message: "Invalid email or password", isSuccess: false });
         }
         const token = createToken(user._id);
-        res.status(200).json({ message: "User login successful", isSuccess: true, token: token, userDisplayName: user.displayName, userId: user._id });
+        res.status(200).json({ message: "User login successful", isSuccess: true, token: token, username: user.name, userId: user._id });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

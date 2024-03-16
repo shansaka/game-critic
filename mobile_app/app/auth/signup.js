@@ -8,20 +8,28 @@ import useFetch from '../../hook/useFetch';
 import inputValidator from "../../helpers/inputValidator";
 import {isLoggedIn, logIn} from "../../helpers/loginSession";
 
-export const Login = () => {
+export const SignUp = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
+    const [name, setName] = useState({ value: '', error: '' })
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
 
-    const { data , isLoading, error, refetch, totalPages, fetchData } = useFetch(`auth/login`, null, false, {email: email.value, password: password.value});
+    const { data , isLoading, error, refetch, totalPages, fetchData } = useFetch(`auth/signup`, null, false, {
+      email: email.value, 
+      name: name.value,
+      password: password.value
+    });
 
-    const onLoginPressed = async () => {
+    const onSignUpPressed = async () => {
       const emailError = inputValidator(email.value, 'email')
       const passwordError = inputValidator(password.value, 'password')
-      if (emailError || passwordError) {
+      const nameError = inputValidator(name.value, 'empty')
+
+      if (emailError || passwordError || nameError) {
         setEmail({ ...email, error: emailError })
         setPassword({ ...password, error: passwordError })
+        setName({ ...name, error: nameError })
         return
       }
 
@@ -64,7 +72,15 @@ export const Login = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <Logo />
-                <Header>Welcome back.</Header>
+              <Header>Create Account</Header>
+                <TextInput
+                  label="Name"
+                  returnKeyType="next"
+                  value={name.value}
+                  onChangeText={(text) => setName({ value: text, error: '' })}
+                  error={!!name.error}
+                  errorText={name.error}
+                />
                 <TextInput
                   label="Email"
                   returnKeyType="next"
@@ -86,23 +102,13 @@ export const Login = () => {
                   errorText={password.error}
                   secureTextEntry
                 />
-                <View style={styles.forgotPassword}>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('ResetPasswordScreen')}
-                  >
-                    <Text style={styles.forgot}>Forgot your password?</Text>
-                  </TouchableOpacity>
-                </View>
-                <Button mode="contained" onPress={onLoginPressed}>
-                  Login
+                <Button mode="contained" onPress={onSignUpPressed}>
+                  Register
                 </Button>
                 <View style={styles.row}>
-                  <Text>Don’t have an account? </Text>
-                  <TouchableOpacity onPress={() => router.replace({
-                      pathname: '/auth/signup',
-                      params: params
-                    })}>
-                    <Text style={styles.link}>Sign up</Text>
+                  <Text>Already have an account? </Text>
+                  <TouchableOpacity onPress={() => router.replace('/auth/login')}>
+                    <Text style={styles.link}>Login</Text>
                   </TouchableOpacity>
                 </View>
             </View>
@@ -133,4 +139,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Login
+export default SignUp

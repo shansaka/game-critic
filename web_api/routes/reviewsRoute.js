@@ -7,7 +7,7 @@ const router = express.Router();
 // Getting all
 router.get("/", requireToken, async (req, res) => {
     try {
-        const reviews = await Review.find().populate('game').populate('user', 'displayName');
+        const reviews = await Review.find().populate('game').populate('user', 'name');
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -27,7 +27,7 @@ router.get("/game/:id", async (req, res) => {
             .sort({ dateCreated: -1 })
             .skip((pageNo - 1) * pageSize)
             .limit(pageSize)
-            .populate('user', 'displayName');
+            .populate('user', 'name');
 
         res.json({ data: reviews, totalPages });
     } catch (error) {
@@ -38,7 +38,7 @@ router.get("/game/:id", async (req, res) => {
 // Getting a review by ID
 router.get("/:id", requireToken, async (req, res) => {
     try {
-        const review = await Review.findById(req.params.id).populate('game').populate('user', 'displayName');
+        const review = await Review.findById(req.params.id).populate('game').populate('user', 'name');
         if (!review) {
             return res.status(404).json({ message: "Review not found" });
         }

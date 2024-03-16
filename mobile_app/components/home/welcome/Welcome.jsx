@@ -9,7 +9,7 @@ import {getSessionItem, isLoggedIn} from "../../../helpers/loginSession";
 
 const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
   const router = useRouter();
-  const [displayName, setDisplayName] = useState('');
+  const [name, setDisplayName] = useState('');
 
     useFocusEffect(useCallback(() => {
       const fetchDisplayName = async () => {
@@ -30,8 +30,8 @@ const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
     <View>
       <View style={styles.container}>
         {
-          displayName ? 
-          <Text style={styles.userName}> Hello {displayName}</Text>
+          name ? 
+          <Text style={styles.userName}> Hello {name}</Text>
           :
           null
         }
