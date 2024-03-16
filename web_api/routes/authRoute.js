@@ -86,16 +86,16 @@ router.post("/refresh", (req, res) => {
     process.env.JWT_SECRET,
     { ignoreExpiration: true },
     (err, expiredTokenPayload) => {
-      if (err) return res.sendStatus(403);
+      if (err) return res.sendStatus(403).json(err);
 
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
         (err, refreshTokenPayload) => {
-          if (err) return res.sendStatus(403);
+          if (err) return res.sendStatus(403).json(err);
 
           if (expiredTokenPayload.id !== refreshTokenPayload.id)
-            return res.sendStatus(403);
+            return res.sendStatus(403).json("Invalid token id doesn't match");
 
           const accessToken = createToken(refreshTokenPayload.id);
           const newRefreshToken = createRefreshToken(refreshTokenPayload.id);

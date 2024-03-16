@@ -55,12 +55,12 @@ const useFetch = (
       return handleResponseData(response, isScroll);
       // console.log(response.data);
     } catch (error) {
-      console.log("token expired");
       if (
         error.response &&
         error.response.status === 401 &&
         error.response.data.message === "Token expired"
       ) {
+        console.log("token expired");
         const refreshOptions = {
           method: "POST",
           url: `${apiUrl}/auth/refresh`,
@@ -72,6 +72,7 @@ const useFetch = (
 
         try {
           console.log("getting new token");
+          console.log(refreshOptions);
           const refreshResponse = await axios.request(refreshOptions);
 
           console.log("saving new token");
@@ -83,7 +84,8 @@ const useFetch = (
           options.headers = {
             Authorization: `Bearer ${refreshResponse.data.token}`,
           };
-
+          console.log("trying again");
+          console.log(options);
           const response = await axios.request(options);
           return handleResponseData(response, isScroll);
         } catch (refreshError) {
@@ -92,6 +94,7 @@ const useFetch = (
         }
       } else {
         setError(error);
+        console.log(error);
       }
     } finally {
       setIsLoading(false);
