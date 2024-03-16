@@ -27,7 +27,6 @@ const useFetch = (endpoint, query, isScroll = false, body = null, requiresAuth =
             if (requiresAuth) { 
                 const token = await getSessionItem('token'); 
                 options.headers = { 'Authorization': `Bearer ${token}` };    
-                console.log(options);
             }
             const response = await axios.request(options); 
             if ('data' in response.data) {

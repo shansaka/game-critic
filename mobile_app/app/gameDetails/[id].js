@@ -1,11 +1,12 @@
 import React from 'react'
 import { Text, View, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
-import { Stack, useRouter, useLocalSearchParams } from 'expo-router'
-import { useCallback, useState, useEffect } from 'react'
+import { Stack, useRouter, useLocalSearchParams, useFocusEffect } from 'expo-router'
+import { useCallback, useState } from 'react'
 
 import { Game, GameAbout, GameFooter, GameTabs, ScreenHeaderBtn, GameReview} from '../../components';
 import { COLORS, icons, SIZES, images } from '../../constants';
 import useFetch from '../../hook/useFetch';
+import { isLoggedIn } from '../../helpers/loginSession'; 
 
 const tabs = ["Reviews", "About"];
 
@@ -14,9 +15,19 @@ export const GameDetails = () => {
     const params = useLocalSearchParams();
     const { data, isLoading, error, refetch, fetchData } = useFetch(`games/${params.id}`);
 
-    useEffect(() => {
-      fetchData();
-    }, [fetchData]);
+    const [loggedIn, setLoggedIn] = useState(false);
+
+  useFocusEffect(useCallback(() => {
+
+    const checkLogin = async () => {
+      const loggedIn = await isLoggedIn();
+      setLoggedIn(loggedIn);
+    }
+
+    checkLogin();
+
+    fetchData();
+  }, []));
 
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [refreshing, setRefreshing] = useState(false);
@@ -96,7 +107,21 @@ export const GameDetails = () => {
           )}
         </ScrollView>
 
-        <GameFooter item={data} />
+        <GameFooter 
+         handlePress={() => {
+            if (loggedIn) {
+              router.push({
+                pathname: '/review/addReview',
+                params: { ...data }
+              });
+            } else {
+              router.push({
+                pathname: '/auth/login',
+                params: { ...data, redirectUrl: '/review/addReview' } 
+              });
+            }
+        }}
+        />
       </>
     </SafeAreaView>
     )

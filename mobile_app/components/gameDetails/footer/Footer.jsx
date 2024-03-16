@@ -3,7 +3,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router'
 import styles from "./footer.style";
 import { icons } from "../../../constants";
 
-const Footer = ({ item }) => {
+const Footer = ({ handlePress}) => {
   const router = useRouter();
   const params = useLocalSearchParams();
 
@@ -13,9 +13,7 @@ const Footer = ({ item }) => {
 
       <TouchableOpacity
         style={styles.applyBtn}
-        onPress={
-          () =>  router.push({ pathname: `/review/addReview`, params: { ...item }})
-        }
+        onPress={handlePress}
       >
         <Text style={styles.applyBtnText}>Add a review</Text>
       </TouchableOpacity>

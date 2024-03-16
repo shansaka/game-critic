@@ -11,9 +11,9 @@ import {isLoggedIn, logIn} from "../../helpers/loginSession";
 export const Login = () => {
     const router = useRouter();
     const params = useLocalSearchParams();
-    
     const [email, setEmail] = useState({ value: '', error: '' })
     const [password, setPassword] = useState({ value: '', error: '' })
+    console.log(params);
 
     const { data , isLoading, error, refetch, totalPages, fetchData } = useFetch(`auth/login`, null, false, {email: email.value, password: password.value});
 
@@ -30,7 +30,12 @@ export const Login = () => {
 
       if(responseData && responseData.isSuccess){
           if(await logIn(responseData)){
+            if(params && params.redirectUrl){
+              router.replace({pathname: params.redirectUrl, params: {...params}});
+            }
+            else{
               router.replace('/');
+            }
           }
       }
       else{

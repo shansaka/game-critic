@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { router, useRouter } from 'expo-router'
+import { useState, useCallback } from 'react'
+import { router, useRouter, useFocusEffect } from 'expo-router'
 import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from "react-native";
 
 import styles from "./allgames.style";
@@ -15,9 +15,9 @@ const AllGames = () => {
   const router = useRouter();
   const { data, isLoading, error, fetchData } = useFetch("games");
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     fetchData();
-  }, [fetchData]);
+  }, []));
 
   return (
     <View style={styles.container}>

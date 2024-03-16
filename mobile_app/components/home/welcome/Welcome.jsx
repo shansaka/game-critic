@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
-import { router, useRouter } from 'expo-router'
+import { router, useRouter, useFocusEffect } from 'expo-router'
 import styles from './welcome.style'
 
 import { icons, SIZES } from '../../../constants'
@@ -11,22 +11,31 @@ const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
   const router = useRouter();
   const [displayName, setDisplayName] = useState('');
 
-  useEffect(() => {
-    const fetchDisplayName = async () => {
+    useFocusEffect(useCallback(() => {
+      const fetchDisplayName = async () => {
         const loggedIn = await isLoggedIn();
         if (loggedIn) {
             const name = await getSessionItem('userDisplayName');
             setDisplayName(name);
         }
+        else{
+          setDisplayName("");  
+        }
     };
 
         fetchDisplayName();
-    }, []);
+    }, []));
 
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.userName}> Hello {displayName ? displayName : ""}</Text>
+        {
+          displayName ? 
+          <Text style={styles.userName}> Hello {displayName}</Text>
+          :
+          null
+        }
+       
         <Text style={styles.welcomeMessage}> Welcome to the Game Critic </Text>
       </View>
 
