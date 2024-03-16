@@ -1,41 +1,43 @@
-import { useState, useCallback } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
-import { router, useRouter, useFocusEffect } from 'expo-router'
-import styles from './welcome.style'
+import { useState, useCallback } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
+import { router, useRouter, useFocusEffect } from "expo-router";
+import styles from "./welcome.style";
 
-import { icons, SIZES } from '../../../constants'
-import {getSessionItem, isLoggedIn} from "../../../helpers/loginSession";
+import { icons, SIZES } from "../../../constants";
+import { getSessionItem, isLoggedIn } from "../../../helpers/loginSession";
 
-
-const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
+const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {
   const router = useRouter();
-  const [name, setDisplayName] = useState('');
+  const [name, setDisplayName] = useState("");
 
-    useFocusEffect(useCallback(() => {
+  useFocusEffect(
+    useCallback(() => {
       const fetchDisplayName = async () => {
         const loggedIn = await isLoggedIn();
         if (loggedIn) {
-            const name = await getSessionItem('userDisplayName');
-            setDisplayName(name);
+          const name = await getSessionItem("username");
+          setDisplayName(name);
+        } else {
+          setDisplayName("");
         }
-        else{
-          setDisplayName("");  
-        }
-    };
+      };
 
-        fetchDisplayName();
-    }, []));
+      fetchDisplayName();
+    }, [])
+  );
 
   return (
     <View>
       <View style={styles.container}>
-        {
-          name ? 
-          <Text style={styles.userName}> Hello {name}</Text>
-          :
-          null
-        }
-       
+        {name ? <Text style={styles.userName}> Hello {name}</Text> : null}
+
         <Text style={styles.welcomeMessage}> Welcome to the Game Critic </Text>
       </View>
 
@@ -45,21 +47,20 @@ const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
             style={styles.searchInput}
             value={searchTerm}
             onChangeText={(text) => setSearchTerm(text)}
-            placeholder='Search by name of the game'
+            placeholder="Search by name of the game"
             onChange={() => {}}
-          >
-          </TextInput>
+          ></TextInput>
         </View>
         <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
-          <Image 
-          source={icons.search} 
-          style={styles.searchBtnImage}
-          resizeMode='contain'
-           />
+          <Image
+            source={icons.search}
+            style={styles.searchBtnImage}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
-        </View>
+      </View>
 
-        {/* <View style={styles.tabsContainer}>
+      {/* <View style={styles.tabsContainer}>
           <FlatList
             data={jobTypes}
             renderItem={({item}) => (
@@ -81,9 +82,7 @@ const Welcome = ({searchTerm, setSearchTerm, handleClick}) => {
 
       </View> */}
     </View>
+  );
+};
 
-    
-  )
-}
-
-export default Welcome
+export default Welcome;
