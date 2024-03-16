@@ -72,7 +72,6 @@ const AllGames = () => {
               item={item}
               key={`allGames_${item._id}`}
               handleNavigate={() => router.push(`/gameDetails/${item._id}`)}
-              //keyExtractor={item => item}
             />
           ))
         )}

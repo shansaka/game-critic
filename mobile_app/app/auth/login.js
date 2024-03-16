@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -6,6 +6,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 
@@ -81,54 +82,60 @@ export const Login = () => {
 
       <>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-            <Logo />
-            <Header>Welcome back.</Header>
-            <TextInput
-              label="Email"
-              returnKeyType="next"
-              value={email.value}
-              onChangeText={(text) => setEmail({ value: text, error: "" })}
-              error={!!email.error}
-              errorText={email.error}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-            />
-            <TextInput
-              label="Password"
-              returnKeyType="done"
-              value={password.value}
-              onChangeText={(text) => setPassword({ value: text, error: "" })}
-              error={!!password.error}
-              errorText={password.error}
-              secureTextEntry
-            />
-            <View style={styles.forgotPassword}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ResetPasswordScreen")}
-              >
-                <Text style={styles.forgot}>Forgot your password?</Text>
-              </TouchableOpacity>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          ) : error ? (
+            <Text>Something went wrong</Text>
+          ) : (
+            <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
+              <Logo />
+              <Header>Welcome back.</Header>
+              <TextInput
+                label="Email"
+                returnKeyType="next"
+                value={email.value}
+                onChangeText={(text) => setEmail({ value: text, error: "" })}
+                error={!!email.error}
+                errorText={email.error}
+                autoCapitalize="none"
+                autoCompleteType="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+              />
+              <TextInput
+                label="Password"
+                returnKeyType="done"
+                value={password.value}
+                onChangeText={(text) => setPassword({ value: text, error: "" })}
+                error={!!password.error}
+                errorText={password.error}
+                secureTextEntry
+              />
+              <View style={styles.forgotPassword}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("ResetPasswordScreen")}
+                >
+                  <Text style={styles.forgot}>Forgot your password?</Text>
+                </TouchableOpacity>
+              </View>
+              <Button mode="contained" onPress={onLoginPressed}>
+                Login
+              </Button>
+              <View style={styles.row}>
+                <Text>Don’t have an account? </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    router.replace({
+                      pathname: "/auth/signup",
+                      params: params,
+                    })
+                  }
+                >
+                  <Text style={styles.link}>Sign up</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Button mode="contained" onPress={onLoginPressed}>
-              Login
-            </Button>
-            <View style={styles.row}>
-              <Text>Don’t have an account? </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  router.replace({
-                    pathname: "/auth/signup",
-                    params: params,
-                  })
-                }
-              >
-                <Text style={styles.link}>Sign up</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          )}
         </ScrollView>
       </>
     </SafeAreaView>

@@ -8,7 +8,7 @@ import {
   RefreshControl,
 } from "react-native";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
-import { useCallback, useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Game,
@@ -26,6 +26,7 @@ export const AddReview = () => {
   const [title, setTitle] = useState({ value: "", error: "" });
   const [comments, setComments] = useState({ value: "", error: "" });
   const [rating, setRating] = useState(5);
+  const scrollViewRef = useRef();
 
   const ratingCompleted = (rating) => {
     setRating(rating);
@@ -45,19 +46,13 @@ export const AddReview = () => {
               handlePress={() => router.back()}
             />
           ),
-          // headerRight: () => (
-          //   <ScreenHeaderBtn
-          //     iconUrl={images.account}
-          //     dimension="100%"
-          //     handlePress={() => router.push({pathname: `auth/login`})}
-          //   />
-          // ),
+
           headerTitle: "",
         }}
       />
 
       <>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
           <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
             <Game data={params} />
             <Rating
@@ -78,6 +73,11 @@ export const AddReview = () => {
               errorText={title.error}
               autoCapitalize="none"
               autoCompleteType="title"
+              onFocus={() => {
+                setTimeout(() => {
+                  scrollViewRef.current.scrollToEnd({ animated: true });
+                }, 300);
+              }}
               // textContentType="title"
               // keyboardType="title"
             />
@@ -93,6 +93,11 @@ export const AddReview = () => {
               numberOfLines={4}
               autoCapitalize="none"
               autoCompleteType="comments"
+              onFocus={() => {
+                setTimeout(() => {
+                  scrollViewRef.current.scrollToEnd({ animated: true });
+                }, 300);
+              }}
               // textContentType="title"
               // keyboardType="title"
             />

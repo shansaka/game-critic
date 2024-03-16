@@ -6,6 +6,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 
@@ -90,48 +91,54 @@ export const SignUp = () => {
 
       <>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
-            <Logo />
-            <Header>Create Account</Header>
-            <TextInput
-              label="Name"
-              returnKeyType="next"
-              value={name.value}
-              onChangeText={(text) => setName({ value: text, error: "" })}
-              error={!!name.error}
-              errorText={name.error}
-            />
-            <TextInput
-              label="Email"
-              returnKeyType="next"
-              value={email.value}
-              onChangeText={(text) => setEmail({ value: text, error: "" })}
-              error={!!email.error}
-              errorText={email.error}
-              autoCapitalize="none"
-              autoCompleteType="email"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-            />
-            <TextInput
-              label="Password"
-              returnKeyType="done"
-              value={password.value}
-              onChangeText={(text) => setPassword({ value: text, error: "" })}
-              error={!!password.error}
-              errorText={password.error}
-              secureTextEntry
-            />
-            <Button mode="contained" onPress={onSignUpPressed}>
-              Register
-            </Button>
-            <View style={styles.row}>
-              <Text>Already have an account? </Text>
-              <TouchableOpacity onPress={() => router.replace("/auth/login")}>
-                <Text style={styles.link}>Login</Text>
-              </TouchableOpacity>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={COLORS.primary} />
+          ) : error ? (
+            <Text>Something went wrong</Text>
+          ) : (
+            <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
+              <Logo />
+              <Header>Create Account</Header>
+              <TextInput
+                label="Name"
+                returnKeyType="next"
+                value={name.value}
+                onChangeText={(text) => setName({ value: text, error: "" })}
+                error={!!name.error}
+                errorText={name.error}
+              />
+              <TextInput
+                label="Email"
+                returnKeyType="next"
+                value={email.value}
+                onChangeText={(text) => setEmail({ value: text, error: "" })}
+                error={!!email.error}
+                errorText={email.error}
+                autoCapitalize="none"
+                autoCompleteType="email"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+              />
+              <TextInput
+                label="Password"
+                returnKeyType="done"
+                value={password.value}
+                onChangeText={(text) => setPassword({ value: text, error: "" })}
+                error={!!password.error}
+                errorText={password.error}
+                secureTextEntry
+              />
+              <Button mode="contained" onPress={onSignUpPressed}>
+                Register
+              </Button>
+              <View style={styles.row}>
+                <Text>Already have an account? </Text>
+                <TouchableOpacity onPress={() => router.replace("/auth/login")}>
+                  <Text style={styles.link}>Login</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+          )}
         </ScrollView>
       </>
     </SafeAreaView>
