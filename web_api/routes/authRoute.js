@@ -6,7 +6,9 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.ACCESS_TOKEN_EXPIRATION,
+  });
 };
 
 const createRefreshToken = (id) => {

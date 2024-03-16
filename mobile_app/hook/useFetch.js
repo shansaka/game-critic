@@ -1,6 +1,6 @@
 // useFetch.js
 import { useState, useCallback } from "react";
-import { getSessionItem } from "../helpers/loginSession";
+import { getSessionItem, refreshToken } from "../helpers/loginSession";
 import axios from "axios";
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
@@ -27,34 +27,72 @@ const useFetch = (
     data: body,
   };
 
+  const handleResponseData = (response, isScroll) => {
+    if ("data" in response.data) {
+      if (isScroll) {
+        setData((prevData) => [...prevData, ...response.data.data]);
+      } else {
+        setData(response.data.data);
+      }
+      setTotalPages(response.data.totalPages);
+    } else {
+      setData(response.data);
+    }
+    return response.data;
+  };
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
+
+    const token = await getSessionItem("token");
+    const refreshToken = await getSessionItem("refreshToken");
+    if (requiresAuth) {
+      options.headers = { Authorization: `Bearer ${token}` };
+    }
+
     try {
-      if (requiresAuth) {
-        const token = await getSessionItem("token");
-        options.headers = { Authorization: `Bearer ${token}` };
-      }
       const response = await axios.request(options);
-      console.log(response);
-      if ("data" in response.data) {
-        if (isScroll) {
-          setData((prevData) => [...prevData, ...response.data.data]);
-        } else {
-          setData(response.data.data);
-        }
-        setTotalPages(response.data.totalPages);
-      } else {
-        setData(response.data);
-      }
-      return response.data;
+      return handleResponseData(response, isScroll);
+      // console.log(response.data);
     } catch (error) {
-      setError(error);
-      if (error.response) {
-        console.log("Error message:", error.response.data.message);
+      console.log("token expired");
+      if (
+        error.response &&
+        error.response.status === 401 &&
+        error.response.data.message === "Token expired"
+      ) {
+        const refreshOptions = {
+          method: "POST",
+          url: `${apiUrl}/auth/refresh`,
+          data: {
+            expiredToken: token,
+            refreshToken: refreshToken,
+          },
+        };
+
+        try {
+          console.log("getting new token");
+          const refreshResponse = await axios.request(refreshOptions);
+
+          console.log("saving new token");
+          await refreshToken(
+            refreshResponse.data.token,
+            refreshResponse.data.refreshToken
+          );
+
+          options.headers = {
+            Authorization: `Bearer ${refreshResponse.data.token}`,
+          };
+
+          const response = await axios.request(options);
+          return handleResponseData(response, isScroll);
+        } catch (refreshError) {
+          setError(refreshError);
+          console.log("refresh error");
+        }
       } else {
-        console.log(error);
+        setError(error);
       }
-      alert("There is an error, Please contact support.");
     } finally {
       setIsLoading(false);
     }

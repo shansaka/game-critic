@@ -31,6 +31,18 @@ export async function logIn(data) {
     await AsyncStorage.setItem("token", data.token);
     await AsyncStorage.setItem("userId", data.userId);
     await AsyncStorage.setItem("username", data.username);
+    await AsyncStorage.setItem("refreshToken", data.refreshToken);
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export async function refreshToken(newToken, newRefreshToken) {
+  try {
+    await AsyncStorage.setItem("token", newToken);
+    await AsyncStorage.setItem("refreshToken", newRefreshToken);
     return true;
   } catch (e) {
     console.log(e);
@@ -43,6 +55,7 @@ export async function logOut() {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("userId");
     await AsyncStorage.removeItem("username");
+    await AsyncStorage.removeItem("refreshToken");
     return true;
   } catch (e) {
     console.log(e);

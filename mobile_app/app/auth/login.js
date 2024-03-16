@@ -45,7 +45,6 @@ export const Login = () => {
     }
 
     const responseData = await fetchData();
-
     if (responseData && responseData.isSuccess) {
       if (await logIn(responseData)) {
         if (params && params.redirectUrl) {
