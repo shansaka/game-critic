@@ -1,9 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export async function isLoggedIn() {
+export function isLoggedIn() {
   try {
-    const userId = await AsyncStorage.getItem("userId");
-    if (userId !== null) {
+    const token = localStorage.getItem("token");
+    if (token !== null) {
       return true;
     }
     return false;
@@ -13,9 +11,9 @@ export async function isLoggedIn() {
   }
 }
 
-export async function getSessionItem(itemName) {
+export function getSessionItem(itemName) {
   try {
-    const item = await AsyncStorage.getItem(itemName);
+    const item = localStorage.getItem(itemName);
     if (item == null) {
       return "";
     }
@@ -26,12 +24,11 @@ export async function getSessionItem(itemName) {
   }
 }
 
-export async function logIn(data) {
+export function logIn(data) {
   try {
-    await AsyncStorage.setItem("token", data.token);
-    await AsyncStorage.setItem("userId", data.userId);
-    await AsyncStorage.setItem("username", data.username);
-    await AsyncStorage.setItem("refreshToken", data.refreshToken);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("refreshToken", data.refreshToken);
     return true;
   } catch (e) {
     console.log(e);
@@ -39,23 +36,11 @@ export async function logIn(data) {
   }
 }
 
-export async function updateToken(newToken, newRefreshToken) {
+export function logOut() {
   try {
-    await AsyncStorage.setItem("token", newToken);
-    await AsyncStorage.setItem("refreshToken", newRefreshToken);
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
-}
-
-export async function logOut() {
-  try {
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("userId");
-    await AsyncStorage.removeItem("username");
-    await AsyncStorage.removeItem("refreshToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("refreshToken");
     return true;
   } catch (e) {
     console.log(e);

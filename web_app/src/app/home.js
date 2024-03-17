@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { AllGames, NewGames } from "../components";
+import { AllGamesComp, NewGames, Welcome } from "../components";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -9,8 +9,9 @@ function Home() {
   return (
     <section>
       <Container>
+        <Welcome />
         <NewGames />
-        <AllGames />
+        <AllGamesComp />
       </Container>
     </section>
   );

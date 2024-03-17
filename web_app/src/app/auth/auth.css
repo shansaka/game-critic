@@ -1,0 +1,25 @@
+.button {
+  width: 100%;
+  background-color: #444262;
+  border: none;
+}
+
+.button:hover {
+  background-color: #5c5c7d;
+  border: none;
+}
+
+.button:disabled {
+  background-color: #5c5c7d;
+  border: none;
+}
+
+.card-body {
+  padding: 10%;
+}
+
+.errorMsgSpan {
+  color: rgb(202, 53, 53);
+  width: 100%;
+  text-align: center;
+}

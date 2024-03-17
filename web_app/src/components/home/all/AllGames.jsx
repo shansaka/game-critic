@@ -5,7 +5,7 @@ import useFetch from "../../../hook/useFetch";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-function AllGames() {
+function AllGamesComp() {
   const { data, isLoading, error, refetch, fetchData } = useFetch("games", {
     search: "all",
     pageSize: 12,
@@ -68,4 +68,4 @@ function AllGames() {
   );
 }
 
-export default AllGames;
+export default AllGamesComp;
