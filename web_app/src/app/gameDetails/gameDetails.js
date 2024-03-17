@@ -31,6 +31,83 @@ const GameDetails = () => {
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
+  const [rating, setRating] = useState({ value: 5, error: "" });
+  const [title, setTitle] = useState({ value: "", error: "" });
+  const [comment, setComment] = useState({ value: "", error: "" });
+
+  const requiresAuth = true;
+  const {
+    data: addReviewData,
+    isLoading: addReviewIsLoading,
+    error: addReviewError,
+    fetchData: addReviewFetchData,
+  } = useFetch(
+    `reviews`,
+    null,
+    false,
+    {
+      gameId: id,
+      title: title.value,
+      comments: comment.value,
+      rating: rating.value,
+      location: {
+        city: "string",
+        country: "string",
+        latitude: 0,
+        longitude: 0,
+      },
+    },
+    requiresAuth
+  );
+
+  const validateForm = () => {
+    let ratingError = "";
+    let titleError = "";
+    let commentError = "";
+
+    // Validate rating
+    if (!rating.value) {
+      ratingError = "Rating cannot be empty";
+    } else if (rating.value < 1 || rating.value > 5) {
+      ratingError = "Rating must be between 1 and 5";
+    }
+
+    // Validate title
+    if (!title.value) {
+      titleError = "Title cannot be empty";
+    }
+
+    // Validate comment
+    if (!comment.value) {
+      commentError = "Comment cannot be empty";
+    }
+
+    if (ratingError || titleError || commentError) {
+      setRating({ ...rating, error: ratingError });
+      setTitle({ ...title, error: titleError });
+      setComment({ ...comment, error: commentError });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const isValid = validateForm();
+
+    if (isValid) {
+      const addReviewResponse = await addReviewFetchData();
+      if (addReviewData) {
+        window.location.reload();
+      } else {
+        console.log("error");
+        alert("error");
+      }
+    }
+  };
+
   function formatDate(date) {
     const options = { year: "numeric", month: "short", day: "numeric" };
     return new Date(date)
@@ -160,39 +237,67 @@ const GameDetails = () => {
       )}
 
       <Modal show={showModal} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Add a Review</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="form-group">
-              {/* <Form.Label>Rating</Form.Label> */}
-              <Form.Control type="number" placeholder="Enter rating" />
+        <Form onSubmit={handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add a Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group controlId="formBasicRating">
+              <Form.Label>Rating</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter rating"
+                value={rating.value}
+                onChange={(e) =>
+                  setRating({ value: e.target.value, error: "" })
+                }
+                isInvalid={!!rating.error}
+              />
+              <Form.Control.Feedback type="invalid">
+                {rating.error}
+              </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="form-group">
-              {/* <Form.Label>Title</Form.Label> */}
-              <Form.Control type="text" placeholder="Enter title" />
+            <Form.Group controlId="formBasicTitle">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter title"
+                value={title.value}
+                onChange={(e) => setTitle({ value: e.target.value, error: "" })}
+                isInvalid={!!title.error}
+              />
+              <Form.Control.Feedback type="invalid">
+                {title.error}
+              </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="form-group">
-              {/* <Form.Label>Comment</Form.Label> */}
+            <Form.Group controlId="formBasicComment">
+              <Form.Label>Comment</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 placeholder="Enter comment"
+                value={comment.value}
+                onChange={(e) =>
+                  setComment({ value: e.target.value, error: "" })
+                }
+                isInvalid={!!comment.error}
               />
+              <Form.Control.Feedback type="invalid">
+                {comment.error}
+              </Form.Control.Feedback>
             </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Submit Review
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleSubmit}>
+              Submit Review
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </Container>
   );

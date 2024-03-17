@@ -36,6 +36,17 @@ export function logIn(data) {
   }
 }
 
+export function updateToken(newToken, newRefreshToken) {
+  try {
+    localStorage.setItem("token", newToken);
+    localStorage.setItem("refreshToken", newRefreshToken);
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
 export function logOut() {
   try {
     localStorage.removeItem("token");
