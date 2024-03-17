@@ -40,7 +40,7 @@ function Login({ setLoggedIn }) {
         <Row className="justify-content-md-center">
           <Col xs={12} md={6}>
             <Card>
-              <Card.Body className="card-body">
+              <Card.Body className="card-body-auth">
                 <Card.Title className="text-center">
                   <Image src={logo} alt="Logo" height="150" />
                 </Card.Title>

@@ -14,8 +14,8 @@
   border: none;
 }
 
-.card-body {
-  padding: 10%;
+.card-body-auth {
+  padding: 5%;
 }
 
 .errorMsgSpan {
