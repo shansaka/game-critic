@@ -38,7 +38,7 @@ function Search() {
           {data.map((game, index) => (
             <Col key={index} xs={12} sm={6} md={3} lg={2}>
               <Link
-                to={`/gameDetails/${game._id}`}
+                to={`/game-details/${game._id}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
                 <Card className="game-card">

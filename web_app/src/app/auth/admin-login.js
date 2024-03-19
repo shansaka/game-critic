@@ -15,7 +15,7 @@ import logo from "../../logo_dark.png";
 import useFetch from "../../hook/useFetch";
 import { logIn } from "../../helpers/loginSession";
 
-function Login({ setLoggedIn }) {
+function AdminLogin({ setLoggedIn }) {
   const navigate = useNavigate();
   const location = useLocation();
   const params = location.state;
@@ -24,7 +24,7 @@ function Login({ setLoggedIn }) {
   const [password, setPassword] = useState({ value: "", error: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
-    `auth/login`,
+    `auth/login/admin`,
     null,
     false,
     { email: email.value, password: password.value }
@@ -89,7 +89,7 @@ function Login({ setLoggedIn }) {
                   <Image src={logo} alt="Logo" height="150" />
                 </Card.Title>
                 <Form onSubmit={handleSubmit}>
-                  <h5>Welcome back.</h5>
+                  <h5>Admin Login</h5>
                   <Form.Group className="form-group">
                     <Form.Control
                       type="text"
@@ -139,17 +139,6 @@ function Login({ setLoggedIn }) {
                     </Button>
                   )}
                 </Form>
-                Don't have an account?{" "}
-                <Button
-                  variant="none"
-                  onClick={() =>
-                    navigate("/register", {
-                      state: { ...params },
-                    })
-                  }
-                >
-                  <b>Register</b>
-                </Button>
               </Card.Body>
             </Card>
           </Col>
@@ -159,4 +148,4 @@ function Login({ setLoggedIn }) {
   );
 }
 
-export default Login;
+export default AdminLogin;

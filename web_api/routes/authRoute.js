@@ -114,17 +114,21 @@ router.post("/login/admin", async (req, res) => {
     .update(password)
     .digest("hex");
   try {
-    const admin = await Admin.findOne({ email, password: hashedPassword });
+    const user = await Admin.findOne({ email, password: hashedPassword });
     if (!admin) {
       return res
         .status(200)
         .json({ message: "Invalid email or password", isSuccess: false });
     }
     const token = createToken(admin._id);
+    const refreshToken = createRefreshToken(admin._id);
     res.status(200).json({
       message: "Admin login successful",
       isSuccess: true,
       token: token,
+      refreshToken: refreshToken,
+      username: admin.name,
+      userId: admin._id,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

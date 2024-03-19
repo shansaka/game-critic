@@ -5,7 +5,8 @@ import Search from "./app/search/search";
 import Login from "./app/auth/login";
 import Logout from "./app/auth/logout";
 import Register from "./app/auth/register";
-import GameDetails from "./app/gameDetails/gameDetails";
+import GameDetails from "./app/game-details/game-details";
+import AdminLogin from "./app/auth/admin-login";
 
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
@@ -85,7 +86,11 @@ function App() {
                 path="/register"
                 element={<Register setLoggedIn={setLoggedIn} />}
               />
-              <Route path="/gameDetails/:id" element={<GameDetails />} />
+              <Route path="/game-details/:id" element={<GameDetails />} />
+              <Route
+                path="/admin-login"
+                element={<AdminLogin setLoggedIn={setLoggedIn} />}
+              />
             </Routes>
           </Container>
         </div>

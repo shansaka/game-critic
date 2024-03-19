@@ -11,9 +11,11 @@ import {
 } from "react-bootstrap";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
+import { isLoggedIn } from "../../helpers/loginSession";
 
 const GameDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, error, fetchData } = useFetch(`games/${id}`);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,7 +31,14 @@ const GameDetails = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const handleShow = () => {
+    if (isLoggedIn() === false) {
+      return navigate("/login", {
+        state: { redirectUrl: `/game-details/${id}` },
+      });
+    }
+    setShowModal(true);
+  };
 
   const [rating, setRating] = useState({ value: 5, error: "" });
   const [title, setTitle] = useState({ value: "", error: "" });
