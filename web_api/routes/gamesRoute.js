@@ -2,16 +2,32 @@ const express = require("express");
 const Game = require("../models/game");
 const Review = require("../models/review");
 const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
+const multer = require("multer");
+const path = require("path");
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: "./upload/images",
+  filename: (req, file, cb) => {
+    return cb(
+      null,
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+    );
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024,
+  },
+});
 
 // Getting all
 router.get("/", async (req, res) => {
   try {
     let query = {};
-    if (req.query.genre) {
-      query.genre = req.query.genre;
-    }
 
     let sort = {};
     if (req.query.search === "new") {
@@ -31,8 +47,7 @@ router.get("/", async (req, res) => {
     const games = await Game.find(query)
       .sort(sort)
       .skip((pageNo - 1) * pageSize)
-      .limit(pageSize)
-      .populate("genre");
+      .limit(pageSize);
 
     const gamesWithRatings = await Promise.all(
       games.map(async (game) => {
@@ -56,7 +71,7 @@ router.get("/", async (req, res) => {
 // Getting a game by ID
 router.get("/:id", async (req, res) => {
   try {
-    const game = await Game.findById(req.params.id).populate("genre");
+    const game = await Game.findById(req.params.id);
     if (!game) {
       return res.status(404).json({ message: "Game not found" });
     }
@@ -76,24 +91,29 @@ router.get("/:id", async (req, res) => {
 });
 
 // Adding a game
-router.post("/", requireToken, requireAdmin, async (req, res) => {
-  const game = new Game({
-    name: req.body.name,
-    description: req.body.description,
-    developer: req.body.developer,
-    publisher: req.body.publisher,
-    dateReleased: req.body.dateReleased,
-    genre: req.body.genre,
-    mainImage: req.body.mainImage,
-  });
+router.post(
+  "/",
+  requireToken,
+  requireAdmin,
+  upload.single("mainImage"),
+  async (req, res) => {
+    const game = new Game({
+      name: req.body.name,
+      description: req.body.description,
+      dateReleased: req.body.dateReleased,
+      mainImage: `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`,
+    });
 
-  try {
-    const newGame = await game.save();
-    res.status(201).json(newGame);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    try {
+      const newGame = await game.save();
+      res.status(201).json(newGame);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   }
-});
+);
 
 // Updating a game
 router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
@@ -105,17 +125,8 @@ router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
     if (req.body.description) {
       game.description = req.body.description;
     }
-    if (req.body.developer) {
-      game.developer = req.body.developer;
-    }
-    if (req.body.publisher) {
-      game.publisher = req.body.publisher;
-    }
     if (req.body.dateReleased) {
       game.dateReleased = req.body.dateReleased;
-    }
-    if (req.body.genre) {
-      game.genre = req.body.genre;
     }
     if (req.body.mainImage) {
       game.mainImage = req.body.mainImage;

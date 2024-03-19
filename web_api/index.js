@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 // Setting port for the application
 const PORT = process.env.PORT || 3000;
@@ -21,7 +22,7 @@ try {
   console.error("Error connecting to the database:", error.message);
 
   // Exit the process if the database connection fails
-  process.exit(1); 
+  process.exit(1);
 }
 
 // Default
@@ -34,7 +35,7 @@ app.get("/", async (req, res) => {
 app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/users", require("./routes/usersRoute"));
 app.use("/api/games", require("./routes/gamesRoute"));
-app.use("/api/genres", require("./routes/genresRoute"));
 app.use("/api/reviews", require("./routes/reviewsRoute"));
 
-
+// Serve images
+app.use("/images", express.static(path.join(__dirname, "./upload/images")));

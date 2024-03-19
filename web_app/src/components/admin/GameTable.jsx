@@ -7,79 +7,75 @@ import {
   Button,
   Table,
   Form,
+  Modal,
 } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
+import AddGame from "./AddGame";
 
 const GameTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isScroll, setisScroll] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const paramsWithPageNo = {
     search: "all",
-    pageSize: 10,
+    pageSize: 5,
     pageNo: currentPage,
     searchTerm: searchTerm,
   };
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     "games",
-    paramsWithPageNo,
-    isScroll
+    paramsWithPageNo
   );
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchData(true);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    fetchData();
+  }, [searchTerm]);
+
   const loadMoreItem = () => {
     if (currentPage >= totalPages) return;
     setCurrentPage(currentPage + 1);
-    setisScroll(true);
-    fetchData();
   };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = (event) => {
-    event.preventDefault();
-    //fetchData();
-    setisScroll(false);
-    fetchData();
-  };
-
   const handleAddGame = () => {
-    // Implement your add game logic here
+    setShowAddModal(true);
   };
 
   return (
     <>
       <Row>
-        <Col md={8}>
-          <Form onSubmit={handleSearchSubmit}>
-            <Row>
-              <Col>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by game name"
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              </Col>
-              <Col xs="auto">
-                <Button variant="outline-success" type="submit">
-                  Search
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Col>
-        <Col md={4} className="d-flex justify-content-end">
-          <Button variant="primary" onClick={handleAddGame}>
-            Add Game
-          </Button>
+        <Col md={12}>
+          <Row>
+            <Col>
+              <Form.Control
+                type="text"
+                placeholder="Search by game name"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+            </Col>
+            <Col xs="auto">
+              <Button variant="primary" onClick={handleAddGame}>
+                Add Game
+              </Button>
+            </Col>
+          </Row>
         </Col>
       </Row>
       <br />
@@ -114,6 +110,8 @@ const GameTable = () => {
       {currentPage >= totalPages ? null : (
         <Button onClick={loadMoreItem}>Load more games</Button>
       )}
+
+      <AddGame showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
     </>
   );
 };
