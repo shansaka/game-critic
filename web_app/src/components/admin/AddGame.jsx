@@ -28,7 +28,7 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
 
   const { data, isLoading, error, fetchData } = useFetch(
     "games",
-    "GET",
+    "POST",
     null,
     formData,
     true

@@ -159,7 +159,7 @@ router.patch(
 );
 
 // Deleting a game
-router.delete("/:id", requireToken, async (req, res) => {
+router.delete("/:id", requireToken, requireAdmin, async (req, res) => {
   try {
     const game = await Game.findById(req.params.id);
     if (!game) {

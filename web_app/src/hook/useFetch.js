@@ -55,7 +55,6 @@ const useFetch = (
       try {
         const response = await axios.request(options);
         return handleResponseData(response, shouldAppend);
-        console.log(response.data);
       } catch (error) {
         if (
           error.response &&
@@ -90,10 +89,12 @@ const useFetch = (
           } catch (refreshError) {
             setError(refreshError);
             console.log("refresh error", refreshError);
+            alert("Something went wrong, please contact support.");
           }
         } else {
           setError(error);
           console.log(error);
+          alert("Something went wrong, please contact support.");
         }
       } finally {
         setIsLoading(false);

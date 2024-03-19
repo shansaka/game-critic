@@ -13,6 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
 import AddGame from "./AddGame";
 import EditGame from "./EditGame";
+import DeleteGame from "./DeleteGame";
 
 const GameTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,6 +21,7 @@ const GameTable = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedGame, setSelectedGame] = useState(null);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const paramsWithPageNo = {
     search: "all",
@@ -64,6 +66,10 @@ const GameTable = () => {
   const handleEditGame = (game) => {
     setSelectedGame(game);
     setShowEditModal(true);
+  };
+
+  const handleDeleteGame = (game) => {
+    setSelectedGame(game);
   };
 
   return (
@@ -112,7 +118,9 @@ const GameTable = () => {
                 </Button>
               </td>
               <td>
-                <Button variant="danger">Delete</Button>
+                <Button variant="danger" onClick={() => handleDeleteGame(game)}>
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}
@@ -129,6 +137,7 @@ const GameTable = () => {
         setShowEditModal={setShowEditModal}
         gameData={selectedGame}
       />
+      <DeleteGame gameData={selectedGame} />
     </>
   );
 };

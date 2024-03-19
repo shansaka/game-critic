@@ -8,8 +8,11 @@ import {
   Table,
   Form,
   Modal,
+  InputGroup,
 } from "react-bootstrap";
 import useFetch from "../../hook/useFetch";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });
@@ -25,8 +28,11 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
     if (gameData) {
       setGameName({ value: gameData.name, error: "" });
       setGameDescription({ value: gameData.description, error: "" });
-      setGameDate({ value: gameData.dateReleased, error: "" });
-      setGameImage({ value: gameData.mainImage, error: "" });
+
+      const date = new Date(gameData.dateReleased);
+      setGameDate({ value: date, error: "" });
+
+      //setGameImage({ value: gameData.mainImage, error: "" });
       setGameId({ value: gameData._id, error: "" });
     }
   }, [gameData]);
@@ -37,9 +43,10 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   formData.append("dateReleased", gameDate.value);
   formData.append("mainImage", gameImage.value);
 
-  const { data, isLoading, error, updateData, fetchData } = useFetch(
-    `games/${gameId}`,
+  const { data, isLoading, error, fetchData } = useFetch(
+    `games/${gameId.value}`,
     "PATCH",
+    null,
     formData,
     true
   );
@@ -49,11 +56,6 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
     let gameDescriptionError = "";
     let gameDateError = "";
     let gameImageError = "";
-
-    // Validate game image
-    if (!gameImage.value) {
-      gameImageError = "Game image cannot be empty";
-    }
 
     // Validate game name
     if (!gameName.value) {
@@ -89,8 +91,10 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const handleEditGameSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      await fetchData();
-      window.location.reload();
+      const responseData = await fetchData();
+      if (responseData) {
+        window.location.reload();
+      }
     }
   };
 
@@ -159,15 +163,15 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
           </Form.Group>
           <Form.Group className="form-group">
             <Form.Label>Date Released</Form.Label>
-
-            <Form.Control
-              type="date"
-              value={gameDate.value}
-              onChange={(e) =>
-                setGameDate({ value: e.target.value, error: "" })
-              }
-              isInvalid={!!gameDate.error}
-            />
+            <InputGroup>
+              <DatePicker
+                className="form-control"
+                width="100%"
+                selected={gameDate.value}
+                dateFormat="dd/MM/yyyy"
+                onChange={(date) => setGameDate({ value: date, error: "" })}
+              />
+            </InputGroup>
             <Form.Control.Feedback type="invalid">
               {gameDate.error}
             </Form.Control.Feedback>
