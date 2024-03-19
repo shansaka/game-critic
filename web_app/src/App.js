@@ -6,7 +6,11 @@ import Login from "./app/auth/login";
 import Logout from "./app/auth/logout";
 import Register from "./app/auth/register";
 import GameDetails from "./app/game-details/game-details";
+
 import AdminLogin from "./app/auth/admin-login";
+import Dashboard from "./app/admin/dashboard";
+import AdminGames from "./app/admin/games";
+import Reviews from "./app/admin/reviews";
 
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
@@ -14,7 +18,7 @@ import Container from "react-bootstrap/Container";
 import { Navbar, Nav } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import logo from "./logo.png";
-import { isLoggedIn } from "./helpers/loginSession";
+import { isLoggedIn, isAdmin } from "./helpers/loginSession";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -47,12 +51,40 @@ function App() {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mx-auto custom-nav">
-                  <Nav.Link as={NavLink} to="/" activeclassname="active">
-                    Home
-                  </Nav.Link>
-                  <Nav.Link as={NavLink} to="/games" activeclassname="active">
-                    Games
-                  </Nav.Link>
+                  {isAdmin() ? (
+                    <>
+                      <Nav.Link as={NavLink} to="/" activeclassname="active">
+                        Dashboard
+                      </Nav.Link>
+                      <Nav.Link
+                        as={NavLink}
+                        to="/games"
+                        activeclassname="active"
+                      >
+                        Games
+                      </Nav.Link>
+                      <Nav.Link
+                        as={NavLink}
+                        to="/reviews"
+                        activeclassname="active"
+                      >
+                        Reviews
+                      </Nav.Link>
+                    </>
+                  ) : (
+                    <>
+                      <Nav.Link as={NavLink} to="/" activeclassname="active">
+                        Home
+                      </Nav.Link>
+                      <Nav.Link
+                        as={NavLink}
+                        to="/games"
+                        activeclassname="active"
+                      >
+                        Games
+                      </Nav.Link>
+                    </>
+                  )}
                 </Nav>
                 <Nav.Link
                   as={NavLink}
@@ -69,8 +101,25 @@ function App() {
         <div className="main_container ">
           <Container fluid className="home-section">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/games" element={<Search />} />
+              {isAdmin() ? (
+                <>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/games" element={<AdminGames />} />
+                  <Route path="/reviews" element={<Reviews />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/games" element={<Search />} />
+
+                  <Route
+                    path="/register"
+                    element={<Register setLoggedIn={setLoggedIn} />}
+                  />
+                  <Route path="/game-details/:id" element={<GameDetails />} />
+                </>
+              )}
+
               {loggedIn ? (
                 <Route
                   path="/login"
@@ -82,11 +131,6 @@ function App() {
                   element={<Login setLoggedIn={setLoggedIn} />}
                 />
               )}
-              <Route
-                path="/register"
-                element={<Register setLoggedIn={setLoggedIn} />}
-              />
-              <Route path="/game-details/:id" element={<GameDetails />} />
               <Route
                 path="/admin-login"
                 element={<AdminLogin setLoggedIn={setLoggedIn} />}

@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
-import { isLoggedIn } from "../../helpers/loginSession";
+import { isLoggedIn, isAdmin } from "../../helpers/loginSession";
 
 const GameDetails = () => {
   const { id } = useParams();
@@ -188,12 +188,14 @@ const GameDetails = () => {
       <Row className="game-reviews-row">
         <div className="review-header d-flex">
           <div className="review-header-title">Reviews</div>
-          <div className="review-add-div">
-            <Button className="review-add-btn" onClick={handleShow}>
-              {" "}
-              Add a review
-            </Button>
-          </div>
+          {!isAdmin() ? (
+            <div className="review-add-div">
+              <Button className="review-add-btn" onClick={handleShow}>
+                {" "}
+                Add a review
+              </Button>
+            </div>
+          ) : null}
         </div>
 
         {reviewData.map((review, index) => (

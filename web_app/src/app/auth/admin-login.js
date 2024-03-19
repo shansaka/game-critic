@@ -63,7 +63,7 @@ function AdminLogin({ setLoggedIn }) {
     if (validateForm()) {
       const responseData = await fetchData();
       if (responseData && responseData.isSuccess) {
-        if (await logIn(responseData)) {
+        if (await logIn(responseData, true)) {
           setLoggedIn(true);
           if (params && params.redirectUrl) {
             navigate(params.redirectUrl, { ...params });

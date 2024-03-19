@@ -24,11 +24,25 @@ export function getSessionItem(itemName) {
   }
 }
 
-export function logIn(data) {
+export function isAdmin() {
+  try {
+    const item = localStorage.getItem("isAdmin");
+    if (item === "true") {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+}
+
+export function logIn(data, isAdmin = false) {
   try {
     localStorage.setItem("token", data.token);
     localStorage.setItem("username", data.username);
     localStorage.setItem("refreshToken", data.refreshToken);
+    localStorage.setItem("isAdmin", isAdmin);
     return true;
   } catch (e) {
     console.log(e);
@@ -52,6 +66,7 @@ export function logOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     localStorage.removeItem("refreshToken");
+    localStorage.removeItem("isAdmin");
     return true;
   } catch (e) {
     console.log(e);
