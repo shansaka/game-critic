@@ -4,6 +4,7 @@ const Review = require("../models/review");
 const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 const router = express.Router();
 
@@ -116,27 +117,46 @@ router.post(
 );
 
 // Updating a game
-router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
-  try {
-    const game = await Game.findById(req.params.id);
-    if (req.body.name) {
-      game.name = req.body.name;
+router.patch(
+  "/:id",
+  requireToken,
+  requireAdmin,
+  upload.single("mainImage"),
+  async (req, res) => {
+    try {
+      const game = await Game.findById(req.params.id);
+      if (req.body.name) {
+        game.name = req.body.name;
+      }
+      if (req.body.description) {
+        game.description = req.body.description;
+      }
+      if (req.body.dateReleased) {
+        game.dateReleased = req.body.dateReleased;
+      }
+      if (req.file) {
+        game.mainImage = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
+
+        const previousImagePath = path.join(
+          __dirname,
+          "./upload/images",
+          path.basename(game.mainImage)
+        );
+        fs.unlink(previousImagePath, (err) => {
+          if (err) {
+            console.error(err);
+          }
+        });
+      }
+      const updatedGame = await game.save();
+      res.json(updatedGame);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
     }
-    if (req.body.description) {
-      game.description = req.body.description;
-    }
-    if (req.body.dateReleased) {
-      game.dateReleased = req.body.dateReleased;
-    }
-    if (req.body.mainImage) {
-      game.mainImage = req.body.mainImage;
-    }
-    const updatedGame = await game.save();
-    res.json(updatedGame);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
   }
-});
+);
 
 // Deleting a game
 router.delete("/:id", requireToken, async (req, res) => {

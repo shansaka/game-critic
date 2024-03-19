@@ -6,10 +6,14 @@ import useFetch from "../../../hook/useFetch";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 function NewGames() {
-  const { data, isLoading, error, refetch, fetchData } = useFetch("games", {
-    search: "new",
-    pageSize: 6,
-  });
+  const { data, isLoading, error, refetch, fetchData } = useFetch(
+    "games",
+    "GET",
+    {
+      search: "new",
+      pageSize: 6,
+    }
+  );
   const navigate = useNavigate();
 
   useEffect(() => {

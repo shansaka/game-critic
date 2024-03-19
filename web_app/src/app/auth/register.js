@@ -25,8 +25,8 @@ function Register({ setLoggedIn }) {
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `auth/signup`,
+    "POST",
     null,
-    false,
     { email: email.value, password: password.value, name: name.value }
   );
 

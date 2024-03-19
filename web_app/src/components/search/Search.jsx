@@ -13,8 +13,8 @@ function Search() {
   const paramsWithPageNo = { ...params, pageNo: currentPage };
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `games`,
-    paramsWithPageNo,
-    true
+    "GET",
+    paramsWithPageNo
   );
 
   useEffect(() => {

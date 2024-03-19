@@ -25,8 +25,8 @@ function Login({ setLoggedIn }) {
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `auth/login`,
+    "POST",
     null,
-    false,
     { email: email.value, password: password.value }
   );
 

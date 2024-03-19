@@ -12,11 +12,14 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
 import AddGame from "./AddGame";
+import EditGame from "./EditGame";
 
 const GameTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedGame, setSelectedGame] = useState(null);
 
   const paramsWithPageNo = {
     search: "all",
@@ -26,6 +29,7 @@ const GameTable = () => {
   };
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     "games",
+    "GET",
     paramsWithPageNo
   );
 
@@ -55,6 +59,11 @@ const GameTable = () => {
 
   const handleAddGame = () => {
     setShowAddModal(true);
+  };
+
+  const handleEditGame = (game) => {
+    setSelectedGame(game);
+    setShowEditModal(true);
   };
 
   return (
@@ -98,7 +107,9 @@ const GameTable = () => {
               <td>{game.dateReleased}</td>
               <td>{game.dateAdded}</td>
               <td>
-                <Button variant="primary">Edit</Button>
+                <Button variant="primary" onClick={() => handleEditGame(game)}>
+                  Edit
+                </Button>
               </td>
               <td>
                 <Button variant="danger">Delete</Button>
@@ -112,6 +123,12 @@ const GameTable = () => {
       )}
 
       <AddGame showAddModal={showAddModal} setShowAddModal={setShowAddModal} />
+
+      <EditGame
+        showEditModal={showEditModal}
+        setShowEditModal={setShowEditModal}
+        gameData={selectedGame}
+      />
     </>
   );
 };

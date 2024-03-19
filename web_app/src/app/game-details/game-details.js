@@ -26,7 +26,7 @@ const GameDetails = () => {
     error: reviewError,
     fetchData: reviewFetchData,
     totalPages,
-  } = useFetch(`reviews/game/${id}`, paramsWithPageNo, true);
+  } = useFetch(`reviews/game/${id}`, "GET", paramsWithPageNo);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -52,6 +52,7 @@ const GameDetails = () => {
     fetchData: addReviewFetchData,
   } = useFetch(
     `reviews`,
+    "GET",
     null,
     false,
     {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import useFetch from "../../hook/useFetch";
 
-const AddGame = ({ showAddModal, setShowAddModal }) => {
+const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });
   const [gameDescription, setGameDescription] = useState({
     value: "",
@@ -19,6 +19,17 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
   });
   const [gameDate, setGameDate] = useState({ value: "", error: "" });
   const [gameImage, setGameImage] = useState({ value: "", error: "" });
+  const [gameId, setGameId] = useState({ value: "", error: "" });
+
+  useEffect(() => {
+    if (gameData) {
+      setGameName({ value: gameData.name, error: "" });
+      setGameDescription({ value: gameData.description, error: "" });
+      setGameDate({ value: gameData.dateReleased, error: "" });
+      setGameImage({ value: gameData.mainImage, error: "" });
+      setGameId({ value: gameData._id, error: "" });
+    }
+  }, [gameData]);
 
   const formData = new FormData();
   formData.append("name", gameName.value);
@@ -26,10 +37,9 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
   formData.append("dateReleased", gameDate.value);
   formData.append("mainImage", gameImage.value);
 
-  const { data, isLoading, error, fetchData } = useFetch(
-    "games",
-    "GET",
-    null,
+  const { data, isLoading, error, updateData, fetchData } = useFetch(
+    `games/${gameId}`,
+    "PATCH",
     formData,
     true
   );
@@ -76,7 +86,7 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
     return true;
   };
 
-  const handleAddGameSubmit = async (event) => {
+  const handleEditGameSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
       await fetchData();
@@ -96,7 +106,11 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
   };
 
   return (
-    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg">
+    <Modal
+      show={showEditModal}
+      onHide={() => setShowEditModal(false)}
+      size="lg"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Add Game</Modal.Title>
       </Modal.Header>
@@ -161,10 +175,10 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShowAddModal(false)}>
+        <Button variant="secondary" onClick={() => setShowEditModal(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleAddGameSubmit}>
+        <Button variant="primary" onClick={handleEditGameSubmit}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -172,4 +186,4 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
   );
 };
 
-export default AddGame;
+export default EditGame;

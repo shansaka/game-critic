@@ -58,7 +58,7 @@ function App() {
                       </Nav.Link>
                       <Nav.Link
                         as={NavLink}
-                        to="/games"
+                        to="/admin_games"
                         activeclassname="active"
                       >
                         Games
@@ -104,7 +104,7 @@ function App() {
               {isAdmin() ? (
                 <>
                   <Route path="/" element={<Dashboard />} />
-                  <Route path="/games" element={<AdminGames />} />
+                  <Route path="/admin_games" element={<AdminGames />} />
                   <Route path="/reviews" element={<Reviews />} />
                 </>
               ) : (

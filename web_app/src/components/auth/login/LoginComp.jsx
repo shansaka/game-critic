@@ -4,10 +4,14 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../../../hook/useFetch";
 
 function LoginComp() {
-  const { data, isLoading, error, refetch, fetchData } = useFetch("games", {
-    search: "all",
-    pageSize: 12,
-  });
+  const { data, isLoading, error, refetch, fetchData } = useFetch(
+    "games",
+    "GET",
+    {
+      search: "all",
+      pageSize: 12,
+    }
+  );
 
   useEffect(() => {
     //fetchData();

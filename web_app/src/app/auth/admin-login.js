@@ -25,8 +25,8 @@ function AdminLogin({ setLoggedIn }) {
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `auth/login/admin`,
+    "POST",
     null,
-    false,
     { email: email.value, password: password.value }
   );
 

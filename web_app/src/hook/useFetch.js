@@ -5,14 +5,20 @@ import axios from "axios";
 
 const apiUrl = "https://game-critic-web-api.onrender.com/api";
 
-const useFetch = (endpoint, query, body = null, requiresAuth = false) => {
+const useFetch = (
+  endpoint,
+  method = "GET",
+  query = null,
+  body = null,
+  requiresAuth = false
+) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
 
   const options = {
-    method: body ? "POST" : "GET",
+    method: method,
     url: `${apiUrl}/${endpoint}`,
     params: {
       ...query,
