@@ -114,7 +114,7 @@ router.post("/login/admin", async (req, res) => {
     .update(password)
     .digest("hex");
   try {
-    const user = await Admin.findOne({ email, password: hashedPassword });
+    const admin = await Admin.findOne({ email, password: hashedPassword });
     if (!admin) {
       return res
         .status(200)
