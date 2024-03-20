@@ -84,6 +84,7 @@ router.post("/", requireToken, async (req, res) => {
     rating: req.body.rating,
     comments: req.body.comments,
     location: req.body.location,
+    status: "Pending",
   });
 
   try {
@@ -110,6 +111,7 @@ router.patch("/:id", requireToken, async (req, res) => {
     if (req.body.title) {
       review.title = req.body.title;
     }
+    review.status = "Pending";
     const updatedReview = await review.save();
     res.json(updatedReview);
   } catch (error) {
