@@ -33,6 +33,24 @@ router.get("/", requireToken, async (req, res) => {
   }
 });
 
+router.get("/coordinates", requireToken, requireAdmin, async (req, res) => {
+  try {
+    const reviews = await Review.find({ location: { $exists: true } });
+    const coordinates = reviews
+      .filter(
+        (review) =>
+          review.location.latitude !== 0 && review.location.longitude !== 0
+      )
+      .map((review) => ({
+        latitude: review.location.latitude,
+        longitude: review.location.longitude,
+      }));
+    res.json(coordinates);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Getting reviews by game ID
 router.get("/game/:id", async (req, res) => {
   try {
@@ -58,7 +76,7 @@ router.get("/game/:id", async (req, res) => {
 });
 
 // Getting a review by ID
-router.get("/:id", requireToken, async (req, res) => {
+router.get("/:id", requireToken, requireAdmin, async (req, res) => {
   try {
     const review = await Review.findById(req.params.id)
       .populate("game")
@@ -83,7 +101,7 @@ router.get("/user/:id", requireToken, async (req, res) => {
 });
 
 // Adding a review
-router.post("/", requireToken, async (req, res) => {
+router.post("/", requireToken, requireAdmin, async (req, res) => {
   const review = new Review({
     user: req.id,
     game: req.body.gameId,
@@ -124,7 +142,7 @@ router.post("/", requireToken, async (req, res) => {
 });
 
 // Updating a review
-router.patch("/:id", requireToken, async (req, res) => {
+router.patch("/:id", requireToken, requireAdmin, async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) {
@@ -166,7 +184,7 @@ router.patch("/:id/status", requireToken, requireAdmin, async (req, res) => {
 });
 
 // Deleting a review
-router.delete("/:id", requireToken, async (req, res) => {
+router.delete("/:id", requireToken, requireAdmin, async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) {
