@@ -52,9 +52,8 @@ const GameDetails = () => {
     fetchData: addReviewFetchData,
   } = useFetch(
     `reviews`,
-    "GET",
+    "POST",
     null,
-    false,
     {
       gameId: id,
       title: title.value,

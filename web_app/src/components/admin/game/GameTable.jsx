@@ -10,7 +10,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import useFetch from "../../hook/useFetch";
+import useFetch from "../../../hook/useFetch";
 import AddGame from "./AddGame";
 import EditGame from "./EditGame";
 import DeleteGame from "./DeleteGame";
@@ -69,6 +69,7 @@ const GameTable = () => {
   };
 
   const handleDeleteGame = (game) => {
+    setShowDeleteAlert(true);
     setSelectedGame(game);
   };
 
@@ -137,7 +138,12 @@ const GameTable = () => {
         setShowEditModal={setShowEditModal}
         gameData={selectedGame}
       />
-      <DeleteGame gameData={selectedGame} />
+      <DeleteGame
+        gameData={selectedGame}
+        setSelectedGame={setSelectedGame}
+        showDeleteAlert={showDeleteAlert}
+        setShowDeleteAlert={setShowDeleteAlert}
+      />
     </>
   );
 };

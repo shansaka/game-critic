@@ -53,7 +53,7 @@ router.get("/", async (req, res) => {
     const gamesWithRatings = await Promise.all(
       games.map(async (game) => {
         const reviews = await Review.aggregate([
-          { $match: { game: game._id } },
+          { $match: { game: game._id, status: "Approved" } },
           { $group: { _id: null, avgRating: { $avg: "$rating" } } },
         ]);
 
@@ -78,7 +78,7 @@ router.get("/:id", async (req, res) => {
     }
 
     const reviews = await Review.aggregate([
-      { $match: { game: game._id } },
+      { $match: { game: game._id, status: "Approved" } },
       { $group: { _id: null, avgRating: { $avg: "$rating" } } },
     ]);
 

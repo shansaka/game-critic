@@ -1,12 +1,11 @@
 import React from "react";
-
+import { ReviewTable } from "../../components";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 const Reviews = () => {
-  // Your code here
-
   return (
-    <div>
-      <h1>Reviews</h1>
-    </div>
+    <Container>
+      <ReviewTable />
+    </Container>
   );
 };
 

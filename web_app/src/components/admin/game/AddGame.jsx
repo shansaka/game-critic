@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Row,
@@ -8,13 +8,10 @@ import {
   Table,
   Form,
   Modal,
-  InputGroup,
 } from "react-bootstrap";
-import useFetch from "../../hook/useFetch";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import useFetch from "../../../hook/useFetch";
 
-const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
+const AddGame = ({ showAddModal, setShowAddModal }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });
   const [gameDescription, setGameDescription] = useState({
     value: "",
@@ -22,20 +19,6 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   });
   const [gameDate, setGameDate] = useState({ value: "", error: "" });
   const [gameImage, setGameImage] = useState({ value: "", error: "" });
-  const [gameId, setGameId] = useState({ value: "", error: "" });
-
-  useEffect(() => {
-    if (gameData) {
-      setGameName({ value: gameData.name, error: "" });
-      setGameDescription({ value: gameData.description, error: "" });
-
-      const date = new Date(gameData.dateReleased);
-      setGameDate({ value: date, error: "" });
-
-      //setGameImage({ value: gameData.mainImage, error: "" });
-      setGameId({ value: gameData._id, error: "" });
-    }
-  }, [gameData]);
 
   const formData = new FormData();
   formData.append("name", gameName.value);
@@ -44,8 +27,8 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   formData.append("mainImage", gameImage.value);
 
   const { data, isLoading, error, fetchData } = useFetch(
-    `games/${gameId.value}`,
-    "PATCH",
+    "games",
+    "POST",
     null,
     formData,
     true
@@ -56,6 +39,11 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
     let gameDescriptionError = "";
     let gameDateError = "";
     let gameImageError = "";
+
+    // Validate game image
+    if (!gameImage.value) {
+      gameImageError = "Game image cannot be empty";
+    }
 
     // Validate game name
     if (!gameName.value) {
@@ -88,13 +76,11 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
     return true;
   };
 
-  const handleEditGameSubmit = async (event) => {
+  const handleAddGameSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      const responseData = await fetchData();
-      if (responseData) {
-        window.location.reload();
-      }
+      await fetchData();
+      window.location.reload();
     }
   };
 
@@ -110,11 +96,7 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   };
 
   return (
-    <Modal
-      show={showEditModal}
-      onHide={() => setShowEditModal(false)}
-      size="lg"
-    >
+    <Modal show={showAddModal} onHide={() => setShowAddModal(false)} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>Add Game</Modal.Title>
       </Modal.Header>
@@ -163,15 +145,15 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
           </Form.Group>
           <Form.Group className="form-group">
             <Form.Label>Date Released</Form.Label>
-            <InputGroup>
-              <DatePicker
-                className="form-control"
-                width="100%"
-                selected={gameDate.value}
-                dateFormat="dd/MM/yyyy"
-                onChange={(date) => setGameDate({ value: date, error: "" })}
-              />
-            </InputGroup>
+
+            <Form.Control
+              type="date"
+              value={gameDate.value}
+              onChange={(e) =>
+                setGameDate({ value: e.target.value, error: "" })
+              }
+              isInvalid={!!gameDate.error}
+            />
             <Form.Control.Feedback type="invalid">
               {gameDate.error}
             </Form.Control.Feedback>
@@ -179,10 +161,10 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+        <Button variant="secondary" onClick={() => setShowAddModal(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleEditGameSubmit}>
+        <Button variant="primary" onClick={handleAddGameSubmit}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -190,4 +172,4 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   );
 };
 
-export default EditGame;
+export default AddGame;
