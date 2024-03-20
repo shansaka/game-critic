@@ -21,7 +21,6 @@ router.get("/", requireToken, async (req, res) => {
       .populate("user", "name");
 
     res.json({ data: reviews, totalPages });
-    res.json(reviews);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

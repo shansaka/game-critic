@@ -14,6 +14,7 @@ import useFetch from "../../../hook/useFetch";
 import AddGame from "./AddGame";
 import EditGame from "./EditGame";
 import DeleteGame from "./DeleteGame";
+import { formatDate } from "../../../utils/dateFormat";
 
 const GameTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -111,8 +112,8 @@ const GameTable = () => {
             <tr key={index}>
               <td>{game.name}</td>
               <td>{game.description}</td>
-              <td>{game.dateReleased}</td>
-              <td>{game.dateAdded}</td>
+              <td>{formatDate(game.dateReleased)}</td>
+              <td>{formatDate(game.dateAdded)}</td>
               <td>
                 <Button variant="primary" onClick={() => handleEditGame(game)}>
                   Edit

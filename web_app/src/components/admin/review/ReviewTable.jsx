@@ -12,6 +12,7 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import useFetch from "../../../hook/useFetch";
 import StatusChangeReview from "./StatusChangeReview";
+import { formatDate } from "../../../utils/dateFormat";
 
 const ReviewTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,7 +104,7 @@ const ReviewTable = () => {
               <td>{review.game.name}</td>
               <td>{review.user.name}</td>
               <td>{review.status}</td>
-              <td>{review.dateCreated}</td>
+              <td>{formatDate(review.dateCreated)}</td>
               <td>
                 <Button
                   variant="primary"

@@ -12,6 +12,7 @@ import {
 import { useNavigate, Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
 import { isLoggedIn, isAdmin } from "../../helpers/loginSession";
+import { formatDate } from "../../utils/dateFormat";
 
 const GameDetails = () => {
   const { id } = useParams();
@@ -117,12 +118,6 @@ const GameDetails = () => {
     }
   };
 
-  function formatDate(date) {
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    return new Date(date)
-      .toLocaleDateString(undefined, options)
-      .toLocaleUpperCase();
-  }
   useEffect(() => {
     fetchData();
     reviewFetchData();
