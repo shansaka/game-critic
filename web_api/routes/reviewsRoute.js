@@ -37,7 +37,7 @@ router.get("/game/:id", async (req, res) => {
 
     const reviews = await Review.find({
       game: req.params.id,
-      status: "approved",
+      status: "Approved",
     })
       .sort({ dateCreated: -1 })
       .skip((pageNo - 1) * pageSize)
