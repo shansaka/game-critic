@@ -60,19 +60,23 @@ function NewGames() {
                   />{" "}
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <div className="game-title flex-shrink-1">{game.name}</div>
-                    <div
-                      className="rating flex-shrink-0"
-                      style={{
-                        backgroundColor:
-                          game.avgRating > 4
-                            ? "#3BB273"
-                            : game.avgRating < 2.5
-                            ? "#F77474"
-                            : "#d4b253",
-                      }}
-                    >
-                      {game.avgRating}
-                    </div>
+                    {game.avgRating == 0 ? (
+                      <></>
+                    ) : (
+                      <div
+                        className="rating flex-shrink-0"
+                        style={{
+                          backgroundColor:
+                            game.avgRating > 4
+                              ? "#3BB273"
+                              : game.avgRating < 2.5
+                              ? "#F77474"
+                              : "#d4b253",
+                        }}
+                      >
+                        {game.avgRating}
+                      </div>
+                    )}
                   </Card.Body>
                 </Card>
               </Link>

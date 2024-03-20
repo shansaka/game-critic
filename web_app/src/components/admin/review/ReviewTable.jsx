@@ -106,7 +106,7 @@ const ReviewTable = () => {
               <th>Comments</th>
               <th>Game</th>
               <th>User</th>
-
+              <th>Location</th>
               <th>Status</th>
               <th>Date Added</th>
               <th></th>
@@ -120,6 +120,11 @@ const ReviewTable = () => {
                 <td>{review.comments}</td>
                 <td>{review.game.name}</td>
                 <td>{review.user.name}</td>
+                <td>{`${
+                  review.location.city ? review.location.city + ", " : ""
+                } ${
+                  review.location.country ? review.location.country : ""
+                }`}</td>
                 <td>{review.status}</td>
                 <td>{formatDate(review.dateCreated)}</td>
                 <td>

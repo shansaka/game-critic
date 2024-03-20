@@ -119,6 +119,17 @@
   line-height: 40px;
 }
 
+.rating_game_details {
+  background-color: green;
+  color: white;
+  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  margin-right: 10px;
+}
+
 .game-card {
   margin-bottom: 25px;
 }
@@ -143,7 +154,6 @@
 }
 
 .game-detail-title {
-  padding-left: 10px;
   font-weight: bold;
   font-size: x-large;
 }

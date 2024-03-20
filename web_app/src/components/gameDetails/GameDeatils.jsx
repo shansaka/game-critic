@@ -174,19 +174,24 @@ const GameDetails = () => {
             <Card className="game-info-card">
               <Card.Body>
                 <div className="d-flex align-items-center game-details-div">
-                  <div
-                    className="rating flex-shrink-0"
-                    style={{
-                      backgroundColor:
-                        data.avgRating > 4
-                          ? "#3BB273"
-                          : data.avgRating < 2.5
-                          ? "#F77474"
-                          : "#d4b253",
-                    }}
-                  >
-                    {data.avgRating}
-                  </div>
+                  {data.avgRating == 0 ? (
+                    <></>
+                  ) : (
+                    <div
+                      className="rating_game_details flex-shrink-0"
+                      style={{
+                        backgroundColor:
+                          data.avgRating > 4
+                            ? "#3BB273"
+                            : data.avgRating < 2.5
+                            ? "#F77474"
+                            : "#d4b253",
+                      }}
+                    >
+                      {data.avgRating}
+                    </div>
+                  )}
+
                   <div className="game-detail-title flex-shrink-1">
                     {data.name}
                   </div>
