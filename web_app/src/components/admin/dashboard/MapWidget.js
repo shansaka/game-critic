@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Map, Source, Layer, NavigationControl } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import useFetch from "../../../hook/useFetch";
 
 const MapWidget = () => {
   const { data, isLoading, fetchData } = useFetch(
@@ -19,14 +20,11 @@ const MapWidget = () => {
 
   const geojson = {
     type: "FeatureCollection",
-    features: data.map((review) => ({
+    features: data.map((location) => ({
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [review.location.lng, review.location.lat],
-      },
-      properties: {
-        id: review.id,
+        coordinates: [location.longitude, location.latitude],
       },
     })),
   };

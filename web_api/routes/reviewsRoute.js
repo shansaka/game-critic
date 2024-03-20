@@ -101,7 +101,7 @@ router.get("/user/:id", requireToken, async (req, res) => {
 });
 
 // Adding a review
-router.post("/", requireToken, requireAdmin, async (req, res) => {
+router.post("/", requireToken, async (req, res) => {
   const review = new Review({
     user: req.id,
     game: req.body.gameId,
