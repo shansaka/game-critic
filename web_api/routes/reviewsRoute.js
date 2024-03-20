@@ -1,3 +1,4 @@
+const axios = require("axios");
 const express = require("express");
 const Review = require("../models/review");
 const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
@@ -92,6 +93,27 @@ router.post("/", requireToken, async (req, res) => {
     location: req.body.location,
     status: "Pending",
   });
+
+  try {
+    if (
+      review.location &&
+      review.location.latitude &&
+      review.location.longitude
+    ) {
+      const response = await axios.get(
+        `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${review.location.longitude}&latitude=${review.location.latitude}&types=place&limit=1&access_token=${process.env.MAPBOX_TOKEN}`
+      );
+      const data = response.data;
+      if (data && data.features && data.features.length > 0) {
+        const country = data.features[0].properties.context.country.name;
+        const place = data.features[0].properties.context.place.name;
+        review.location.country = country;
+        review.location.city = place;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 
   try {
     const newReview = await review.save();

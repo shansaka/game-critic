@@ -41,12 +41,27 @@ const GameDetails = () => {
         state: { redirectUrl: `/game-details/${id}` },
       });
     }
-    setShowModal(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setShowModal(true);
+        },
+        (error) => {
+          console.error("Error Code = " + error.code + " - " + error.message);
+          setShowModal(true);
+        }
+      );
+    }
   };
 
   const [rating, setRating] = useState({ value: 5, error: "" });
   const [title, setTitle] = useState({ value: "", error: "" });
   const [comment, setComment] = useState({ value: "", error: "" });
+  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
 
   const requiresAuth = true;
   const {
@@ -64,10 +79,8 @@ const GameDetails = () => {
       comments: comment.value,
       rating: rating.value,
       location: {
-        city: "string",
-        country: "string",
-        latitude: 0,
-        longitude: 0,
+        latitude: location.latitude,
+        longitude: location.longitude,
       },
     },
     requiresAuth
