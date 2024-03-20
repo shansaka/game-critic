@@ -13,7 +13,7 @@ const createToken = (id) => {
 
 const createRefreshToken = (id) => {
   return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "3m",
+    expiresIn: "365d",
   });
 };
 
