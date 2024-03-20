@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useLocation, Link } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
+import game_no_image from "../../game_no_image.png";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -10,7 +11,7 @@ function Search() {
   const params = location.state;
   const searchTitle = params ? params.searchTitle : "All";
   const [currentPage, setCurrentPage] = useState(1);
-  const paramsWithPageNo = { ...params, pageNo: currentPage };
+  const paramsWithPageNo = { ...params, pageNo: currentPage, pageSize: 12 };
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `games`,
     "GET",
@@ -20,6 +21,17 @@ function Search() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (currentPage > 1) {
+      fetchData(true);
+    }
+  }, [currentPage]);
+
+  const loadMoreItem = () => {
+    if (currentPage >= totalPages) return;
+    setCurrentPage(currentPage + 1);
+  };
 
   return (
     <div className="">
@@ -46,6 +58,10 @@ function Search() {
                     variant="top"
                     src={game.mainImage}
                     className="game-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = game_no_image;
+                    }}
                   />{" "}
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <div className="game-title flex-shrink-1">{game.name}</div>
@@ -67,6 +83,12 @@ function Search() {
               </Link>
             </Col>
           ))}
+
+          {currentPage >= totalPages ? null : (
+            <Button onClick={loadMoreItem} variant="outline-secondary">
+              Load more games
+            </Button>
+          )}
         </Row>
       )}
     </div>

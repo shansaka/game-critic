@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
-import useFetch from "../../../hook/useFetch";
+import useFetch from "../../hook/useFetch";
+import game_no_image from "../../game_no_image.png";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -50,6 +51,10 @@ function AllGamesComp() {
                     variant="top"
                     src={game.mainImage}
                     className="game-image"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = game_no_image;
+                    }}
                   />{" "}
                   <Card.Body className="d-flex justify-content-between align-items-center">
                     <div className="game-title flex-shrink-1">{game.name}</div>

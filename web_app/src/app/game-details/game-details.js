@@ -8,12 +8,14 @@ import {
   Image,
   Modal,
   Form,
+  Alert,
 } from "react-bootstrap";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
 import { isLoggedIn, isAdmin } from "../../helpers/loginSession";
 import { formatDate } from "../../utils/dateFormat";
 import Swal from "sweetalert2";
+import game_no_image from "../../game_no_image.png";
 
 const GameDetails = () => {
   const { id } = useParams();
@@ -142,8 +144,6 @@ const GameDetails = () => {
     <Container>
       {isLoading ? (
         <div>Loading...</div>
-      ) : error ? (
-        <div>error</div>
       ) : (
         <Row>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -151,6 +151,10 @@ const GameDetails = () => {
               variant="top"
               src={data.mainImage}
               className="game-image-large"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = game_no_image;
+              }}
             />{" "}
           </Col>
           <Col xs={12} sm={12} md={6} lg={6}>
@@ -202,38 +206,44 @@ const GameDetails = () => {
           ) : null}
         </div>
 
-        {reviewData.map((review, index) => (
-          <Col key={index} xs={12} sm={12} md={6} lg={6}>
-            <Card className="game-review-card">
-              <Card.Body>
-                <div className="d-flex align-items-center game-review-div">
-                  <div
-                    className="rating flex-shrink-0"
-                    style={{
-                      backgroundColor:
-                        review.rating > 4
-                          ? "#3BB273"
-                          : review.rating < 2.5
-                          ? "#F77474"
-                          : "#d4b253",
-                    }}
-                  >
-                    {review.rating}
+        {reviewData.length === 0 && !reviewIsLoading ? (
+          <Alert variant="warning">
+            No reviews for this game, Be the first to add a review!
+          </Alert>
+        ) : (
+          reviewData.map((review, index) => (
+            <Col key={index} xs={12} sm={12} md={12} lg={12}>
+              <Card className="game-review-card">
+                <Card.Body>
+                  <div className="d-flex align-items-center game-review-div">
+                    <div
+                      className="rating flex-shrink-0"
+                      style={{
+                        backgroundColor:
+                          review.rating > 4
+                            ? "#3BB273"
+                            : review.rating < 2.5
+                            ? "#F77474"
+                            : "#d4b253",
+                      }}
+                    >
+                      {review.rating}
+                    </div>
+                    <div className="game-review-title flex-shrink-1">
+                      {review.title}
+                    </div>
+                    <div className="game-review-date flex-shrink-1">
+                      {formatDate(review.dateCreated)}
+                    </div>
                   </div>
-                  <div className="game-review-title flex-shrink-1">
-                    {review.title}
-                  </div>
-                  <div className="game-review-date flex-shrink-1">
-                    {formatDate(review.dateCreated)}
-                  </div>
-                </div>
-                <hr />
-                <div>{review.comments}</div>
-                <div className="game-review-name">{review.user.name}</div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+                  <hr />
+                  <div>{review.comments}</div>
+                  <div className="game-review-name">{review.user.name}</div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        )}
       </Row>
       {reviewIsLoading ? (
         <div>Loading...</div>

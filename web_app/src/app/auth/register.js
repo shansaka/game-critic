@@ -153,8 +153,6 @@ function Register({ setLoggedIn }) {
                     >
                       Registerg in...
                     </Button>
-                  ) : error ? (
-                    <div>Something Went Wrong</div>
                   ) : (
                     <Button variant="primary" className="button" type="submit">
                       Register

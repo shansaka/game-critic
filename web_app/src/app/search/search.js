@@ -1,15 +1,15 @@
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { Search } from "../../components";
+import { SearchComp } from "../../components";
 
-function Home() {
+function Search() {
   return (
     <section>
       <Container>
-        <Search />
+        <SearchComp />
       </Container>
     </section>
   );
 }
 
-export default Home;
+export default Search;

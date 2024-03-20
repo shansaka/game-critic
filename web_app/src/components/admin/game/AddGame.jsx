@@ -177,9 +177,19 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
         <Button variant="secondary" onClick={() => setShowAddModal(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleAddGameSubmit}>
-          Save Changes
-        </Button>
+        {isLoading ? (
+          <Button
+            variant="primary"
+            onClick={handleAddGameSubmit}
+            disabled={true}
+          >
+            Saving...
+          </Button>
+        ) : (
+          <Button variant="primary" onClick={handleAddGameSubmit}>
+            Save Changes
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

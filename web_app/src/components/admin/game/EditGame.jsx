@@ -193,9 +193,19 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
         <Button variant="secondary" onClick={() => setShowEditModal(false)}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleEditGameSubmit}>
-          Save Changes
-        </Button>
+        {isLoading ? (
+          <Button
+            variant="primary"
+            onClick={handleEditGameSubmit}
+            disabled={true}
+          >
+            Saving...
+          </Button>
+        ) : (
+          <Button variant="primary" onClick={handleEditGameSubmit}>
+            Save Changes
+          </Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

@@ -1,9 +1,10 @@
 // useFetch.js
 import { useState, useCallback } from "react";
-import { getSessionItem, updateToken } from "../helpers/loginSession";
+import { getSessionItem, updateToken, logOut } from "../helpers/loginSession";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-const apiUrl = "https://game-critic-web-api.onrender.com/api";
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const useFetch = (
   endpoint,
@@ -14,7 +15,7 @@ const useFetch = (
 ) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  //const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
 
   const options = {
@@ -87,14 +88,32 @@ const useFetch = (
             const response = await axios.request(options);
             return handleResponseData(response, shouldAppend);
           } catch (refreshError) {
-            setError(refreshError);
+            //setError(refreshError);
             console.log("refresh error", refreshError);
-            alert("Something went wrong, please contact support.");
+            if (refreshError.response && refreshError.response.status === 403) {
+              console.log("Forbidden");
+              logOut();
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Your session has expired. Please log in again!",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong, please contact support.",
+              });
+            }
           }
         } else {
-          setError(error);
+          //setError(error);
           console.log(error);
-          alert("Something went wrong, please contact support.");
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong, please contact support.",
+          });
         }
       } finally {
         setIsLoading(false);
@@ -108,7 +127,7 @@ const useFetch = (
     fetchData();
   };
 
-  return { data, isLoading, error, refetch, totalPages, fetchData };
+  return { data, isLoading, refetch, totalPages, fetchData };
 };
 
 export default useFetch;

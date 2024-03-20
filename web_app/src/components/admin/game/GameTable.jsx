@@ -96,38 +96,49 @@ const GameTable = () => {
         </Col>
       </Row>
       <br />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Date Released</th>
-            <th>Date Added</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((game, index) => (
-            <tr key={index}>
-              <td>{game.name}</td>
-              <td>{game.description}</td>
-              <td>{formatDate(game.dateReleased)}</td>
-              <td>{formatDate(game.dateAdded)}</td>
-              <td>
-                <Button variant="primary" onClick={() => handleEditGame(game)}>
-                  Edit
-                </Button>
-              </td>
-              <td>
-                <Button variant="danger" onClick={() => handleDeleteGame(game)}>
-                  Delete
-                </Button>
-              </td>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Date Released</th>
+              <th>Date Added</th>
+              <th></th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {data.map((game, index) => (
+              <tr key={index}>
+                <td>{game.name}</td>
+                <td>{game.description}</td>
+                <td>{formatDate(game.dateReleased)}</td>
+                <td>{formatDate(game.dateAdded)}</td>
+                <td>
+                  <Button
+                    variant="primary"
+                    onClick={() => handleEditGame(game)}
+                  >
+                    Edit
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDeleteGame(game)}
+                  >
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+
       {currentPage >= totalPages ? null : (
         <Button onClick={loadMoreItem}>Load more games</Button>
       )}

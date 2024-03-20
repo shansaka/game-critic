@@ -23,12 +23,10 @@ function AdminLogin({ setLoggedIn }) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
   const [errorMsg, setErrorMsg] = useState("");
-  const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
-    `auth/login/admin`,
-    "POST",
-    null,
-    { email: email.value, password: password.value }
-  );
+  const { isLoading, fetchData } = useFetch(`auth/login/admin`, "POST", null, {
+    email: email.value,
+    password: password.value,
+  });
 
   const validateForm = () => {
     let emailError = "";
@@ -131,8 +129,6 @@ function AdminLogin({ setLoggedIn }) {
                     >
                       Loging in...
                     </Button>
-                  ) : error ? (
-                    <div>Something Went Wrong</div>
                   ) : (
                     <Button variant="primary" className="button" type="submit">
                       Login

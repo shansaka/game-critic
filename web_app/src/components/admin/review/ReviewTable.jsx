@@ -96,49 +96,54 @@ const ReviewTable = () => {
         </Col>
       </Row>
       <br />
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Comments</th>
-            <th>Game</th>
-            <th>User</th>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Comments</th>
+              <th>Game</th>
+              <th>User</th>
 
-            <th>Status</th>
-            <th>Date Added</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((review, index) => (
-            <tr key={index}>
-              <td>{review.title}</td>
-              <td>{review.comments}</td>
-              <td>{review.game.name}</td>
-              <td>{review.user.name}</td>
-              <td>{review.status}</td>
-              <td>{formatDate(review.dateCreated)}</td>
-              <td>
-                <Button
-                  variant="primary"
-                  onClick={() => handleStatusChangeReview(review, "Approved")}
-                >
-                  Approve
-                </Button>
-              </td>
-              <td>
-                <Button
-                  variant="danger"
-                  onClick={() => handleStatusChangeReview(review, "Rejected")}
-                >
-                  Reject
-                </Button>
-              </td>
+              <th>Status</th>
+              <th>Date Added</th>
+              <th></th>
+              <th></th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {data.map((review, index) => (
+              <tr key={index}>
+                <td>{review.title}</td>
+                <td>{review.comments}</td>
+                <td>{review.game.name}</td>
+                <td>{review.user.name}</td>
+                <td>{review.status}</td>
+                <td>{formatDate(review.dateCreated)}</td>
+                <td>
+                  <Button
+                    variant="primary"
+                    onClick={() => handleStatusChangeReview(review, "Approved")}
+                  >
+                    Approve
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleStatusChangeReview(review, "Rejected")}
+                  >
+                    Reject
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+
       {currentPage >= totalPages ? null : (
         <Button onClick={loadMoreItem}>Load more reviews</Button>
       )}

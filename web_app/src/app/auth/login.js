@@ -131,8 +131,6 @@ function Login({ setLoggedIn }) {
                     >
                       Loging in...
                     </Button>
-                  ) : error ? (
-                    <div>Something Went Wrong</div>
                   ) : (
                     <Button variant="primary" className="button" type="submit">
                       Login
