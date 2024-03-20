@@ -20,12 +20,13 @@ const ReviewTable = () => {
   const [selectedReview, setSelectedReview] = useState(null);
   const [showStatusChangeAlert, setShowStatusChangeAlert] = useState(false);
   const [reviewStatus, setReviewStatus] = useState(null);
+  const [searchStatus, setSearchStatus] = useState(null);
 
   const paramsWithPageNo = {
     search: "all",
     pageSize: 5,
     pageNo: currentPage,
-    searchTerm: searchTerm,
+    status: searchStatus,
   };
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     "reviews",
@@ -48,21 +49,25 @@ const ReviewTable = () => {
   useEffect(() => {
     setCurrentPage(1);
     fetchData();
-  }, [searchTerm]);
+  }, [searchStatus]);
 
   const loadMoreItem = () => {
     if (currentPage >= totalPages) return;
     setCurrentPage(currentPage + 1);
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handleStatusChange = (event) => {
+    setSearchStatus(event.target.value);
   };
 
   const handleStatusChangeReview = (review, status) => {
     setShowStatusChangeAlert(true);
     setReviewStatus(status);
     setSelectedReview(review);
+  };
+
+  const clearFilter = () => {
+    setSearchStatus("");
   };
 
   return (
@@ -72,13 +77,21 @@ const ReviewTable = () => {
           <Row>
             <Col>
               <Form.Control
-                type="text"
-                placeholder="Search by review name"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
+                as="select"
+                value={searchStatus}
+                onChange={handleStatusChange}
+              >
+                <option value="">Select the status you want to filter</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Pending">Pending</option>
+              </Form.Control>
             </Col>
-            <Col xs="auto"></Col>
+            <Col xs="auto">
+              <Button variant="primary" onClick={clearFilter}>
+                Clear Filter
+              </Button>
+            </Col>
           </Row>
         </Col>
       </Row>
