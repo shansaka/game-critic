@@ -6,6 +6,7 @@ import LoginComp from "./auth/login/LoginComp";
 
 import GameTable from "./admin/game/GameTable";
 import ReviewTable from "./admin/review/ReviewTable";
+import MapView from "./admin/dashboard/MapView";
 
 export {
   AllGamesComp,
@@ -15,4 +16,5 @@ export {
   Welcome,
   GameTable,
   ReviewTable,
+  MapView,
 };
