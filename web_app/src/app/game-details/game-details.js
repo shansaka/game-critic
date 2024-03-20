@@ -13,6 +13,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import useFetch from "../../hook/useFetch";
 import { isLoggedIn, isAdmin } from "../../helpers/loginSession";
 import { formatDate } from "../../utils/dateFormat";
+import Swal from "sweetalert2";
 
 const GameDetails = () => {
   const { id } = useParams();
@@ -110,7 +111,15 @@ const GameDetails = () => {
     if (isValid) {
       const addReviewResponse = await addReviewFetchData();
       if (addReviewData) {
-        window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Your review has been submitted, thank you!",
+          text: "Your review will be visible after moderation",
+          showConfirmButton: true,
+          didClose: () => {
+            window.location.reload();
+          },
+        });
       } else {
         console.log("error");
         alert("error");
@@ -269,6 +278,7 @@ const GameDetails = () => {
               <Form.Control
                 type="text"
                 placeholder="Enter title"
+                maxLength={50}
                 value={title.value}
                 onChange={(e) => setTitle({ value: e.target.value, error: "" })}
                 isInvalid={!!title.error}
@@ -282,7 +292,8 @@ const GameDetails = () => {
               <Form.Label>Comment</Form.Label>
               <Form.Control
                 as="textarea"
-                rows={3}
+                rows={5}
+                maxLength={500}
                 placeholder="Enter comment"
                 value={comment.value}
                 onChange={(e) =>

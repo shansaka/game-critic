@@ -103,8 +103,8 @@ const GameTable = () => {
             <th>Description</th>
             <th>Date Released</th>
             <th>Date Added</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>

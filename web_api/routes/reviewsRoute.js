@@ -9,11 +9,17 @@ router.get("/", requireToken, async (req, res) => {
   try {
     const pageSize = parseInt(req.query.pageSize) || 10;
     const pageNo = parseInt(req.query.pageNo) || 1;
+    const status = req.query.status || null;
+
+    let filter = {};
+    if (status) {
+      filter.status = status;
+    }
 
     const totalReviews = await Review.countDocuments();
     const totalPages = Math.ceil(totalReviews / pageSize);
 
-    const reviews = await Review.find()
+    const reviews = await Review.find(filter)
       .sort({ dateCreated: -1 })
       .skip((pageNo - 1) * pageSize)
       .limit(pageSize)

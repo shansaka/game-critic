@@ -10,6 +10,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import useFetch from "../../../hook/useFetch";
+import Swal from "sweetalert2";
 
 const AddGame = ({ showAddModal, setShowAddModal }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });
@@ -79,8 +80,18 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
   const handleAddGameSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      await fetchData();
-      window.location.reload();
+      const response = await fetchData();
+      if (response) {
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved!",
+          showConfirmButton: false,
+          timer: 1500,
+          didClose: () => {
+            window.location.reload();
+          },
+        });
+      }
     }
   };
 
@@ -118,6 +129,7 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
             <Form.Control
               type="text"
               placeholder="Enter game name"
+              maxLength={50}
               value={gameName.value}
               onChange={(e) =>
                 setGameName({ value: e.target.value, error: "" })
@@ -134,6 +146,7 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
               as="textarea"
               placeholder="Enter game description"
               value={gameDescription.value}
+              maxLength={500}
               onChange={(e) =>
                 setGameDescription({ value: e.target.value, error: "" })
               }

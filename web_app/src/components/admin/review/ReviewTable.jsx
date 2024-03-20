@@ -93,7 +93,8 @@ const ReviewTable = () => {
 
             <th>Status</th>
             <th>Date Added</th>
-            <th>Actions</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -112,6 +113,8 @@ const ReviewTable = () => {
                 >
                   Approve
                 </Button>
+              </td>
+              <td>
                 <Button
                   variant="danger"
                   onClick={() => handleStatusChangeReview(review, "Rejected")}

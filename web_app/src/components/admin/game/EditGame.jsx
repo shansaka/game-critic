@@ -13,6 +13,7 @@ import {
 import useFetch from "../../../hook/useFetch";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 
 const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });
@@ -91,9 +92,17 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const handleEditGameSubmit = async (event) => {
     event.preventDefault();
     if (validateForm()) {
-      const responseData = await fetchData();
-      if (responseData) {
-        window.location.reload();
+      const response = await fetchData();
+      if (response) {
+        Swal.fire({
+          icon: "success",
+          title: "Your work has been saved!",
+          showConfirmButton: false,
+          timer: 1500,
+          didClose: () => {
+            window.location.reload();
+          },
+        });
       }
     }
   };
@@ -136,6 +145,7 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
             <Form.Control
               type="text"
               placeholder="Enter game name"
+              maxLength={50}
               value={gameName.value}
               onChange={(e) =>
                 setGameName({ value: e.target.value, error: "" })
@@ -151,6 +161,7 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
             <Form.Control
               as="textarea"
               placeholder="Enter game description"
+              maxLength={500}
               value={gameDescription.value}
               onChange={(e) =>
                 setGameDescription({ value: e.target.value, error: "" })
