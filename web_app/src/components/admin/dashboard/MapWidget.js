@@ -4,7 +4,7 @@ import { Map, Source, Layer, NavigationControl } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
-const MapView = ({ reviews }) => {
+const MapWidget = ({ reviews }) => {
   const geojson = {
     type: "FeatureCollection",
     features: reviews.map((review) => ({
@@ -94,4 +94,4 @@ const MapView = ({ reviews }) => {
   );
 };
 
-export default MapView;
+export default MapWidget;

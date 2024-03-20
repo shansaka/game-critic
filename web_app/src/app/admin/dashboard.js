@@ -1,5 +1,5 @@
 import React from "react";
-import { MapView } from "../../components";
+import { MapWidget } from "../../components";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 
 const Dashboard = () => {
@@ -17,7 +17,7 @@ const Dashboard = () => {
   });
   return (
     <Container>
-      <MapView reviews={reviews} />
+      <MapWidget reviews={reviews} />
     </Container>
   );
 };
