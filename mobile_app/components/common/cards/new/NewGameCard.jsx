@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-} from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { images } from "../../../../constants";
 import { checkImageURL } from "../../../../utils";
 import styles from "./newgamecard.style";
@@ -23,7 +17,7 @@ const NewGameCard = ({ item, selected, handleCardPress }) => {
               ? { uri: item.mainImage }
               : images.game_no_image
           }
-          resizeMode="fill"
+          resizeMode="cover"
           style={styles.logoImage}
         />
       </View>

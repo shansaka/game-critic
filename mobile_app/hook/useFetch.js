@@ -1,7 +1,7 @@
 // useFetch.js
-import { useState, useCallback } from "react";
-import { getSessionItem, updateToken } from "../helpers/loginSession";
 import axios from "axios";
+import { useCallback, useState } from "react";
+import { getSessionItem, updateToken } from "../helpers/loginSession";
 
 const apiKey = "22fb4694cdmshbc9a99eb5caf014p1cf019jsn19ca66318a62";
 const apiUrl = "https://game-critic-web-api.onrender.com/api";

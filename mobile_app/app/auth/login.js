@@ -1,27 +1,26 @@
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
+  ActivityIndicator,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Stack, useRouter, useLocalSearchParams } from "expo-router";
 
 import {
-  ReviewFooter,
-  ScreenHeaderBtn,
-  Logo,
-  Header,
-  TextInput,
   Button,
+  Header,
+  Logo,
+  ScreenHeaderBtn,
+  TextInput,
 } from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
-import useFetch from "../../hook/useFetch";
+import { COLORS, SIZES, icons } from "../../constants";
 import inputValidator from "../../helpers/inputValidator";
-import { isLoggedIn, logIn } from "../../helpers/loginSession";
+import { logIn } from "../../helpers/loginSession";
+import useFetch from "../../hook/useFetch";
 
 export const Login = () => {
   const router = useRouter();

@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity, Image, Linking } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./footer.style";
-import { icons } from "../../../constants";
 
 const Footer = ({ handlePress }) => {
   const router = useRouter();

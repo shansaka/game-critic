@@ -1,17 +1,11 @@
-import { useState, useCallback } from "react";
-import { router, useRouter, useFocusEffect } from "expo-router";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  FlatList,
-} from "react-native";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
-import styles from "./allgames.style";
-import { COLORS, SIZES } from "../../../constants";
-import AllGameCard from "../../common/cards/all/AllGameCard";
+import { COLORS } from "../../../constants";
 import useFetch from "../../../hook/useFetch";
+import AllGameCard from "../../common/cards/all/AllGameCard";
+import styles from "./allgames.style";
 
 const AllGames = () => {
   const router = useRouter();

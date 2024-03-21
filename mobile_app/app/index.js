@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
-import { View, Text, ScrollView, SafeAreaView } from "react-native";
-import { Stack, useRouter, useFocusEffect } from "expo-router";
+import { Stack, useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
+import { SafeAreaView, ScrollView, View } from "react-native";
 
-import { COLORS, icons, images, SIZES, FONTS } from "../constants";
 import { AllGames, NewGames, ScreenHeaderBtn, Welcome } from "../components";
+import { COLORS, SIZES, images } from "../constants";
 import { isLoggedIn } from "../helpers/loginSession";
 
 const Home = () => {

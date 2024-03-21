@@ -1,16 +1,10 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { checkImageURL } from "../../../utils";
+import { Image, Text, View } from "react-native";
+import { images } from "../../../constants";
+import { checkImageURL, formatDate } from "../../../utils";
 import styles from "./game.style";
-import { icons, images } from "../../../constants";
 
 const Game = ({ data }) => {
-  const options = { year: "numeric", month: "short", day: "numeric" };
-  const formattedDate = new Date(data.dateReleased).toLocaleDateString(
-    undefined,
-    options
-  );
-
   return (
     <View style={styles.container}>
       <View style={styles.logoBox}>
@@ -33,7 +27,9 @@ const Game = ({ data }) => {
 
       <View style={styles.infoContainer}>
         <Text style={styles.gameReleasedOnText}>Released On: </Text>
-        <Text style={styles.gameReleasedOn}>{formattedDate.toUpperCase()}</Text>
+        <Text style={styles.gameReleasedOn}>
+          {formatDate(data.dateReleased)}
+        </Text>
       </View>
     </View>
   );

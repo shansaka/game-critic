@@ -1,29 +1,16 @@
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  View,
+  ActivityIndicator,
   SafeAreaView,
   ScrollView,
-  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import {
-  Stack,
-  useRouter,
-  useLocalSearchParams,
-  useFocusEffect,
-} from "expo-router";
 
-import {
-  ReviewFooter,
-  ScreenHeaderBtn,
-  Logo,
-  Header,
-  TextInput,
-  Button,
-} from "../../components";
-import { COLORS, icons, SIZES } from "../../constants";
+import { Button, Header, Logo, ScreenHeaderBtn } from "../../components";
+import { COLORS, SIZES, icons } from "../../constants";
 import { logOut } from "../../helpers/loginSession";
 
 export const Login = () => {

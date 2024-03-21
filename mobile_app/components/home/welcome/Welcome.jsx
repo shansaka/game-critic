@@ -1,16 +1,9 @@
-import { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  FlatList,
-} from "react-native";
-import { router, useRouter, useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./welcome.style";
 
-import { icons, SIZES } from "../../../constants";
+import { icons } from "../../../constants";
 import { getSessionItem, isLoggedIn } from "../../../helpers/loginSession";
 
 const Welcome = ({ searchTerm, setSearchTerm, handleClick }) => {

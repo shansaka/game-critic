@@ -1,18 +1,12 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-} from "react-native";
-import { useCallback, useState } from "react";
-import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
-import styles from "./footer.style";
-import { icons, COLORS } from "../../../constants";
-import useFetch from "../../../hook/useFetch";
-import inputValidator from "../../../helpers/inputValidator";
-import AwesomeAlert from "react-native-awesome-alerts";
 import * as Location from "expo-location";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import AwesomeAlert from "react-native-awesome-alerts";
+import { COLORS } from "../../../constants";
+import inputValidator from "../../../helpers/inputValidator";
+import useFetch from "../../../hook/useFetch";
+import styles from "./footer.style";
 
 const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
   const router = useRouter();

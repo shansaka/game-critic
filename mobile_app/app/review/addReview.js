@@ -1,24 +1,15 @@
-import React from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  ScrollView,
-  ActivityIndicator,
-  RefreshControl,
-} from "react-native";
-import { Stack, useRouter, useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import React, { useRef, useState } from "react";
+import { SafeAreaView, ScrollView, View } from "react-native";
 
+import { Rating } from "react-native-ratings";
 import {
   Game,
   ReviewFooter,
   ScreenHeaderBtn,
   TextInput,
 } from "../../components";
-import { COLORS, icons, SIZES, images } from "../../constants";
-import useFetch from "../../hook/useFetch";
-import { Rating } from "react-native-ratings";
+import { COLORS, SIZES, icons } from "../../constants";
 
 export const AddReview = () => {
   const router = useRouter();
@@ -79,8 +70,6 @@ export const AddReview = () => {
                   scrollViewRef.current.scrollToEnd({ animated: true });
                 }, 300);
               }}
-              // textContentType="title"
-              // keyboardType="title"
             />
 
             <TextInput
@@ -100,8 +89,6 @@ export const AddReview = () => {
                   scrollViewRef.current.scrollToEnd({ animated: true });
                 }, 300);
               }}
-              // textContentType="title"
-              // keyboardType="title"
             />
           </View>
         </ScrollView>

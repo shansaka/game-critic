@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    backgroundColor: item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
+    backgroundColor:
+      item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
     borderRadius: 10,
     width: 40,
     height: 40,

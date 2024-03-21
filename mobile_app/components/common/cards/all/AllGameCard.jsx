@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { useState } from "react";
-import { checkImageURL } from "../../../../utils";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { images } from "../../../../constants";
+import { checkImageURL } from "../../../../utils";
 import styles from "./allgamecard.style";
 
 const AllGameCard = ({ item, handleNavigate }) => {
@@ -16,7 +15,7 @@ const AllGameCard = ({ item, handleNavigate }) => {
                   ? { uri: item.mainImage }
                   : images.game_no_image
               }
-              resizeMode="fill"
+              resizeMode="cover"
               style={styles.logImage}
             />
           </TouchableOpacity>
