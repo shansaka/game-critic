@@ -121,9 +121,13 @@ const ReviewTable = () => {
                 <td>{review.game.name}</td>
                 <td>{review.user.name}</td>
                 <td>{`${
-                  review.location.city ? review.location.city + ", " : ""
+                  review.location != null && review.location.city
+                    ? review.location.city + ", "
+                    : ""
                 } ${
-                  review.location.country ? review.location.country : ""
+                  review.location != null && review.location.country
+                    ? review.location.country
+                    : ""
                 }`}</td>
                 <td>{review.status}</td>
                 <td>{formatDate(review.dateCreated)}</td>

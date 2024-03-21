@@ -73,6 +73,7 @@ export const AddReview = () => {
               errorText={title.error}
               autoCapitalize="none"
               autoCompleteType="title"
+              maxLength={50}
               onFocus={() => {
                 setTimeout(() => {
                   scrollViewRef.current.scrollToEnd({ animated: true });
@@ -89,6 +90,7 @@ export const AddReview = () => {
               onChangeText={(text) => setComments({ value: text, error: "" })}
               error={!!comments.error}
               errorText={comments.error}
+              maxLength={500}
               multiline={true}
               numberOfLines={4}
               autoCapitalize="none"

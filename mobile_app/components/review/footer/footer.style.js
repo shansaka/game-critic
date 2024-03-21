@@ -28,6 +28,13 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontFamily: FONT.bold,
   },
+  alertButton: {
+    //width: "100%",
+    backgroundColor: COLORS.green,
+    textAlign: "center",
+    padding: 100,
+    //height: 50,
+  },
 });
 
 export default styles;

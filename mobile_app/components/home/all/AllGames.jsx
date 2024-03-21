@@ -14,7 +14,6 @@ import AllGameCard from "../../common/cards/all/AllGameCard";
 import useFetch from "../../../hook/useFetch";
 
 const AllGames = () => {
-  const [activeJobType, setActiveJobType] = useState("Full-time");
   const router = useRouter();
   const { data, isLoading, error, fetchData } = useFetch("games");
 

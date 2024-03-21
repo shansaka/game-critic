@@ -1,16 +1,25 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import { useCallback, useState } from "react";
 import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 import styles from "./footer.style";
 import { icons, COLORS } from "../../../constants";
 import useFetch from "../../../hook/useFetch";
 import inputValidator from "../../../helpers/inputValidator";
+import AwesomeAlert from "react-native-awesome-alerts";
 import * as Location from "expo-location";
 
 const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
   const router = useRouter();
   const params = useLocalSearchParams();
-  const [locationData, setLocationData] = useState(false);
+  const [locationData, setLocationData] = useState(null);
+
+  const [showAlert, setShowAlert] = useState(false);
 
   const requiresAuth = true;
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
@@ -35,16 +44,10 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
           //alert("Permission to access location was denied");
           return;
         }
-
         let location = await Location.getCurrentPositionAsync({});
-        let reverseGeocode = await Location.reverseGeocodeAsync(
-          location.coords
-        );
-        let city = reverseGeocode[0].city;
-        let country = reverseGeocode[0].country;
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
-        setLocationData({ city, country, latitude, longitude });
+        setLocationData({ latitude, longitude });
       };
 
       fetchLocation();
@@ -64,7 +67,17 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
     const responseData = await fetchData();
 
     if (responseData) {
-      router.replace(`/gameDetails/${gameId}`);
+      setShowAlert(true);
+      // Alert.alert(
+      //   "Success",
+      //   "Your review has been submitted, thank you! Your review will be visible after moderation",
+      //   [
+      //     {
+      //       text: "OK",
+      //       onPress: () => router.replace(`/gameDetails/${gameId}`),
+      //     },
+      //   ]
+      // );
     }
   };
 
@@ -79,6 +92,28 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
           <Text style={styles.applyBtnText}>Submit</Text>
         </TouchableOpacity>
       )}
+
+      <AwesomeAlert
+        style={{ width: "100%", height: "100%", position: "absolute" }}
+        show={showAlert}
+        showProgress={false}
+        title="Your review has been submitted, thank you!"
+        message="Your review will be visible after moderation"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        //showCancelButton={true}
+        showConfirmButton={true}
+        //cancelText="No, cancel"
+        confirmText="Okay, Got it!"
+        confirmButtonColor="#DD6B55"
+        confirmButtonStyle={styles.alertButton}
+        onConfirmPressed={() => {
+          router.replace(`/gameDetails/${gameId}`);
+        }}
+        onDismiss={() => {
+          router.replace(`/gameDetails/${gameId}`);
+        }}
+      />
     </View>
   );
 };
