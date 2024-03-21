@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
   Button,
+  Card,
+  Col,
+  Container,
+  Form,
   Image,
+  Row,
 } from "react-bootstrap";
-import { useNavigate, useLocation } from "react-router-dom";
-import "./auth.css";
-import logo from "../../logo_dark.png";
-import useFetch from "../../hook/useFetch";
+import { useLocation, useNavigate } from "react-router-dom";
 import { logIn } from "../../helpers/loginSession";
+import useFetch from "../../hook/useFetch";
+import logo from "../../logo_dark.png";
+import "./auth.css";
 
 function Register({ setLoggedIn }) {
   const navigate = useNavigate();

@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Container,
-  Row,
-  Col,
-  Card,
+  Alert,
   Button,
+  Card,
+  Col,
+  Container,
+  Form,
   Image,
   Modal,
-  Form,
-  Alert,
+  Row,
 } from "react-bootstrap";
-import { useNavigate, Link, useParams } from "react-router-dom";
-import useFetch from "../../hook/useFetch";
-import { isLoggedIn, isAdmin } from "../../helpers/loginSession";
-import { formatDate } from "../../utils/dateFormat";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import game_no_image from "../../game_no_image.png";
+import { isAdmin, isLoggedIn } from "../../helpers/loginSession";
+import useFetch from "../../hook/useFetch";
+import { formatDate } from "../../utils/dateFormat";
 
 const GameDetails = () => {
   const { id } = useParams();

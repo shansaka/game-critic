@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
-import useFetch from "../../hook/useFetch";
+import React, { useEffect } from "react";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import game_no_image from "../../game_no_image.png";
+import useFetch from "../../hook/useFetch";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 

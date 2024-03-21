@@ -1,29 +1,29 @@
-import AllGamesComp from "./home/AllGames";
-import Welcome from "./home/Welcome";
-import NewGames from "./home/NewGames";
-import SearchComp from "./search/Search";
+import AdminLoginComp from "./auth/AdminLogin";
 import LoginComp from "./auth/Login";
 import LogoutComp from "./auth/Logout";
 import RegisterComp from "./auth/Register";
-import AdminLoginComp from "./auth/AdminLogin";
+import AllGamesComp from "./home/AllGames";
+import NewGames from "./home/NewGames";
+import Welcome from "./home/Welcome";
+import SearchComp from "./search/Search";
 
 import GameDetailsComp from "./gameDetails/GameDeatils";
 
+import MapWidget from "./admin/dashboard/MapWidget";
 import GameTable from "./admin/game/GameTable";
 import ReviewTable from "./admin/review/ReviewTable";
-import MapWidget from "./admin/dashboard/MapWidget";
 
 export {
+  AdminLoginComp,
   AllGamesComp,
-  NewGames,
-  SearchComp,
+  GameDetailsComp,
+  GameTable,
   LoginComp,
   LogoutComp,
-  RegisterComp,
-  AdminLoginComp,
-  GameDetailsComp,
-  Welcome,
-  GameTable,
-  ReviewTable,
   MapWidget,
+  NewGames,
+  RegisterComp,
+  ReviewTable,
+  SearchComp,
+  Welcome,
 };

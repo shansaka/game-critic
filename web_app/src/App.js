@@ -1,24 +1,24 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Home from "./app/home";
-import Search from "./app/search/search";
 import Login from "./app/auth/login";
 import Logout from "./app/auth/logout";
 import Register from "./app/auth/register";
 import GameDetails from "./app/game-details/game-details";
+import Home from "./app/home";
+import Search from "./app/search/search";
 
-import AdminLogin from "./app/auth/admin-login";
 import Dashboard from "./app/admin/dashboard";
 import AdminGames from "./app/admin/games";
 import Reviews from "./app/admin/reviews";
+import AdminLogin from "./app/auth/admin-login";
 
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Nav, Navbar } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
-import { Navbar, Nav } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
+import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import { isAdmin, isLoggedIn } from "./helpers/loginSession";
 import logo from "./logo.png";
-import { isLoggedIn, isAdmin } from "./helpers/loginSession";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);

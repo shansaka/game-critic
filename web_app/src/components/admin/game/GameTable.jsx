@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Table,
-  Form,
-  Modal,
-} from "react-bootstrap";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Form, Row, Table } from "react-bootstrap";
 import useFetch from "../../../hook/useFetch";
-import AddGame from "./AddGame";
-import EditGame from "./EditGame";
-import DeleteGame from "./DeleteGame";
 import { formatDate } from "../../../utils/dateFormat";
+import AddGame from "./AddGame";
+import DeleteGame from "./DeleteGame";
+import EditGame from "./EditGame";
 
 const GameTable = () => {
   const [currentPage, setCurrentPage] = useState(1);

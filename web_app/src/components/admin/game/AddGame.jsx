@@ -1,16 +1,7 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Table,
-  Form,
-  Modal,
-} from "react-bootstrap";
-import useFetch from "../../../hook/useFetch";
+import { Button, Form, Modal } from "react-bootstrap";
 import Swal from "sweetalert2";
+import useFetch from "../../../hook/useFetch";
 
 const AddGame = ({ showAddModal, setShowAddModal }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });

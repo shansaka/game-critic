@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import useFetch from "../../../hook/useFetch";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import useFetch from "../../../hook/useFetch";
 
 const DeleteGame = ({
   gameData,

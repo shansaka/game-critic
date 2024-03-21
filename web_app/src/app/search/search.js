@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { SearchComp } from "../../components";
 
 function Search() {

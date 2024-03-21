@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Table,
-  Form,
-  Modal,
-  InputGroup,
-} from "react-bootstrap";
-import useFetch from "../../../hook/useFetch";
+import React, { useEffect, useState } from "react";
+import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
+import useFetch from "../../../hook/useFetch";
 
 const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
   const [gameName, setGameName] = useState({ value: "", error: "" });

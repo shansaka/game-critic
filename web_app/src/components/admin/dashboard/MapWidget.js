@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { Map, Source, Layer, NavigationControl } from "react-map-gl";
+import React, { useEffect } from "react";
+import { Layer, Map, NavigationControl, Source } from "react-map-gl";
 
 import "mapbox-gl/dist/mapbox-gl.css";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import useFetch from "../../../hook/useFetch";
 
 const MapWidget = () => {
