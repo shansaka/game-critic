@@ -36,6 +36,7 @@ app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/users", require("./routes/usersRoute"));
 app.use("/api/games", require("./routes/gamesRoute"));
 app.use("/api/reviews", require("./routes/reviewsRoute"));
+app.use("/api/dashboard", require("./routes/dashboardRoute"));
 
 // Serve images
 app.use("/images", express.static(path.join(__dirname, "./upload/images")));
