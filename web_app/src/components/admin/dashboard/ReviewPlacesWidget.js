@@ -4,7 +4,7 @@ import useFetch from "../../../hook/useFetch";
 
 const ReviewPlacesWidget = () => {
   const { data, isLoading, fetchData } = useFetch(
-    "dashboard/totals",
+    "dashboard/top-locations",
     "GET",
     null,
     null,
