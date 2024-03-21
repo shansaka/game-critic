@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getSessionItem, isLoggedIn } from "../../helpers/loginSession";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 function AllGamesComp() {
   const [loggedInUserName, setLoggedInUserName] = useState(false);
 

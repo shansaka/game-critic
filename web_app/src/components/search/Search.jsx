@@ -4,8 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import game_no_image from "../../game_no_image.png";
 import useFetch from "../../hook/useFetch";
 
-const apiUrl = process.env.REACT_APP_API_URL;
-
 function Search() {
   const location = useLocation();
   const params = location.state;
