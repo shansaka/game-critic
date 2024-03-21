@@ -105,7 +105,7 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
         showConfirmButton={true}
         //cancelText="No, cancel"
         confirmText="Okay, Got it!"
-        confirmButtonColor="#DD6B55"
+        confirmButtonColor={COLORS.green}
         confirmButtonStyle={styles.alertButton}
         onConfirmPressed={() => {
           router.replace(`/gameDetails/${gameId}`);

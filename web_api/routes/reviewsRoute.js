@@ -17,7 +17,7 @@ router.get("/", requireToken, async (req, res) => {
       filter.status = status;
     }
 
-    const totalReviews = await Review.countDocuments();
+    const totalReviews = await Review.countDocuments(filter);
     const totalPages = Math.ceil(totalReviews / pageSize);
 
     const reviews = await Review.find(filter)
@@ -57,13 +57,15 @@ router.get("/game/:id", async (req, res) => {
     const pageSize = parseInt(req.query.pageSize) || 10;
     const pageNo = parseInt(req.query.pageNo) || 1;
 
-    const totalReviews = await Review.countDocuments({ game: req.params.id });
-    const totalPages = Math.ceil(totalReviews / pageSize);
-
-    const reviews = await Review.find({
+    let filter = {
       game: req.params.id,
       status: "Approved",
-    })
+    };
+
+    const totalReviews = await Review.countDocuments(filter);
+    const totalPages = Math.ceil(totalReviews / pageSize);
+
+    const reviews = await Review.find(filter)
       .sort({ dateCreated: -1 })
       .skip((pageNo - 1) * pageSize)
       .limit(pageSize)

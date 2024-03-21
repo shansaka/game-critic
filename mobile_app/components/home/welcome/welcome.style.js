@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, FONT, SIZES } from "../../../constants";
+import { COLORS, FONT, SIZES, SHADOWS } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: SIZES.medium,
+    backgroundColor: COLORS.white,
+    borderRadius: SIZES.small,
+    ...SHADOWS.small,
+    shadowColor: COLORS.gray2,
   },
   searchBtn: {
     width: 50,

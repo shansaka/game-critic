@@ -9,22 +9,22 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: SIZES.small,
-    backgroundColor: "#FFF",
+    backgroundColor: COLORS.white,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
   },
-  applyBtn: {
+  addReviewBtn: {
     flex: 1,
-    backgroundColor: "#FE7654",
+    backgroundColor: COLORS.tertiary,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
   },
-  applyBtnText: {
+  addReviewBtnText: {
     fontSize: SIZES.medium,
-    color: "#FFF",
+    color: COLORS.white,
     fontFamily: FONT.bold,
   },
 });

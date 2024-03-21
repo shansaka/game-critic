@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, SHADOWS, FONT,  SIZES } from "../../../../constants";
+import { COLORS, SHADOWS, FONT, SIZES } from "../../../../constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,9 +10,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: SIZES.medium,
     borderRadius: SIZES.small,
-    backgroundColor: "#FFF",
+    backgroundColor: COLORS.white,
     ...SHADOWS.medium,
-    shadowColor: COLORS.white,
+    shadowColor: COLORS.gray2,
     height: 100,
   },
   logoContainer: {
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    backgroundColor: item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
+    backgroundColor:
+      item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
     borderRadius: 10,
     width: 40,
     height: 40,
@@ -42,9 +43,9 @@ const styles = StyleSheet.create({
   }),
   reviewTitleBox: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: SIZES.xSmall /2,
+    paddingLeft: SIZES.xSmall / 2,
     flex: 1,
   },
   reviewTitle: {
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontFamily: FONT.bold,
     padding: 10,
-    flex: 1, 
+    flex: 1,
     marginHorizontal: SIZES.small,
   },
   reviewDate: {
@@ -62,12 +63,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   reviewInfoBox: {
-    paddingLeft: SIZES.xSmall /2,
-  },
-  horizontalLine: {
-    borderBottomColor: "#ebebeb",
-    borderBottomWidth: 1,
-    marginVertical: SIZES.small,
+    paddingLeft: SIZES.xSmall / 2,
   },
   reviewedBy: {
     fontSize: SIZES.small,

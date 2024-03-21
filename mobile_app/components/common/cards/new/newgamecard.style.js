@@ -6,15 +6,15 @@ const styles = StyleSheet.create({
   container: {
     width: 200,
     padding: SIZES.small,
-    backgroundColor: "#FFF",
+    backgroundColor: COLORS.white,
     borderRadius: SIZES.small,
     ...SHADOWS.medium,
-    shadowColor: COLORS.white,
+    shadowColor: COLORS.gray2,
+    marginBottom: SIZES.small,
   },
   logoContainer: {
-    width: 180,
     height: 180,
-    backgroundColor: "#FFF",
+    backgroundColor: COLORS.white,
     borderRadius: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
@@ -23,11 +23,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: SIZES.small,
-  },
-  location: {
-    fontSize: SIZES.medium - 2,
-    fontFamily: FONT.regular,
-    color: "#B3AEC6",
   },
   rating: (item) => ({
     fontSize: SIZES.medium,

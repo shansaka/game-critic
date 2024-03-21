@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, FONT, SIZES } from "../../../constants";
+import { COLORS, FONT, SIZES, SHADOWS } from "../../../constants";
 
 const styles = StyleSheet.create({
   container: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: SIZES.small,
-    backgroundColor: "#FFF",
+    backgroundColor: COLORS.white,
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -22,10 +22,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
+    ...SHADOWS.medium,
+    shadowColor: COLORS.gray2,
   },
   applyBtnText: {
     fontSize: SIZES.medium,
-    color: "#FFF",
+    color: COLORS.white,
     fontFamily: FONT.bold,
   },
   alertButton: {

@@ -6,16 +6,17 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: SIZES.small,
     borderRadius: SIZES.small,
-    backgroundColor: "#fff",
-    ...SHADOWS.medium,
-    shadowColor: COLORS.white,
+    backgroundColor: COLORS.white,
+    ...SHADOWS.small,
+    shadowColor: COLORS.gray2,
     marginBottom: SIZES.small,
   },
   rating: (item) => ({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    backgroundColor: item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
+    backgroundColor:
+      item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
     borderRadius: 10,
     width: 40,
     height: 40,
@@ -25,9 +26,9 @@ const styles = StyleSheet.create({
   }),
   reviewTitleBox: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: SIZES.xSmall /2,
+    paddingLeft: SIZES.xSmall / 2,
     flex: 1,
   },
   reviewTitle: {
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     color: COLORS.primary,
     fontFamily: FONT.bold,
     padding: 10,
-    flex: 1, 
+    flex: 1,
   },
   reviewDate: {
     fontSize: SIZES.small,
@@ -44,10 +45,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   reviewInfoBox: {
-    paddingLeft: SIZES.xSmall /2,
+    paddingLeft: SIZES.xSmall / 2,
   },
   horizontalLine: {
-    borderBottomColor: "#ebebeb",
+    borderBottomColor: COLORS.gray3,
     borderBottomWidth: 1,
     marginVertical: SIZES.small,
   },
