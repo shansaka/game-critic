@@ -16,7 +16,7 @@ const AllGameCard = ({ item, handleNavigate }) => {
                   ? { uri: item.mainImage }
                   : images.game_no_image
               }
-              resizeMode="contain"
+              resizeMode="fill"
               style={styles.logImage}
             />
           </TouchableOpacity>
@@ -24,7 +24,9 @@ const AllGameCard = ({ item, handleNavigate }) => {
             {item.name}
           </Text>
         </View>
-        <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
+        {item.avgRating === 0 ? null : (
+          <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
+        )}
       </View>
     </TouchableOpacity>
   );

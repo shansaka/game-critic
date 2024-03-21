@@ -13,24 +13,26 @@ import styles from "./newgamecard.style";
 const NewGameCard = ({ item, selected, handleCardPress }) => {
   return (
     <TouchableOpacity
-      style={styles.container(selected, item)}
+      style={styles.container}
       onPress={() => handleCardPress(item)}
     >
-      <View style={styles.logoContainer(selected, item)}>
+      <View style={styles.logoContainer}>
         <Image
           source={
             checkImageURL(item.mainImage)
               ? { uri: item.mainImage }
               : images.game_no_image
           }
-          resizeMode="contain"
+          resizeMode="fill"
           style={styles.logoImage}
         />
       </View>
 
       <View style={styles.gameTitleBox}>
-        <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
-        <Text style={styles.gameTitle(selected, item)} numberOfLines={1}>
+        {item.avgRating === 0 ? null : (
+          <Text style={styles.rating(item.avgRating)}>{item.avgRating}</Text>
+        )}
+        <Text style={styles.gameTitle} numberOfLines={1}>
           {item.name}
         </Text>
       </View>

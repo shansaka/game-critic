@@ -3,24 +3,22 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SHADOWS, SIZES } from "../../../../constants";
 
 const styles = StyleSheet.create({
-  container: (selectedJob, item) => ({
+  container: {
     width: 200,
     padding: SIZES.small,
-    backgroundColor: selectedJob === item._id ? COLORS.primary : "#FFF",
+    backgroundColor: "#FFF",
     borderRadius: SIZES.small,
-    //justifyContent: "space-between",
     ...SHADOWS.medium,
     shadowColor: COLORS.white,
-    //height: 280,
-  }),
-  logoContainer: (selected, item) => ({
+  },
+  logoContainer: {
     width: 180,
     height: 180,
-    backgroundColor: selected === item._id ? "#FFF" : COLORS.white,
+    backgroundColor: "#FFF",
     borderRadius: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
-  }),
+  },
   logoImage: {
     width: "100%",
     height: "100%",
@@ -35,7 +33,8 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     color: COLORS.white,
-    backgroundColor: item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
+    backgroundColor:
+      item > 4 ? COLORS.green : item < 2.5 ? COLORS.red : COLORS.yellow,
     borderRadius: SIZES.small,
     width: 40,
     height: 40,
@@ -48,12 +47,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  gameTitle: (selected, item) => ({
-    color: selected === item._id ? COLORS.white : COLORS.primary,
-    fontSize: SIZES.large,
+  gameTitle: {
+    color: COLORS.primary,
+    fontSize: SIZES.medium,
     fontFamily: FONT.bold,
     padding: 10,
-  }),
+  },
 });
 
 export default styles;
