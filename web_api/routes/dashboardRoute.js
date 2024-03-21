@@ -35,7 +35,7 @@ router.get("/top-locations", requireToken, requireAdmin, async (req, res) => {
       },
       {
         $group: {
-          name: "$location.full",
+          _id: "$location.full",
           count: { $sum: 1 },
         },
       },
