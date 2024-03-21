@@ -33,7 +33,7 @@ const ReviewPlacesWidget = () => {
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.name}</td>
+                    <td>{item._id}</td>
                     <td>{item.count}</td>
                   </tr>
                 ))}

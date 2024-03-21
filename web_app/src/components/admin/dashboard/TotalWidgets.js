@@ -31,7 +31,7 @@ const TotalWidgets = () => {
           </Col>
           <Col xs={12} sm={6} md={4} lg={4}>
             <Card className="">
-              <Card.Header>Total Games Reviewed</Card.Header>
+              <Card.Header>Total Games</Card.Header>
               <Card.Body className="">
                 <h4>{data.totalGames}</h4>
               </Card.Body>
@@ -39,7 +39,7 @@ const TotalWidgets = () => {
           </Col>
           <Col xs={12} sm={6} md={4} lg={4}>
             <Card className="">
-              <Card.Header>Total Users Reviewed</Card.Header>
+              <Card.Header>Total Users</Card.Header>
               <Card.Body className="">
                 <h4>{data.totalUsers}</h4>
               </Card.Body>
