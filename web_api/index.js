@@ -62,9 +62,6 @@ app.use("/api/games", require("./routes/gamesRoute"));
 app.use("/api/reviews", require("./routes/reviewsRoute"));
 app.use("/api/dashboard", require("./routes/dashboardRoute"));
 
-// Serve images
-app.use("/images", express.static(path.join(__dirname, "./upload/images")));
-
 // Email confirmation route
 app.get("/confirm-email/:token", async (req, res) => {
   try {
