@@ -19,6 +19,7 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // When the user presses the logout button
   const onLoginPressed = async () => {
     setIsLoading(true);
     if (await logOut()) {

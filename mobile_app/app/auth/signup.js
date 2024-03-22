@@ -45,6 +45,7 @@ export const SignUp = () => {
     }
   );
 
+  // When the user presses the signup button
   const onSignUpPressed = async () => {
     const emailError = inputValidator(email.value, "email");
     const passwordError = inputValidator(password.value, "password");

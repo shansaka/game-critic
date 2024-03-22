@@ -36,6 +36,7 @@ export const ResetPassword = () => {
     }
   );
 
+  // When the user presses the reset password button
   const onResetPasswordPressed = async () => {
     const emailError = inputValidator(email.value, "email");
     const newPasswordError = inputValidator(newPassword.value, "password");

@@ -1,3 +1,4 @@
+// Validate inputes based on the type of input
 export default function inputValidator(value, type) {
   switch (type) {
     case "empty":

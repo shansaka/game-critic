@@ -59,6 +59,7 @@ export const GameDetails = () => {
     setRefreshing(false);
   }, []);
 
+  // Display the content based on the active tab
   const displayTabContent = () => {
     switch (activeTab) {
       case "Reviews":

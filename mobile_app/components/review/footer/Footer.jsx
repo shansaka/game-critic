@@ -32,6 +32,7 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
 
   useFocusEffect(
     useCallback(() => {
+      // Get the user's location
       const fetchLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
@@ -47,6 +48,7 @@ const Footer = ({ gameId, title, comments, rating, setTitle, setComments }) => {
     }, [])
   );
 
+  // Submit review
   const onSubmitPressed = async () => {
     const titleError = inputValidator(title, "empty");
     const commentsError = inputValidator(comments, "empty");

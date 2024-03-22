@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Check if the user is logged in
 export async function isLoggedIn() {
   try {
     const userId = await AsyncStorage.getItem("userId");
@@ -13,6 +14,7 @@ export async function isLoggedIn() {
   }
 }
 
+// Get the session item
 export async function getSessionItem(itemName) {
   try {
     const item = await AsyncStorage.getItem(itemName);
@@ -26,6 +28,7 @@ export async function getSessionItem(itemName) {
   }
 }
 
+// Log in the user
 export async function logIn(data) {
   try {
     await AsyncStorage.setItem("token", data.token);
@@ -39,6 +42,7 @@ export async function logIn(data) {
   }
 }
 
+// Update the token
 export async function updateToken(newToken, newRefreshToken) {
   try {
     await AsyncStorage.setItem("token", newToken);
@@ -50,6 +54,7 @@ export async function updateToken(newToken, newRefreshToken) {
   }
 }
 
+// Log out the user
 export async function logOut() {
   try {
     await AsyncStorage.removeItem("token");

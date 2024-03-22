@@ -19,6 +19,7 @@ export const AddReview = () => {
   const [rating, setRating] = useState(5);
   const scrollViewRef = useRef();
 
+  // When user finishes rating
   const ratingCompleted = (rating) => {
     setRating(rating);
   };

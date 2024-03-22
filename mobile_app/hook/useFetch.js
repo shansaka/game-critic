@@ -26,7 +26,9 @@ const useFetch = (
     data: body,
   };
 
+  // Set the data and total pages
   const handleResponseData = (response, isScroll) => {
+    // Check if the response has a data, that means it's a pagination data
     if ("data" in response.data) {
       if (isScroll) {
         setData((prevData) => [...prevData, ...response.data.data]);
@@ -40,11 +42,14 @@ const useFetch = (
     return response.data;
   };
 
+  // Fetch the data
   const fetchData = useCallback(async () => {
     setIsLoading(true);
 
     const token = await getSessionItem("token");
     const refreshToken = await getSessionItem("refreshToken");
+
+    // Add the Authorization header if the request requires authentication
     if (requiresAuth) {
       options.headers = { Authorization: `Bearer ${token}` };
     }
@@ -52,8 +57,8 @@ const useFetch = (
     try {
       const response = await axios.request(options);
       return handleResponseData(response, isScroll);
-      // console.log(response.data);
     } catch (error) {
+      // If the error is 401 and the message is Token expired, try to refresh the token
       if (
         error.response &&
         error.response.status === 401 &&
@@ -88,12 +93,15 @@ const useFetch = (
           const response = await axios.request(options);
           return handleResponseData(response, isScroll);
         } catch (refreshError) {
+          // After refreshing the token still getting 403, log out the user and show an error message
           setError(refreshError);
           console.log("refresh error", refreshError);
+          alert("Session expired, please log in again");
         }
       } else {
         setError(error);
         console.log(error);
+        alert("Oops something went wrong");
       }
     } finally {
       setIsLoading(false);

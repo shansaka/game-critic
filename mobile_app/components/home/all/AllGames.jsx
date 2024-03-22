@@ -33,27 +33,6 @@ const AllGames = () => {
         </TouchableOpacity>
       </View>
 
-      {/* <View style={styles.tabsContainer}>
-          <FlatList
-            data={gameGenres}
-            renderItem={({item}) => (
-              <TouchableOpacity 
-                style={styles.tab(activeJobType, item)} 
-                onPress={() => {
-                  setActiveJobType(item)
-                  router.push(`/search/${item}`)
-                }}
-              >
-                <Text style={styles.tabText(activeJobType, item)} > {item} </Text>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item}
-            contentContainerStyle={{columnGap: SIZES.small}}
-            horizontal
-          >
-          </FlatList>
-      </View> */}
-
       <View style={styles.cardsContainer}>
         {isLoading ? (
           <ActivityIndicator size="large" color={COLORS.primary} />

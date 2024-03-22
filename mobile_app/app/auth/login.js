@@ -51,9 +51,7 @@ export const Login = () => {
     // Call the login API
     const responseData = await fetchData();
     if (responseData && responseData.isSuccess) {
-      // If the login is successful, save the user data in the session
       if (await logIn(responseData)) {
-        // Redirect the user to the home page, if redirectUrl is provided in the params then redirect the user to that page
         if (params && params.redirectUrl) {
           router.replace({
             pathname: params.redirectUrl,

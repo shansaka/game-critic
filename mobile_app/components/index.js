@@ -12,6 +12,9 @@ import Game from "./gameDetails/game/Game";
 import { default as GameReview } from "./gameDetails/review/Review";
 import { default as GameTabs } from "./gameDetails/tabs/Tabs";
 
+// search screen
+import SearchComp from "./search/Search";
+
 // common
 import AllGameCard from "./common/cards/all/AllGameCard";
 import ReviewCard from "./common/cards/review/ReviewCard";
@@ -24,9 +27,6 @@ import Button from "./common/auth/Button";
 import Header from "./common/auth/Header";
 import Logo from "./common/auth/Logo";
 import TextInput from "./common/auth/TextInput";
-
-// search screen
-import SearchComp from "./search/Search";
 
 export {
   AllGameCard,

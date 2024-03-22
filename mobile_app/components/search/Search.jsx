@@ -1,11 +1,11 @@
 import React from "react";
 
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import { AllGameCard } from "../../components";
 import { COLORS, SIZES } from "../../constants";
 import useFetch from "../../hook/useFetch";
+import AllGameCard from "../common/cards/all/AllGameCard";
 
 import styles from "./searchstyle";
 
@@ -24,14 +24,6 @@ export const Search = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const [refreshing, setRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    refetch();
-    setRefreshing(false);
-  }, []);
 
   const renderLoader = () => {
     return isLoading ? (
