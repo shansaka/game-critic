@@ -45,9 +45,8 @@ const MyReviewTable = () => {
               <th>Title</th>
               <th>Comments</th>
               <th>Game</th>
-              <th>Location</th>
-              <th>Status</th>
               <th>Date Added</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -56,17 +55,8 @@ const MyReviewTable = () => {
                 <td>{review.title}</td>
                 <td>{review.comments}</td>
                 <td>{review.game.name}</td>
-                <td>{`${
-                  review.location != null && review.location.city
-                    ? review.location.city + ", "
-                    : ""
-                } ${
-                  review.location != null && review.location.country
-                    ? review.location.country
-                    : ""
-                }`}</td>
-                <td>{review.status}</td>
                 <td>{formatDate(review.dateCreated)}</td>
+                <td>{review.status}</td>
               </tr>
             ))}
           </tbody>

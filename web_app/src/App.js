@@ -134,7 +134,7 @@ function App() {
               {loggedIn ? (
                 <>
                   <Route
-                    path="/logout"
+                    path="/login"
                     element={<Logout setLoggedIn={setLoggedIn} />}
                   />
                   <Route path="/my-reviews" element={<MyReviews />} />
