@@ -136,11 +136,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/reset-password", async (req, res) => {
   try {
-    const { email, currentPassword, newPassword } = req.body;
-    const hashedCurrentPassword = crypto
-      .createHash("sha512")
-      .update(currentPassword)
-      .digest("hex");
+    const { email, newPassword } = req.body;
     const hashedNewPassword = crypto
       .createHash("sha512")
       .update(newPassword)
@@ -148,11 +144,10 @@ router.post("/reset-password", async (req, res) => {
 
     const user = await User.findOne({
       email,
-      password: hashedCurrentPassword,
     });
     if (!user) {
       return res.status(200).json({
-        message: "Invalid email or current password",
+        message: "Invalid email address. Please try again.",
         isSuccess: false,
       });
     }

@@ -87,7 +87,9 @@ app.get("/confirm-password/:token", async (req, res) => {
 
     res
       .status(200)
-      .render("confirmation", { message: "Email confirmed successfully." });
+      .render("confirmation", {
+        message: "Email confirmed, Password reset successfully.",
+      });
   } catch (error) {
     res.status(500).render("error", { message: error.message });
   }

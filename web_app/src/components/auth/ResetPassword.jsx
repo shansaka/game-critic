@@ -19,9 +19,7 @@ function ResetPassword({ setLoggedIn }) {
   const location = useLocation();
   const params = location.state;
 
-  const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
   const [newPassword, setNewPassword] = useState({ value: "", error: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
@@ -30,14 +28,12 @@ function ResetPassword({ setLoggedIn }) {
     null,
     {
       email: email.value,
-      currentPassword: password.value,
       newPassword: newPassword.value,
     }
   );
 
   const validateForm = () => {
     let emailError = "";
-    let passwordError = "";
     let newPasswordError = "";
 
     // Validate email
@@ -47,13 +43,6 @@ function ResetPassword({ setLoggedIn }) {
       emailError = "Email is not valid";
     }
 
-    // Validate password
-    if (!password.value) {
-      passwordError = "Password cannot be empty";
-    } else if (password.value.length < 6) {
-      passwordError = "Password must be at least 6 characters";
-    }
-
     // Validate new password
     if (!newPassword.value) {
       newPasswordError = "Password cannot be empty";
@@ -61,9 +50,8 @@ function ResetPassword({ setLoggedIn }) {
       newPasswordError = "Password must be at least 6 characters";
     }
 
-    if (newPasswordError || emailError || passwordError) {
+    if (newPasswordError || emailError) {
       setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
       setNewPassword({ ...newPassword, error: newPasswordError });
       return false;
     }
@@ -125,20 +113,6 @@ function ResetPassword({ setLoggedIn }) {
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group className="form-group">
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      value={password.value}
-                      onChange={(e) =>
-                        setPassword({ value: e.target.value, error: "" })
-                      }
-                      isInvalid={!!password.error}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {password.error}
-                    </Form.Control.Feedback>
-                  </Form.Group>
                   <Form.Group className="form-group">
                     <Form.Control
                       type="password"
