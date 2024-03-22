@@ -19,8 +19,10 @@ router.get("/totals", requireToken, requireAdmin, async (req, res) => {
   }
 });
 
+// Getting top reviewed locations
 router.get("/top-locations", requireToken, requireAdmin, async (req, res) => {
   try {
+    // Get the top 10 locations with the most reviews, with combining city and location to group them
     const topLocations = await Review.aggregate([
       {
         $addFields: {

@@ -5,7 +5,7 @@ const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Getting all
+// Getting all reviews
 router.get("/", requireToken, requireAdmin, async (req, res) => {
   try {
     const pageSize = parseInt(req.query.pageSize) || 10;
@@ -33,6 +33,7 @@ router.get("/", requireToken, requireAdmin, async (req, res) => {
   }
 });
 
+// Getting reviews locations
 router.get("/coordinates", requireToken, requireAdmin, async (req, res) => {
   try {
     const reviews = await Review.find({ location: { $exists: true } });
@@ -51,7 +52,7 @@ router.get("/coordinates", requireToken, requireAdmin, async (req, res) => {
   }
 });
 
-// Getting reviews by game ID
+// Getting all reviews for a game
 router.get("/game/:id", async (req, res) => {
   try {
     const pageSize = parseInt(req.query.pageSize) || 10;
@@ -138,6 +139,7 @@ router.post("/", requireToken, async (req, res) => {
       review.location.latitude &&
       review.location.longitude
     ) {
+      // Get the country and city from the coordinates using mapbox API
       const response = await axios.get(
         `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${review.location.longitude}&latitude=${review.location.latitude}&types=place&limit=1&access_token=${process.env.MAPBOX_TOKEN}`
       );

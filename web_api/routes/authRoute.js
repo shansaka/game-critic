@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
+// Nodemailer transporter configuration
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -14,12 +15,14 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+// creating a token
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRATION,
   });
 };
 
+// creating a refresh token
 const createRefreshToken = (id) => {
   return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "365d",
@@ -47,10 +50,7 @@ router.post("/signup", async (req, res) => {
     }
 
     let uniqueString = crypto.randomBytes(20).toString("hex");
-    console.log(uniqueString);
-
-    const confirmationToken = uniqueString;
-    user.confirmationToken = confirmationToken;
+    user.confirmationToken = uniqueString;
 
     const newUser = await user.save();
 
@@ -81,7 +81,7 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// Email confirmation
+// Confirming the email
 router.get("/confirm-email/:token", async (req, res) => {
   try {
     console.log(req.params.token);
@@ -101,7 +101,7 @@ router.get("/confirm-email/:token", async (req, res) => {
   }
 });
 
-// Logging in a user
+// User login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const hashedPassword = crypto
@@ -134,6 +134,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Resetting the password
 router.post("/reset-password", async (req, res) => {
   try {
     const { email, newPassword } = req.body;
@@ -152,9 +153,7 @@ router.post("/reset-password", async (req, res) => {
       });
     }
     let uniqueString = crypto.randomBytes(20).toString("hex");
-    console.log(uniqueString);
-    const confirmationToken = uniqueString;
-    user.confirmationToken = confirmationToken;
+    user.confirmationToken = uniqueString;
     user.newPassword = hashedNewPassword;
     await user.save();
 
@@ -191,8 +190,10 @@ router.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;
   const expiredToken = req.body.expiredToken;
 
+  // Check if the token is there
   if (refreshToken == null || expiredToken == null) return res.sendStatus(401);
 
+  // Check if the token is valid
   jwt.verify(
     expiredToken,
     process.env.JWT_SECRET,
@@ -200,6 +201,7 @@ router.post("/refresh", (req, res) => {
     (err, expiredTokenPayload) => {
       if (err) return res.sendStatus(403).json(err);
 
+      // Check if the refresh token is valid
       jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,

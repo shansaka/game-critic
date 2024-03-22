@@ -7,6 +7,7 @@ const AWS = require("aws-sdk");
 
 const router = express.Router();
 
+// AWS S3 configuration
 AWS.config.update({
   accessKeyId: process.env.AWS_S3_ACCESS_KEY,
   secretAccessKey: process.env.AWS_S3_SECRET_KEY,
@@ -14,6 +15,7 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 
+// Multer configuration
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
@@ -21,25 +23,7 @@ const upload = multer({
   },
 });
 
-router.post("/upload", upload.single("file"), (req, res) => {
-  const uniqueFileName = `${Date.now()}_${req.file.originalname}`;
-  const params = {
-    Bucket: process.env.AWS_S3_BUCKET_NAME,
-    Key: uniqueFileName,
-    Body: req.file.buffer,
-  };
-
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error uploading file");
-    }
-    console.log(data);
-    res.send("File uploaded successfully");
-  });
-});
-
-// Getting all
+// Getting all games
 router.get("/", async (req, res) => {
   try {
     let query = {};
@@ -83,7 +67,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Getting a game by ID
+// Getting a single game
 router.get("/:id", async (req, res) => {
   try {
     const game = await Game.findById(req.params.id);
@@ -105,7 +89,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Adding a game
+// Creating a game
 router.post(
   "/",
   requireToken,
@@ -120,6 +104,7 @@ router.post(
         Body: req.file.buffer,
       };
 
+      // Upload image to S3
       s3.upload(params, async (err, data) => {
         if (err) {
           console.error(err);
@@ -161,6 +146,13 @@ router.patch(
         game.dateReleased = req.body.dateReleased;
       }
       if (req.file) {
+        const uniqueFileName = `${Date.now()}_${req.file.originalname}`;
+        const params = {
+          Bucket: process.env.AWS_S3_BUCKET_NAME,
+          Key: uniqueFileName,
+          Body: req.file.buffer,
+        };
+
         s3.upload(params, async (err, data) => {
           if (err) {
             console.error(err);
