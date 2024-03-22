@@ -85,7 +85,7 @@ router.get("/user", requireToken, async (req, res) => {
       const pageNo = parseInt(req.query.pageNo) || 1;
 
       let filter = {};
-      user = req.id;
+      filter.user = req.id;
 
       const totalReviews = await Review.countDocuments(filter);
       const totalPages = Math.ceil(totalReviews / pageSize);
