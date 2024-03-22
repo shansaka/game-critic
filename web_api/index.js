@@ -28,6 +28,9 @@ const requiredEnvVariables = [
   "MAPBOX_TOKEN",
   "GMAIL_SMTP_USERNAME",
   "GMAIL_SMTP_PASSWORD",
+  "AWS_S3_BUCKET_NAME",
+  "AWS_S3_ACCESS_KEY",
+  "AWS_S3_SECRET_KEY",
 ];
 
 // Check if all required environment variables are set
