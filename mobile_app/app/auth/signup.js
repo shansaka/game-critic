@@ -145,7 +145,7 @@ export const SignUp = () => {
           style={{ width: "100%", height: "100%", position: "absolute" }}
           show={showAlert.show}
           showProgress={false}
-          title="Error!"
+          //title="Error!"
           message={showAlert.message}
           closeOnTouchOutside={true}
           closeOnHardwareBackPress={false}
