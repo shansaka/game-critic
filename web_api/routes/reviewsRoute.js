@@ -172,10 +172,10 @@ router.patch("/:id/status", requireToken, requireAdmin, async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) {
-      return res.status(404).json({ message: "Review not found" });
+      return res.status(200).json({ message: "Review not found" });
     }
     if (!req.body.status) {
-      return res.status(400).json({ message: "New status is required" });
+      return res.status(200).json({ message: "New status is required" });
     }
     review.status = req.body.status;
     const updatedReview = await review.save();

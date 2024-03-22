@@ -55,7 +55,7 @@ router.put("/:id/password", requireToken, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     if (!req.body.password) {
-      return res.status(400).json({ message: "New password is required" });
+      return res.status(200).json({ message: "New password is required" });
     }
     user.password = crypto
       .createHash("sha512")

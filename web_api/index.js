@@ -68,3 +68,27 @@ app.get("/confirm-email/:token", async (req, res) => {
     res.status(500).render("error", { message: error.message });
   }
 });
+
+app.get("/confirm-password/:token", async (req, res) => {
+  try {
+    console.log(req.params.token);
+    const user = await User.findOne({ confirmationToken: req.params.token });
+
+    if (!user) {
+      return res
+        .status(400)
+        .render("error", { message: "Invalid confirmation token." });
+    }
+
+    user.confirmationToken = undefined;
+    user.password = user.newPassword;
+    user.newPassword = undefined;
+    await user.save();
+
+    res
+      .status(200)
+      .render("confirmation", { message: "Email confirmed successfully." });
+  } catch (error) {
+    res.status(500).render("error", { message: error.message });
+  }
+});

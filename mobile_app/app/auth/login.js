@@ -92,8 +92,6 @@ export const Login = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.primary} />
-          ) : error ? (
-            <Text>Something went wrong</Text>
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <Logo />
@@ -121,7 +119,12 @@ export const Login = () => {
               />
               <View style={styles.forgotPassword}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate("ResetPasswordScreen")}
+                  onPress={() =>
+                    router.replace({
+                      pathname: "/auth/resetPassword",
+                      params: params,
+                    })
+                  }
                 >
                   <Text style={styles.forgot}>Forgot your password?</Text>
                 </TouchableOpacity>
@@ -157,6 +160,9 @@ export const Login = () => {
           confirmText="Okay, Got it!"
           confirmButtonColor={COLORS.gray}
           confirmButtonStyle={styles.alertButton}
+          onConfirmPressed={() => {
+            setShowAlert(false);
+          }}
           onDismiss={() => {
             setShowAlert(false);
           }}

@@ -20,7 +20,6 @@ import {
 } from "../../components";
 import { COLORS, SIZES, icons } from "../../constants";
 import inputValidator from "../../helpers/inputValidator";
-import { logIn } from "../../helpers/loginSession";
 import useFetch from "../../hook/useFetch";
 
 export const SignUp = () => {
@@ -61,18 +60,12 @@ export const SignUp = () => {
     const responseData = await fetchData();
 
     if (responseData && responseData.isSuccess) {
-      if (await logIn(responseData)) {
-        if (params && params.redirectUrl) {
-          setShowAlert({
-            show: true,
-            message:
-              "Account created successfully, Please confirm your email address.",
-            isRedirect: true,
-          });
-        } else {
-          router.replace("/");
-        }
-      }
+      setShowAlert({
+        show: true,
+        message:
+          "Account created successfully, Please confirm your email address.",
+        isRedirect: true,
+      });
     } else if (responseData && responseData.message) {
       setShowAlert({ show: true, message: responseData.message });
     } else {
@@ -102,8 +95,6 @@ export const SignUp = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.primary} />
-          ) : error ? (
-            <Text>Something went wrong</Text>
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <Logo />
@@ -161,13 +152,16 @@ export const SignUp = () => {
           confirmText="Okay, Got it!"
           confirmButtonColor={COLORS.gray}
           confirmButtonStyle={styles.alertButton}
+          onConfirmPressed={() => {
+            setShowAlert(false);
+            if (showAlert.isRedirect) {
+              router.replace("/auth/login");
+            }
+          }}
           onDismiss={() => {
             setShowAlert(false);
             if (showAlert.isRedirect && params && params.redirectUrl) {
-              router.replace({
-                pathname: redirectPath,
-                params: { ...params },
-              });
+              router.replace("/auth/login");
             }
           }}
         />

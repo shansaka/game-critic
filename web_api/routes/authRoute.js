@@ -134,6 +134,63 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { email, currentPassword, newPassword } = req.body;
+    const hashedCurrentPassword = crypto
+      .createHash("sha512")
+      .update(currentPassword)
+      .digest("hex");
+    const hashedNewPassword = crypto
+      .createHash("sha512")
+      .update(newPassword)
+      .digest("hex");
+
+    const user = await User.findOne({
+      email,
+      password: hashedCurrentPassword,
+    });
+    if (!user) {
+      return res.status(200).json({
+        message: "Invalid email or current password",
+        isSuccess: false,
+      });
+    }
+    let uniqueString = crypto.randomBytes(20).toString("hex");
+    console.log(uniqueString);
+    const confirmationToken = uniqueString;
+    user.confirmationToken = confirmationToken;
+    user.newPassword = hashedNewPassword;
+    await user.save();
+
+    // Send confirmation email
+    let mailOptions = {
+      from: "gamecriticapp@gmail.com",
+      to: user.email,
+      subject: "Reset Password Confirmation",
+      text: `You have reset your password. Please confirm your reset password request by clicking on the following link: ${
+        req.protocol
+      }://${req.get("host")}/confirm-password/${confirmationToken}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json({
+      message:
+        "Password reset successful. Please check your email and confirm the request.",
+      isSuccess: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Refreshing the token
 router.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;

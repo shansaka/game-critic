@@ -5,8 +5,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -20,48 +18,49 @@ import {
 } from "../../components";
 import { COLORS, SIZES, icons } from "../../constants";
 import inputValidator from "../../helpers/inputValidator";
-import { logIn } from "../../helpers/loginSession";
 import useFetch from "../../hook/useFetch";
 
-export const ForgetPassword = () => {
+export const ResetPassword = () => {
   const router = useRouter();
   const params = useLocalSearchParams();
+  const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
+  const [password, setPassword] = useState({ value: "", error: "" });
+  const [newPassword, setNewPassword] = useState({ value: "", error: "" });
   const [showAlert, setShowAlert] = useState({ show: false, message: "" });
 
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
-    `auth/login`,
+    `auth/reset-password`,
     null,
     false,
-    { email: email.value, password: password.value }
+    {
+      email: email.value,
+      currentPassword: password.value,
+      newPassword: newPassword.value,
+    }
   );
 
-  // When the user presses the login button
-  const onLoginPressed = async () => {
+  const onResetPasswordPressed = async () => {
     const emailError = inputValidator(email.value, "email");
     const passwordError = inputValidator(password.value, "password");
+    const newPasswordError = inputValidator(newPassword.value, "password");
 
-    if (emailError || passwordError) {
+    if (emailError || passwordError || newPasswordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      setNewPassword({ ...newPassword, error: newPasswordError });
       return;
     }
 
-    // Call the login API
     const responseData = await fetchData();
+
     if (responseData && responseData.isSuccess) {
-      // If the login is successful, save the user data in the session
-      if (await logIn(responseData)) {
-        // Redirect the user to the home page, if redirectUrl is provided in the params then redirect the user to that page
-        if (params && params.redirectUrl) {
-          router.replace({
-            pathname: params.redirectUrl,
-            params: { ...params },
-          });
-        } else {
-          router.replace("/");
-        }
-      }
+      setShowAlert({
+        show: true,
+        message:
+          "Password reset successfully, Please confirm your email address.",
+        isRedirect: true,
+      });
     } else if (responseData && responseData.message) {
       setShowAlert({ show: true, message: responseData.message });
     } else {
@@ -91,12 +90,10 @@ export const ForgetPassword = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           {isLoading ? (
             <ActivityIndicator size="large" color={COLORS.primary} />
-          ) : error ? (
-            <Text>Something went wrong</Text>
           ) : (
             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
               <Logo />
-              <Header>Welcome back.</Header>
+              <Header>Reset Password</Header>
               <TextInput
                 label="Email"
                 returnKeyType="next"
@@ -118,14 +115,18 @@ export const ForgetPassword = () => {
                 errorText={password.error}
                 secureTextEntry
               />
-              <View style={styles.forgotPassword}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate("ResetPasswordScreen")}
-                >
-                  <Text style={styles.forgot}>Forgot your password?</Text>
-                </TouchableOpacity>
-              </View>
-              <Button mode="contained" onPress={onLoginPressed}>
+              <TextInput
+                label="New Password"
+                returnKeyType="done"
+                value={newPassword.value}
+                onChangeText={(text) =>
+                  setNewPassword({ value: text, error: "" })
+                }
+                error={!!newPassword.error}
+                errorText={newPassword.error}
+                secureTextEntry
+              />
+              <Button mode="contained" onPress={onResetPasswordPressed}>
                 Reset Password
               </Button>
             </View>
@@ -145,8 +146,16 @@ export const ForgetPassword = () => {
           confirmButtonStyle={styles.alertButton}
           onConfirmPressed={() => {
             setShowAlert(false);
+            if (showAlert.isRedirect) {
+              router.replace("/auth/login");
+            }
           }}
-          onDismiss={() => {}}
+          onDismiss={() => {
+            setShowAlert(false);
+            if (showAlert.isRedirect && params && params.redirectUrl) {
+              router.replace("/auth/login");
+            }
+          }}
         />
       </>
     </SafeAreaView>
@@ -173,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgetPassword;
+export default ResetPassword;

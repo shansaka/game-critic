@@ -9,7 +9,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { logIn } from "../../helpers/loginSession";
+import Swal from "sweetalert2";
 import useFetch from "../../hook/useFetch";
 import logo from "../../logo_dark.png";
 import "./auth.css";
@@ -70,19 +70,33 @@ function Register({ setLoggedIn }) {
     if (validateForm()) {
       const responseData = await fetchData();
       if (responseData && responseData.isSuccess) {
-        if (await logIn(responseData)) {
-          setLoggedIn(true);
-          if (params && params.redirectUrl) {
-            navigate(params.redirectUrl, { ...params });
-          } else {
-            navigate("/");
-          }
-        }
-      } else {
-        setErrorMsg("Error while registering user, please contact support");
-        console.log(responseData);
+        Swal.fire({
+          icon: "success",
+          title: "Account created successfully",
+          text: "Please confirm your email address.",
+          showConfirmButton: true,
+          confirmButtonText: "Okay, Got it!",
+          //timer: 1500,
+          didClose: () => {
+            navigate("/login");
+          },
+        });
+
+        // if (await logIn(responseData)) {
+        //   setLoggedIn(true);
+        //   if (params && params.redirectUrl) {
+        //     navigate(params.redirectUrl, { ...params });
+        //   } else {
+        //     navigate("/");
+        //   }
+        // }
+      } else if (responseData && responseData.message) {
+        setErrorMsg(responseData.message);
         setTimeout(() => setErrorMsg(""), 2000);
       }
+    } else {
+      setErrorMsg("Error while registering user, please contact support");
+      setTimeout(() => setErrorMsg(""), 2000);
     }
   };
 
