@@ -3,6 +3,7 @@ import React from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { AllGameCard } from "../../components";
 import { COLORS, SIZES } from "../../constants";
 import useFetch from "../../hook/useFetch";
 

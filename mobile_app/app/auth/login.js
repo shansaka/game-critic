@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 
+import AwesomeAlert from "react-native-awesome-alerts";
 import {
   Button,
   Header,
@@ -27,6 +28,7 @@ export const Login = () => {
   const params = useLocalSearchParams();
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [showAlert, setShowAlert] = useState({ show: false, message: "" });
 
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `auth/login`,
@@ -35,18 +37,23 @@ export const Login = () => {
     { email: email.value, password: password.value }
   );
 
+  // When the user presses the login button
   const onLoginPressed = async () => {
     const emailError = inputValidator(email.value, "email");
     const passwordError = inputValidator(password.value, "password");
+
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
       return;
     }
 
+    // Call the login API
     const responseData = await fetchData();
     if (responseData && responseData.isSuccess) {
+      // If the login is successful, save the user data in the session
       if (await logIn(responseData)) {
+        // Redirect the user to the home page, if redirectUrl is provided in the params then redirect the user to that page
         if (params && params.redirectUrl) {
           router.replace({
             pathname: params.redirectUrl,
@@ -56,8 +63,10 @@ export const Login = () => {
           router.replace("/");
         }
       }
+    } else if (responseData && responseData.message) {
+      setShowAlert({ show: true, message: responseData.message });
     } else {
-      alert("Please check your email and password.");
+      setShowAlert({ show: true, message: "Something went wrong" });
     }
   };
 
@@ -136,6 +145,23 @@ export const Login = () => {
             </View>
           )}
         </ScrollView>
+        <AwesomeAlert
+          style={{ width: "100%", height: "100%", position: "absolute" }}
+          show={showAlert.show}
+          showProgress={false}
+          title="Error!"
+          message={showAlert.message}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Okay, Got it!"
+          confirmButtonColor={COLORS.gray}
+          confirmButtonStyle={styles.alertButton}
+          onConfirmPressed={() => {
+            setShowAlert(false);
+          }}
+          onDismiss={() => {}}
+        />
       </>
     </SafeAreaView>
   );
