@@ -40,7 +40,7 @@ router.post("/signup", async (req, res) => {
 
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(200).json({
         message: "Email already in use, please login in.",
         isSuccess: false,
       });

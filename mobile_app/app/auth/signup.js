@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 
+import AwesomeAlert from "react-native-awesome-alerts";
 import {
   Button,
   Header,
@@ -28,6 +29,11 @@ export const SignUp = () => {
   const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [showAlert, setShowAlert] = useState({
+    show: false,
+    message: "",
+    isRedirect: false,
+  });
 
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
     `auth/signup`,
@@ -57,16 +63,20 @@ export const SignUp = () => {
     if (responseData && responseData.isSuccess) {
       if (await logIn(responseData)) {
         if (params && params.redirectUrl) {
-          router.replace({
-            pathname: params.redirectUrl,
-            params: { ...params },
+          setShowAlert({
+            show: true,
+            message:
+              "Account created successfully, Please confirm your email address.",
+            isRedirect: true,
           });
         } else {
           router.replace("/");
         }
       }
+    } else if (responseData && responseData.message) {
+      setShowAlert({ show: true, message: responseData.message });
     } else {
-      alert("Please check your email and password.");
+      setShowAlert({ show: true, message: "Something went wrong" });
     }
   };
 
@@ -139,6 +149,28 @@ export const SignUp = () => {
             </View>
           )}
         </ScrollView>
+        <AwesomeAlert
+          style={{ width: "100%", height: "100%", position: "absolute" }}
+          show={showAlert.show}
+          showProgress={false}
+          title="Error!"
+          message={showAlert.message}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          showConfirmButton={true}
+          confirmText="Okay, Got it!"
+          confirmButtonColor={COLORS.gray}
+          confirmButtonStyle={styles.alertButton}
+          onDismiss={() => {
+            setShowAlert(false);
+            if (showAlert.isRedirect && params && params.redirectUrl) {
+              router.replace({
+                pathname: redirectPath,
+                params: { ...params },
+              });
+            }
+          }}
+        />
       </>
     </SafeAreaView>
   );

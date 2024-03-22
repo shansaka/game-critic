@@ -157,10 +157,9 @@ export const Login = () => {
           confirmText="Okay, Got it!"
           confirmButtonColor={COLORS.gray}
           confirmButtonStyle={styles.alertButton}
-          onConfirmPressed={() => {
+          onDismiss={() => {
             setShowAlert(false);
           }}
-          onDismiss={() => {}}
         />
       </>
     </SafeAreaView>
