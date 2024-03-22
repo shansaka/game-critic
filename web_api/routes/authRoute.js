@@ -61,7 +61,7 @@ router.post("/signup", async (req, res) => {
       subject: "Email Confirmation",
       text: `Thank you for registering. Please confirm your email by clicking on the following link: ${
         req.protocol
-      }://${req.get("host")}/confirm-email/${confirmationToken}`,
+      }://${req.get("host")}/confirm-email/${user.confirmationToken}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -164,7 +164,7 @@ router.post("/reset-password", async (req, res) => {
       subject: "Reset Password Confirmation",
       text: `You have reset your password. Please confirm your reset password request by clicking on the following link: ${
         req.protocol
-      }://${req.get("host")}/confirm-password/${confirmationToken}`,
+      }://${req.get("host")}/confirm-password/${user.confirmationToken}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

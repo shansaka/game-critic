@@ -97,12 +97,10 @@ const useFetch = (
           // After refreshing the token still getting 403, log out the user and show an error message
           setError(refreshError);
           console.log("refresh error", refreshError);
-          alert("Session expired, please log in again");
         }
       } else {
         setError(error);
         console.log(error);
-        alert("Oops something went wrong");
       }
     } finally {
       setIsLoading(false);
