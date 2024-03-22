@@ -3,26 +3,13 @@ const Game = require("../models/game");
 const Review = require("../models/review");
 const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
 const AWS = require("aws-sdk");
-const multerS3 = require("multer-s3");
 
 const router = express.Router();
 
-// const storage = multer.diskStorage({
-//   destination: "./upload/images",
-//   filename: (req, file, cb) => {
-//     return cb(
-//       null,
-//       `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
-//     );
-//   },
-// });
-
 AWS.config.update({
-  accessKeyId: "AKIAJITMG2OT7LWJZ36A",
-  secretAccessKey: "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",
+  accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_S3_SECRET_KEY,
   region: "eu-west-2",
 });
 const s3 = new AWS.S3();
@@ -30,14 +17,14 @@ const s3 = new AWS.S3();
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024, // limit file size to 5MB
+    fileSize: 10 * 1024 * 1024,
   },
 });
 
 router.post("/upload", upload.single("file"), (req, res) => {
   const uniqueFileName = `${Date.now()}_${req.file.originalname}`;
   const params = {
-    Bucket: "game-critic-storage",
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
     Key: uniqueFileName,
     Body: req.file.buffer,
   };
@@ -128,7 +115,7 @@ router.post(
     try {
       const uniqueFileName = `${Date.now()}_${req.file.originalname}`;
       const params = {
-        Bucket: "game-critic-storage",
+        Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: uniqueFileName,
         Body: req.file.buffer,
       };
