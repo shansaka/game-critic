@@ -22,6 +22,13 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Display name is required"],
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  confirmationToken: {
+    type: String,
+  },
   dateCreated: {
     type: Date,
     default: Date.now,

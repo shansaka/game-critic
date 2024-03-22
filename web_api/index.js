@@ -4,6 +4,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const User = require("./models/user");
 
 // Setting port for the application
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,9 @@ app.use(express.json());
 
 // Enabling cors
 app.use(cors());
+
+// EJS for email confirmation
+app.set("view engine", "ejs");
 
 // Connecting to the database
 try {
@@ -40,3 +44,27 @@ app.use("/api/dashboard", require("./routes/dashboardRoute"));
 
 // Serve images
 app.use("/images", express.static(path.join(__dirname, "./upload/images")));
+
+// Email confirmation route
+app.get("/confirm-email/:token", async (req, res) => {
+  try {
+    console.log(req.params.token);
+    const user = await User.findOne({ confirmationToken: req.params.token });
+
+    if (!user) {
+      return res
+        .status(400)
+        .render("error", { message: "Invalid confirmation token." });
+    }
+
+    user.isVerified = true;
+    user.confirmationToken = undefined;
+    await user.save();
+
+    res
+      .status(200)
+      .render("confirmation", { message: "Email confirmed successfully." });
+  } catch (error) {
+    res.status(500).render("error", { message: error.message });
+  }
+});

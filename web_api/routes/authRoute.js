@@ -4,6 +4,15 @@ const User = require("../models/user");
 const Admin = require("../models/admin");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "gamecriticapp@gmail.com",
+    pass: "kwnn mrda wtki ygfq",
+  },
+});
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -19,27 +28,74 @@ const createRefreshToken = (id) => {
 
 // Adding a user
 router.post("/signup", async (req, res) => {
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: crypto
-      .createHash("sha512")
-      .update(req.body.password)
-      .digest("hex"),
-  });
-
   try {
-    const newUser = await user.save();
-    const token = createToken(newUser._id);
-    const refreshToken = createRefreshToken(user._id);
-    res.status(200).json({
-      message: "User register successful",
-      isSuccess: true,
-      token: token,
-      refreshToken: refreshToken,
-      username: newUser.name,
-      userId: newUser._id,
+    const user = new User({
+      name: req.body.name,
+      email: req.body.email,
+      password: crypto
+        .createHash("sha512")
+        .update(req.body.password)
+        .digest("hex"),
     });
+
+    const existingUser = await User.findOne({ email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Email already in use, please login in.",
+        isSuccess: false,
+      });
+    }
+
+    let uniqueString = crypto.randomBytes(20).toString("hex");
+    console.log(uniqueString);
+
+    const confirmationToken = uniqueString;
+    user.confirmationToken = confirmationToken;
+
+    const newUser = await user.save();
+
+    // Send confirmation email
+    let mailOptions = {
+      from: "gamecriticapp@gmail.com",
+      to: newUser.email,
+      subject: "Email Confirmation",
+      text: `Thank you for registering. Please confirm your email by clicking on the following link: ${
+        req.protocol
+      }://${req.get("host")}/confirm-email/${confirmationToken}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+
+    res.status(200).json({
+      message: "User register successful, Please confirm your email.",
+      isSuccess: true,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Email confirmation
+router.get("/confirm-email/:token", async (req, res) => {
+  try {
+    console.log(req.params.token);
+    const user = await User.findOne({ confirmationToken: req.params.token });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid confirmation token." });
+    }
+
+    user.isVerified = true;
+    user.confirmationToken = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Email confirmed successfully." });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -53,7 +109,11 @@ router.post("/login", async (req, res) => {
     .update(password)
     .digest("hex");
   try {
-    const user = await User.findOne({ email, password: hashedPassword });
+    const user = await User.findOne({
+      email,
+      password: hashedPassword,
+      isVerified: true,
+    });
     if (!user) {
       return res
         .status(200)
