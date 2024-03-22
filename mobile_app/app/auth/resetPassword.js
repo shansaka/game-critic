@@ -152,7 +152,7 @@ export const ResetPassword = () => {
           }}
           onDismiss={() => {
             setShowAlert(false);
-            if (showAlert.isRedirect && params && params.redirectUrl) {
+            if (showAlert.isRedirect) {
               router.replace("/auth/login");
             }
           }}

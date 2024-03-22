@@ -2,10 +2,10 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import { RegisterComp } from "../../components";
 
-function Register({ setLoggedIn }) {
+function Register() {
   return (
     <Container>
-      <RegisterComp setLoggedIn={setLoggedIn} />
+      <RegisterComp />
     </Container>
   );
 }

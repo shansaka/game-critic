@@ -81,15 +81,6 @@ function Register({ setLoggedIn }) {
             navigate("/login");
           },
         });
-
-        // if (await logIn(responseData)) {
-        //   setLoggedIn(true);
-        //   if (params && params.redirectUrl) {
-        //     navigate(params.redirectUrl, { ...params });
-        //   } else {
-        //     navigate("/");
-        //   }
-        // }
       } else if (responseData && responseData.message) {
         setErrorMsg(responseData.message);
         setTimeout(() => setErrorMsg(""), 2000);

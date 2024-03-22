@@ -17,6 +17,7 @@ import { Nav, Navbar } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import { FaUserCircle } from "react-icons/fa";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import ResetPassword from "./components/auth/ResetPassword";
 import { isAdmin, isLoggedIn } from "./helpers/loginSession";
 import logo from "./logo.png";
 
@@ -131,6 +132,7 @@ function App() {
                   element={<Login setLoggedIn={setLoggedIn} />}
                 />
               )}
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route
                 path="/admin-login"
                 element={<AdminLogin setLoggedIn={setLoggedIn} />}

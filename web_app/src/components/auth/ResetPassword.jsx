@@ -9,29 +9,36 @@ import {
   Row,
 } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import { logIn } from "../../helpers/loginSession";
+import Swal from "sweetalert2";
 import useFetch from "../../hook/useFetch";
 import logo from "../../logo_dark.png";
 import "./auth.css";
 
-function Login({ setLoggedIn }) {
+function ResetPassword({ setLoggedIn }) {
   const navigate = useNavigate();
   const location = useLocation();
   const params = location.state;
 
+  const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
+  const [newPassword, setNewPassword] = useState({ value: "", error: "" });
   const [errorMsg, setErrorMsg] = useState("");
   const { data, isLoading, error, refetch, totalPages, fetchData } = useFetch(
-    `auth/login`,
+    `auth/reset-password`,
     "POST",
     null,
-    { email: email.value, password: password.value }
+    {
+      email: email.value,
+      currentPassword: password.value,
+      newPassword: newPassword.value,
+    }
   );
 
   const validateForm = () => {
     let emailError = "";
     let passwordError = "";
+    let newPasswordError = "";
 
     // Validate email
     if (!email.value) {
@@ -47,9 +54,17 @@ function Login({ setLoggedIn }) {
       passwordError = "Password must be at least 6 characters";
     }
 
-    if (emailError || passwordError) {
+    // Validate new password
+    if (!newPassword.value) {
+      newPasswordError = "Password cannot be empty";
+    } else if (newPassword.value.length < 6) {
+      newPasswordError = "Password must be at least 6 characters";
+    }
+
+    if (newPasswordError || emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
+      setNewPassword({ ...newPassword, error: newPasswordError });
       return false;
     }
 
@@ -62,18 +77,23 @@ function Login({ setLoggedIn }) {
     if (validateForm()) {
       const responseData = await fetchData();
       if (responseData && responseData.isSuccess) {
-        if (await logIn(responseData)) {
-          setLoggedIn(true);
-          if (params && params.redirectUrl) {
-            navigate(params.redirectUrl, { ...params });
-          } else {
-            navigate("/");
-          }
-        }
-      } else {
-        setErrorMsg("Invalid username or password");
+        Swal.fire({
+          icon: "success",
+          title: "Reset password successfully",
+          text: "Please confirm your email address.",
+          showConfirmButton: true,
+          confirmButtonText: "Okay, Got it!",
+          didClose: () => {
+            navigate("/login");
+          },
+        });
+      } else if (responseData && responseData.message) {
+        setErrorMsg(responseData.message);
         setTimeout(() => setErrorMsg(""), 2000);
       }
+    } else {
+      setErrorMsg("Error while registering user, please contact support");
+      setTimeout(() => setErrorMsg(""), 2000);
     }
   };
 
@@ -89,6 +109,7 @@ function Login({ setLoggedIn }) {
                 </Card.Title>
                 <Form onSubmit={handleSubmit}>
                   <h5>Welcome back.</h5>
+
                   <Form.Group className="form-group">
                     <Form.Control
                       type="text"
@@ -103,6 +124,7 @@ function Login({ setLoggedIn }) {
                       {email.error}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group className="form-group">
                     <Form.Control
                       type="password"
@@ -117,23 +139,23 @@ function Login({ setLoggedIn }) {
                       {password.error}
                     </Form.Control.Feedback>
                   </Form.Group>
+                  <Form.Group className="form-group">
+                    <Form.Control
+                      type="password"
+                      placeholder="New Password"
+                      value={newPassword.value}
+                      onChange={(e) =>
+                        setNewPassword({ value: e.target.value, error: "" })
+                      }
+                      isInvalid={!!newPassword.error}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {newPassword.error}
+                    </Form.Control.Feedback>
+                  </Form.Group>
                   <div className="errorMsgSpan">
                     <span>{errorMsg}</span>
                   </div>
-                  <div className="reset-password-div">
-                    Forgot your password?{" "}
-                    <Button
-                      variant="none"
-                      onClick={() =>
-                        navigate("/reset-password", {
-                          state: { ...params },
-                        })
-                      }
-                    >
-                      <b>Reset Password</b>
-                    </Button>
-                  </div>
-
                   {isLoading ? (
                     <Button
                       variant="primary"
@@ -141,25 +163,14 @@ function Login({ setLoggedIn }) {
                       type="submit"
                       disabled={true}
                     >
-                      Loging in...
+                      Resetting Password...
                     </Button>
                   ) : (
                     <Button variant="primary" className="button" type="submit">
-                      Login
+                      Reset Password
                     </Button>
                   )}
                 </Form>
-                Don't have an account?{" "}
-                <Button
-                  variant="none"
-                  onClick={() =>
-                    navigate("/register", {
-                      state: { ...params },
-                    })
-                  }
-                >
-                  <b>Register</b>
-                </Button>
               </Card.Body>
             </Card>
           </Col>
@@ -169,4 +180,4 @@ function Login({ setLoggedIn }) {
   );
 }
 
-export default Login;
+export default ResetPassword;

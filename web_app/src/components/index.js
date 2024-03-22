@@ -2,6 +2,7 @@ import AdminLoginComp from "./auth/AdminLogin";
 import LoginComp from "./auth/Login";
 import LogoutComp from "./auth/Logout";
 import RegisterComp from "./auth/Register";
+import ResetPasswordComp from "./auth/ResetPassword";
 import AllGamesComp from "./home/AllGames";
 import NewGames from "./home/NewGames";
 import Welcome from "./home/Welcome";
@@ -26,6 +27,7 @@ export {
   MapWidget,
   NewGames,
   RegisterComp,
+  ResetPasswordComp,
   ReviewPlacesWidget,
   ReviewTable,
   SearchComp,

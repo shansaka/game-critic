@@ -22,4 +22,11 @@
   color: rgb(202, 53, 53);
   width: 100%;
   text-align: center;
+  margin-bottom: 20px;
+}
+
+.reset-password-div {
+  text-align: right;
+  margin-top: -20px;
+  margin-bottom: 20px;
 }
