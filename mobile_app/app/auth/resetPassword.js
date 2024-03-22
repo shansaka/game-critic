@@ -1,4 +1,4 @@
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -22,10 +22,7 @@ import useFetch from "../../hook/useFetch";
 
 export const ResetPassword = () => {
   const router = useRouter();
-  const params = useLocalSearchParams();
-  const [name, setName] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
-  const [password, setPassword] = useState({ value: "", error: "" });
   const [newPassword, setNewPassword] = useState({ value: "", error: "" });
   const [showAlert, setShowAlert] = useState({ show: false, message: "" });
 
@@ -35,19 +32,16 @@ export const ResetPassword = () => {
     false,
     {
       email: email.value,
-      currentPassword: password.value,
       newPassword: newPassword.value,
     }
   );
 
   const onResetPasswordPressed = async () => {
     const emailError = inputValidator(email.value, "email");
-    const passwordError = inputValidator(password.value, "password");
     const newPasswordError = inputValidator(newPassword.value, "password");
 
-    if (emailError || passwordError || newPasswordError) {
+    if (emailError || newPasswordError) {
       setEmail({ ...email, error: emailError });
-      setPassword({ ...password, error: passwordError });
       setNewPassword({ ...newPassword, error: newPasswordError });
       return;
     }
@@ -105,15 +99,6 @@ export const ResetPassword = () => {
                 autoCompleteType="email"
                 textContentType="emailAddress"
                 keyboardType="email-address"
-              />
-              <TextInput
-                label="Password"
-                returnKeyType="done"
-                value={password.value}
-                onChangeText={(text) => setPassword({ value: text, error: "" })}
-                error={!!password.error}
-                errorText={password.error}
-                secureTextEntry
               />
               <TextInput
                 label="New Password"

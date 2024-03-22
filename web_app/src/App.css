@@ -220,3 +220,8 @@
 .react-datepicker-wrapper {
   width: 100%;
 }
+
+.star-rating {
+  margin-top: 10px;
+  text-align: center;
+}

@@ -87,7 +87,7 @@ function App() {
                       </Nav.Link>
                     </>
                   )}
-                  {loggedIn ? (
+                  {loggedIn && !isAdmin() ? (
                     <Nav.Link
                       as={NavLink}
                       to="/my-reviews"
@@ -128,6 +128,7 @@ function App() {
                     element={<Register setLoggedIn={setLoggedIn} />}
                   />
                   <Route path="/game-details/:id" element={<GameDetails />} />
+                  <Route path="/my-reviews" element={<MyReviews />} />
                 </>
               )}
 
@@ -137,7 +138,6 @@ function App() {
                     path="/login"
                     element={<Logout setLoggedIn={setLoggedIn} />}
                   />
-                  <Route path="/my-reviews" element={<MyReviews />} />
                 </>
               ) : (
                 <Route

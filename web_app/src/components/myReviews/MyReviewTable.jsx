@@ -45,6 +45,7 @@ const MyReviewTable = () => {
               <th>Title</th>
               <th>Comments</th>
               <th>Game</th>
+              <th>Rating</th>
               <th>Date Added</th>
               <th>Status</th>
             </tr>
@@ -55,6 +56,7 @@ const MyReviewTable = () => {
                 <td>{review.title}</td>
                 <td>{review.comments}</td>
                 <td>{review.game.name}</td>
+                <td>{review.rating}</td>
                 <td>{formatDate(review.dateCreated)}</td>
                 <td>{review.status}</td>
               </tr>

@@ -11,6 +11,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import StarRatings from "react-star-ratings";
 import Swal from "sweetalert2";
 import game_no_image from "../../game_no_image.png";
 import { isAdmin, isLoggedIn } from "../../helpers/loginSession";
@@ -125,7 +126,7 @@ const GameDetails = () => {
 
     if (isValid) {
       const addReviewResponse = await addReviewFetchData();
-      if (addReviewData) {
+      if (addReviewResponse) {
         Swal.fire({
           icon: "success",
           title: "Your review has been submitted, thank you!",
@@ -285,16 +286,16 @@ const GameDetails = () => {
             <Modal.Title>Add a Review</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form.Group controlId="formBasicRating">
-              <Form.Label>Rating</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter rating"
-                value={rating.value}
-                onChange={(e) =>
-                  setRating({ value: e.target.value, error: "" })
+            <Form.Group className="star-rating">
+              <StarRatings
+                rating={rating.value}
+                starDimension={30}
+                starRatedColor="orange"
+                changeRating={(newRating) =>
+                  setRating({ value: newRating, error: "" })
                 }
-                isInvalid={!!rating.error}
+                numberOfStars={5}
+                name="rating"
               />
               <Form.Control.Feedback type="invalid">
                 {rating.error}

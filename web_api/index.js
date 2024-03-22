@@ -18,6 +18,26 @@ app.use(cors());
 // EJS for email confirmation
 app.set("view engine", "ejs");
 
+// Required environment variables
+const requiredEnvVariables = [
+  "ACCESS_TOKEN_EXPIRATION",
+  "DATABASE_URL",
+  "JWT_SECRET",
+  "PORT",
+  "REFRESH_TOKEN_SECRET",
+  "MAPBOX_TOKEN",
+  "GMAIL_SMTP_USERNAME",
+  "GMAIL_SMTP_PASSWORD",
+];
+
+// Check if all required environment variables are set
+requiredEnvVariables.forEach((variable) => {
+  if (!process.env[variable]) {
+    console.error(`Environment variable ${variable} is missing`);
+    process.exit(1);
+  }
+});
+
 // Connecting to the database
 try {
   mongoose.connect(process.env.DATABASE_URL, {});
@@ -85,11 +105,9 @@ app.get("/confirm-password/:token", async (req, res) => {
     user.newPassword = undefined;
     await user.save();
 
-    res
-      .status(200)
-      .render("confirmation", {
-        message: "Email confirmed, Password reset successfully.",
-      });
+    res.status(200).render("confirmation", {
+      message: "Email confirmed, Password reset successfully.",
+    });
   } catch (error) {
     res.status(500).render("error", { message: error.message });
   }

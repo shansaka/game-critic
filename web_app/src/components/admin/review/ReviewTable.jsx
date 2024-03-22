@@ -97,6 +97,7 @@ const ReviewTable = () => {
               <th>Game</th>
               <th>User</th>
               <th>Location</th>
+              <th>Rating</th>
               <th>Status</th>
               <th>Date Added</th>
               <th></th>
@@ -119,6 +120,7 @@ const ReviewTable = () => {
                     ? review.location.country
                     : ""
                 }`}</td>
+                <td>{review.rating}</td>
                 <td>{review.status}</td>
                 <td>{formatDate(review.dateCreated)}</td>
                 <td>
