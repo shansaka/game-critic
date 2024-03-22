@@ -17,6 +17,7 @@ import { Nav, Navbar } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import { FaUserCircle } from "react-icons/fa";
 import { BrowserRouter, NavLink, Route, Routes } from "react-router-dom";
+import MyReviews from "./app/my-reviews/my-reviews";
 import ResetPassword from "./components/auth/ResetPassword";
 import { isAdmin, isLoggedIn } from "./helpers/loginSession";
 import logo from "./logo.png";
@@ -86,6 +87,15 @@ function App() {
                       </Nav.Link>
                     </>
                   )}
+                  {loggedIn ? (
+                    <Nav.Link
+                      as={NavLink}
+                      to="/my-reviews"
+                      activeclassname="active"
+                    >
+                      My Reviews
+                    </Nav.Link>
+                  ) : null}
                 </Nav>
                 <Nav.Link
                   as={NavLink}
@@ -122,10 +132,13 @@ function App() {
               )}
 
               {loggedIn ? (
-                <Route
-                  path="/login"
-                  element={<Logout setLoggedIn={setLoggedIn} />}
-                />
+                <>
+                  <Route
+                    path="/logout"
+                    element={<Logout setLoggedIn={setLoggedIn} />}
+                  />
+                  <Route path="/my-reviews" element={<MyReviews />} />
+                </>
               ) : (
                 <Route
                   path="/login"

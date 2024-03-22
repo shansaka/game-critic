@@ -15,7 +15,10 @@ import ReviewPlacesWidget from "./admin/dashboard/ReviewPlacesWidget";
 import TotalWidgets from "./admin/dashboard/TotalWidgets";
 
 import GameTable from "./admin/game/GameTable";
+
 import ReviewTable from "./admin/review/ReviewTable";
+
+import MyReviewTable from "./myReviews/MyReviewTable";
 
 export {
   AdminLoginComp,
@@ -25,6 +28,7 @@ export {
   LoginComp,
   LogoutComp,
   MapWidget,
+  MyReviewTable,
   NewGames,
   RegisterComp,
   ResetPasswordComp,

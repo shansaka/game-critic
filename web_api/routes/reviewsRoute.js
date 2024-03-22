@@ -6,7 +6,7 @@ const { requireToken, requireAdmin } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // Getting all
-router.get("/", requireToken, async (req, res) => {
+router.get("/", requireToken, requireAdmin, async (req, res) => {
   try {
     const pageSize = parseInt(req.query.pageSize) || 10;
     const pageNo = parseInt(req.query.pageNo) || 1;
@@ -77,6 +77,37 @@ router.get("/game/:id", async (req, res) => {
   }
 });
 
+// Getting all reviews by a user
+router.get("/user", requireToken, async (req, res) => {
+  try {
+    try {
+      const pageSize = parseInt(req.query.pageSize) || 10;
+      const pageNo = parseInt(req.query.pageNo) || 1;
+      const status = req.query.status || null;
+
+      let filter = {};
+      if (status) {
+        user = req.params.id;
+      }
+
+      const totalReviews = await Review.countDocuments(filter);
+      const totalPages = Math.ceil(totalReviews / pageSize);
+
+      const reviews = await Review.find(filter)
+        .sort({ dateCreated: -1 })
+        .skip((pageNo - 1) * pageSize)
+        .limit(pageSize)
+        .populate("game", "name");
+
+      res.json({ data: reviews, totalPages });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Getting a review by ID
 router.get("/:id", requireToken, requireAdmin, async (req, res) => {
   try {
@@ -87,16 +118,6 @@ router.get("/:id", requireToken, requireAdmin, async (req, res) => {
       return res.status(404).json({ message: "Review not found" });
     }
     res.json(review);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// Getting all reviews by a user
-router.get("/user/:id", requireToken, async (req, res) => {
-  try {
-    const reviews = await Review.find({ user: req.params.id }).populate("game");
-    res.json(reviews);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
