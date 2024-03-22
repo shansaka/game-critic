@@ -36,14 +36,12 @@ function ResetPassword({ setLoggedIn }) {
     let emailError = "";
     let newPasswordError = "";
 
-    // Validate email
     if (!email.value) {
       emailError = "Email cannot be empty";
     } else if (!/\S+@\S+\.\S+/.test(email.value)) {
       emailError = "Email is not valid";
     }
 
-    // Validate new password
     if (!newPassword.value) {
       newPasswordError = "Password cannot be empty";
     } else if (newPassword.value.length < 6) {

@@ -31,14 +31,12 @@ function AdminLogin({ setLoggedIn }) {
     let emailError = "";
     let passwordError = "";
 
-    // Validate email
     if (!email.value) {
       emailError = "Email cannot be empty";
     } else if (!/\S+@\S+\.\S+/.test(email.value)) {
       emailError = "Email is not valid";
     }
 
-    // Validate password
     if (!password.value) {
       passwordError = "Password cannot be empty";
     } else if (password.value.length < 6) {

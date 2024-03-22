@@ -92,19 +92,16 @@ const GameDetails = () => {
     let titleError = "";
     let commentError = "";
 
-    // Validate rating
     if (!rating.value) {
       ratingError = "Rating cannot be empty";
     } else if (rating.value < 1 || rating.value > 5) {
       ratingError = "Rating must be between 1 and 5";
     }
 
-    // Validate title
     if (!title.value) {
       titleError = "Title cannot be empty";
     }
 
-    // Validate comment
     if (!comment.value) {
       commentError = "Comment cannot be empty";
     }

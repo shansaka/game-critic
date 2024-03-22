@@ -15,7 +15,6 @@ const useFetch = (
 ) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  //const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
 
   const options = {
@@ -29,8 +28,11 @@ const useFetch = (
       body instanceof FormData ? {} : { "Content-Type": "application/json" },
   };
 
+  // Setting the data and total pages
   const handleResponseData = (response, shouldAppend) => {
+    // Check if the response has a data, that mean it's pagination data
     if ("data" in response.data) {
+      // If shouldAppend is true, append the data to the existing data, it means it's coming from load more items button
       if (shouldAppend) {
         setData((prevData) => [...prevData, ...response.data.data]);
       } else {
@@ -43,12 +45,15 @@ const useFetch = (
     return response.data;
   };
 
+  // Fetching data
   const fetchData = useCallback(
     async (shouldAppend = false) => {
       setIsLoading(true);
 
       const token = await getSessionItem("token");
       const refreshToken = await getSessionItem("refreshToken");
+
+      // If the request requires authentication, add the token to the header
       if (requiresAuth) {
         options.headers = { Authorization: `Bearer ${token}` };
       }
@@ -57,6 +62,7 @@ const useFetch = (
         const response = await axios.request(options);
         return handleResponseData(response, shouldAppend);
       } catch (error) {
+        // If the error is 401 and the message is Token expired, try to refresh the token
         if (
           error.response &&
           error.response.status === 401 &&
@@ -88,8 +94,8 @@ const useFetch = (
             const response = await axios.request(options);
             return handleResponseData(response, shouldAppend);
           } catch (refreshError) {
-            //setError(refreshError);
             console.log("refresh error", refreshError);
+            // After refreshing the token still getting 403, log out the user and show an error message
             if (refreshError.response && refreshError.response.status === 403) {
               console.log("Forbidden");
               logOut();
@@ -107,7 +113,6 @@ const useFetch = (
             }
           }
         } else {
-          //setError(error);
           console.log(error);
           Swal.fire({
             icon: "error",

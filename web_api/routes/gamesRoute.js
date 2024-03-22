@@ -145,6 +145,7 @@ router.patch(
       if (req.body.dateReleased) {
         game.dateReleased = req.body.dateReleased;
       }
+      console.log(req.file);
       if (req.file) {
         const uniqueFileName = `${Date.now()}_${req.file.originalname}`;
         const params = {
@@ -153,16 +154,17 @@ router.patch(
           Body: req.file.buffer,
         };
 
+        console.log(params);
         s3.upload(params, async (err, data) => {
           if (err) {
             console.error(err);
             return res.status(500).send("Error uploading file");
           }
           game.mainImage = data.Location;
+          const updatedGame = await game.save();
+          res.json(updatedGame);
         });
       }
-      const updatedGame = await game.save();
-      res.json(updatedGame);
     } catch (error) {
       res.status(400).json({ message: error.message });
     }

@@ -23,7 +23,6 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
       const date = new Date(gameData.dateReleased);
       setGameDate({ value: date, error: "" });
 
-      //setGameImage({ value: gameData.mainImage, error: "" });
       setGameId({ value: gameData._id, error: "" });
     }
   }, [gameData]);
@@ -48,17 +47,14 @@ const EditGame = ({ showEditModal, setShowEditModal, gameData }) => {
     let gameDateError = "";
     let gameImageError = "";
 
-    // Validate game name
     if (!gameName.value) {
       gameNameError = "Game name cannot be empty";
     }
 
-    // Validate game description
     if (!gameDescription.value) {
       gameDescriptionError = "Game description cannot be empty";
     }
 
-    // Validate game date
     if (!gameDate.value) {
       gameDateError = "Game date cannot be empty";
     }

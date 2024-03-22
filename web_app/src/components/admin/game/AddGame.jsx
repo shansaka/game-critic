@@ -32,22 +32,18 @@ const AddGame = ({ showAddModal, setShowAddModal }) => {
     let gameDateError = "";
     let gameImageError = "";
 
-    // Validate game image
     if (!gameImage.value) {
       gameImageError = "Game image cannot be empty";
     }
 
-    // Validate game name
     if (!gameName.value) {
       gameNameError = "Game name cannot be empty";
     }
 
-    // Validate game description
     if (!gameDescription.value) {
       gameDescriptionError = "Game description cannot be empty";
     }
 
-    // Validate game date
     if (!gameDate.value) {
       gameDateError = "Game date cannot be empty";
     }

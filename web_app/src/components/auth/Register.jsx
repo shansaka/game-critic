@@ -35,19 +35,16 @@ function Register({ setLoggedIn }) {
     let emailError = "";
     let passwordError = "";
 
-    // Validate name
     if (!name.value) {
       nameError = "Name cannot be empty";
     }
 
-    // Validate email
     if (!email.value) {
       emailError = "Email cannot be empty";
     } else if (!/\S+@\S+\.\S+/.test(email.value)) {
       emailError = "Email is not valid";
     }
 
-    // Validate password
     if (!password.value) {
       passwordError = "Password cannot be empty";
     } else if (password.value.length < 6) {
@@ -76,7 +73,6 @@ function Register({ setLoggedIn }) {
           text: "Please confirm your email address.",
           showConfirmButton: true,
           confirmButtonText: "Okay, Got it!",
-          //timer: 1500,
           didClose: () => {
             navigate("/login");
           },

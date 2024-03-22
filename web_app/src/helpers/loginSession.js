@@ -1,3 +1,4 @@
+// check if user is logged in
 export function isLoggedIn() {
   try {
     const token = localStorage.getItem("token");
@@ -11,6 +12,7 @@ export function isLoggedIn() {
   }
 }
 
+// get session item
 export function getSessionItem(itemName) {
   try {
     const item = localStorage.getItem(itemName);
@@ -24,6 +26,7 @@ export function getSessionItem(itemName) {
   }
 }
 
+// check if user is admin
 export function isAdmin() {
   try {
     const item = localStorage.getItem("isAdmin");
@@ -37,6 +40,7 @@ export function isAdmin() {
   }
 }
 
+// login user
 export function logIn(data, isAdmin = false) {
   try {
     localStorage.setItem("token", data.token);
@@ -50,6 +54,7 @@ export function logIn(data, isAdmin = false) {
   }
 }
 
+// update token
 export function updateToken(newToken, newRefreshToken) {
   try {
     localStorage.setItem("token", newToken);
