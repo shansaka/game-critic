@@ -3,6 +3,7 @@ import axios from "axios";
 import { useCallback, useState } from "react";
 import { getSessionItem, updateToken } from "../helpers/loginSession";
 
+// The API URL, Need to change if using localhost
 const apiUrl = "https://game-critic-web-api.onrender.com/api";
 
 const useFetch = (
